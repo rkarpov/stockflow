@@ -6,8 +6,8 @@ const App = () => {
     return (
         <div>
             <Switch>
-                <AuthRoute exact path="/" component={SessionFormContainer} />
-                <ProtectedRoute exact path="/index" component={PortfolioIndexContainer} />
+                {/* <AuthRoute exact path="/" component={SessionFormContainer} /> */}
+                {/* <ProtectedRoute exact path="/index" component={PortfolioIndexContainer} /> */}
             </Switch>
         </div>
     );
