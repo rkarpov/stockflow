@@ -5,21 +5,21 @@ import SessionForm from './session_form';
 
 const mapStateToProps = ({ errors }) => {
 
-    return {
-        formType: 'Register',
-        credentials: {
-            first_name: '', last_name: '',
-            email: '', password: '',
-        },
-        // errors: errors.session,
-        // signupErrors: errors.session,
-    };
+  return {
+    formType: 'Register',
+    credentials: {
+      username: '',
+      email: '', password: '',
+    },
+    // errors: errors.session,
+    // signupErrors: errors.session,
+  };
 };
 
 const mapDispatchToProps = dispatch => {
-    return {
-        processForm: (user) => dispatch(signup(user)),
-    };
+  return {
+    processForm: (user) => dispatch(signup(user)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(SessionForm);
