@@ -89,6 +89,7 @@ class SessionForm extends React.Component {
     const { classes } = this.props;
     return(
       <main className={classes.main}>
+        <CssBaseline />
         <Paper className={classes.paper}>
           <Avatar className={classes.avatar}>
             <LockOutlinedIcon />
