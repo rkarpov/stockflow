@@ -52,6 +52,7 @@ class SessionForm extends React.Component {
     super(props);
     this.state = this.props.credentials;
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.usernameField = this.usernameField.bind(this);
   }
 
   handleSubmit(e) {
@@ -65,9 +66,27 @@ class SessionForm extends React.Component {
     }
   }
 
+  usernameField(){
+    if (this.props.formType === 'Register') {
+      return(
+          <FormControl margin="normal" required fullWidth>
+            <InputLabel htmlFor="username">Name</InputLabel>
+            <Input
+              id="username" name="username"
+              autoFocus
+              type="text" onChange={this.update('username')}
+              value={this.state.username}
+              placeholder="Name"
+            />
+          </FormControl >
+      )
+    } else {
+      return null
+    }
+  }
+
   render(){
     const { classes } = this.props;
-    debugger
     return(
       <main className={classes.main}>
         <Paper className={classes.paper}>
@@ -78,30 +97,7 @@ class SessionForm extends React.Component {
             {this.props.formType}
           </Typography>
           <form onSubmit={this.handleSubmit}>
-
-            {/* <input 
-              hidden={this.props.formType === 'Register' ? null : "hidden"}
-              type="text" onChange={this.update('username')}
-              value={this.state.username}
-              placeholder="Name"
-            /> */}
-            <div hidden={this.props.formType === 'Register' ? null : "hidden"}>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="username">Name</InputLabel>
-                <Input
-                  id="username" name="username"
-                  // { this.props.formType === 'Register' ? autoFocus : null}
-                  type="text" onChange={this.update('username')}
-                  value={this.state.username}
-                  placeholder="Name"
-                />
-              </FormControl>
-            </div>
-            {/* <input
-              type="text" onChange={this.update('email')}
-              value={this.state.email}
-              placeholder="Email"
-            /> */}
+            {this.usernameField()}
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
               <Input
@@ -113,12 +109,6 @@ class SessionForm extends React.Component {
                 placeholder="Email"
               />
             </FormControl>
-
-            {/* <input
-              type="password" onChange={this.update('password')}
-              value={this.state.password}
-              placeholder="Password"
-            /> */}
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="password">Password</InputLabel>
               <Input 
@@ -137,7 +127,6 @@ class SessionForm extends React.Component {
               color="primary" 
               className={classes.submit}         
             >Submit</Button>
-            {/* <input type="submit" value={this.props.formType} /> */}
 
           </form>
         </Paper>
@@ -147,48 +136,4 @@ class SessionForm extends React.Component {
 
 }
 
-// export default SessionForm;
 export default withStyles(styles)(SessionForm);
-
-
-
-function SignIn(props) {
-  const { classes } = props;
-
-  return (
-    <main className={classes.main}>
-      <CssBaseline />
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
-        </Avatar>
-        <Typography component="h1" variant="h5">
-          Sign in
-        </Typography>
-        <form className={classes.form}>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="email">Email Address</InputLabel>
-            <Input id="email" name="email" autoComplete="email" autoFocus />
-          </FormControl>
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="password">Password</InputLabel>
-            <Input name="password" type="password" id="password" autoComplete="current-password" />
-          </FormControl>
-          <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
-            label="Remember me"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            className={classes.submit}
-          >
-            Sign in
-          </Button>
-        </form>
-      </Paper>
-    </main>
-  );
-}
