@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
@@ -17,7 +18,7 @@ import withStyles from '@material-ui/core/styles/withStyles';
 export const styles = theme => ({
     main: {
       width: 'auto',
-      display: 'block', // Fix IE 11 issue.
+      display: 'block',
       marginLeft: theme.spacing.unit * 3,
       marginRight: theme.spacing.unit * 3,
       [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
@@ -38,7 +39,7 @@ export const styles = theme => ({
       backgroundColor: theme.palette.secondary.main,
     },
     form: {
-      width: '100%', // Fix IE 11 issue.
+      width: '100%',
       marginTop: theme.spacing.unit,
     },
     submit: {
@@ -69,16 +70,16 @@ class SessionForm extends React.Component {
   usernameField(){
     if (this.props.formType === 'Register') {
       return(
-          <FormControl margin="normal" required fullWidth>
-            <InputLabel htmlFor="username">Name</InputLabel>
-            <Input
-              id="username" name="username"
-              autoFocus
-              type="text" onChange={this.update('username')}
-              value={this.state.username}
-              placeholder="Name"
-            />
-          </FormControl >
+        <FormControl margin="normal" required fullWidth>
+          <InputLabel htmlFor="username">Name</InputLabel>
+          <Input
+            id="username" name="username"
+            autoFocus
+            type="text" onChange={this.update('username')}
+            value={this.state.username}
+            placeholder="Name"
+          />
+        </FormControl >
       )
     } else {
       return null
@@ -102,9 +103,8 @@ class SessionForm extends React.Component {
             <FormControl margin="normal" required fullWidth>
               <InputLabel htmlFor="email">Email Address</InputLabel>
               <Input
-                autoFocus
                 id="email" name="email" 
-                autoComplete="email" 
+                autoComplete="email" autoFocus
                 type="text" onChange={this.update('email')}
                 value={this.state.email}
                 placeholder="Email"
@@ -120,7 +120,17 @@ class SessionForm extends React.Component {
                 placeholder="Password"
               />
             </FormControl>
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
 
+            <label style={{float: "right", marginTop: "15px"}}>{this.props.formType === "Register" ? "Have an account? " : "Don't have an account? "}
+            <Link
+              to={this.props.formType === "Register" ? "/" : "register"}>
+              {this.props.formType === "Register" ? "Sign In" : "Register"}
+            </Link>
+            </label>
             <Button
               type="submit"
               fullWidth
