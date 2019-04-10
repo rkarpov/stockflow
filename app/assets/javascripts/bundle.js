@@ -484,7 +484,7 @@ var styles = function styles(theme) {
       marginTop: theme.spacing.unit
     },
     submit: {
-      marginTop: theme.spacing.unit * 3
+      marginTop: theme.spacing.unit * 2
     }
   };
 };
@@ -594,12 +594,12 @@ function (_React$Component) {
           color: "primary"
         }),
         label: "Remember me"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputLabel__WEBPACK_IMPORTED_MODULE_9___default.a, {
         style: {
           float: "right",
-          marginTop: "15px"
+          marginTop: "16px"
         }
-      }, this.props.formType === "Register" ? "Have an account? " : "Don't have an account? ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, this.props.formType === "Register" ? "Have an account? " : "Need an account? ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: this.props.formType === "Register" ? "/" : "register"
       }, this.props.formType === "Register" ? "Sign In" : "Register")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3___default.a, {
         type: "submit",

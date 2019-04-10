@@ -43,7 +43,7 @@ export const styles = theme => ({
       marginTop: theme.spacing.unit,
     },
     submit: {
-      marginTop: theme.spacing.unit * 3,
+      marginTop: theme.spacing.unit * 2,
     },
   });
 
@@ -125,12 +125,12 @@ class SessionForm extends React.Component {
               label="Remember me"
             />
 
-            <label style={{float: "right", marginTop: "15px"}}>{this.props.formType === "Register" ? "Have an account? " : "Don't have an account? "}
+            <InputLabel style={{ float: "right", marginTop: "16px"}}>{this.props.formType === "Register" ? "Have an account? " : "Need an account? "}
             <Link
               to={this.props.formType === "Register" ? "/" : "register"}>
               {this.props.formType === "Register" ? "Sign In" : "Register"}
             </Link>
-            </label>
+            </InputLabel>
             <Button
               type="submit"
               fullWidth
