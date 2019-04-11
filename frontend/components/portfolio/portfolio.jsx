@@ -4,15 +4,12 @@ import Button from '@material-ui/core/Button';
 
 class Portfolio extends React.Component {
   constructor(props) {
-      super(props)
-
-      this.state = {
-        stockTicker: '',
-        price: this.props.price
-      };
+      super(props);
+      this.state = { stockTicker: '', numShares: '' };
   }
 
   componentDidUpdate(_, prevState){
+    // fetch stock price as state changes for stock ticker field input
     if (prevState.stockTicker != this.state.stockTicker) {
       this.props.requestStockPrice(this.state.stockTicker)
     }
@@ -32,16 +29,22 @@ class Portfolio extends React.Component {
   render() {
     return (
       <div>
-        {this.props.currentUser.username}'s portfolio. Your balance: ${this.props.currentUser.balance}
-        
+        {this.props.currentUser.username}'s portfolio. 
         <Button variant="contained" color="primary" onClick={() => this.props.logout()}>
             Sign Out
         </Button>
 
-        <form onSubmit={this.handleSubmit.bind(this)}>
+        <form onSubmit={this.handleSubmit.bind(this)} style={{ float: "right" }}>
+          <label>Make a transaction</label> <br/>
+          Balance: ${this.props.currentUser.balance} <br/>
           {this.props.errors} <br/>
-          <input onChange={this.update('stockTicker')} value={this.state.stockTicker}/> <br/>
-          $ {this.props.price}
+          <input placeholder={"Enter stock ticker"} onChange={this.update('stockTicker')} value={this.state.stockTicker}/> <br/>
+          <input placeholder={"Amount of shares"} onChange={this.update('numShares')} value={this.state.numShares}/> <br/>
+          $ {this.props.price} <br/>
+          Total $ {this.props.price * this.state.numShares ? this.props.price * this.state.numShares : null} <br/>
+          <Button variant="contained" color="primary">
+            Place Order
+          </Button>
         </form>
       </div>
     )

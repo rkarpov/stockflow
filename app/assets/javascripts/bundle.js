@@ -289,7 +289,7 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Portfolio).call(this, props));
     _this.state = {
       stockTicker: '',
-      price: _this.props.price
+      numShares: ''
     };
     return _this;
   }
@@ -297,6 +297,7 @@ function (_React$Component) {
   _createClass(Portfolio, [{
     key: "componentDidUpdate",
     value: function componentDidUpdate(_, prevState) {
+      // fetch stock price as state changes for stock ticker field input
       if (prevState.stockTicker != this.state.stockTicker) {
         this.props.requestStockPrice(this.state.stockTicker);
       }
@@ -320,18 +321,29 @@ function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.props.currentUser.username, "'s portfolio. Your balance: $", this.props.currentUser.balance, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.props.currentUser.username, "'s portfolio.", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
         variant: "contained",
         color: "primary",
         onClick: function onClick() {
           return _this3.props.logout();
         }
       }, "Sign Out"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        onSubmit: this.handleSubmit.bind(this)
-      }, this.props.errors, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        onSubmit: this.handleSubmit.bind(this),
+        style: {
+          float: "right"
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Make a transaction"), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Balance: $", this.props.currentUser.balance, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        placeholder: "Enter stock ticker",
         onChange: this.update('stockTicker'),
         value: this.state.stockTicker
-      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "$ ", this.props.price));
+      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        placeholder: "Amount of shares",
+        onChange: this.update('numShares'),
+        value: this.state.numShares
+      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "$ ", this.props.price, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Total $ ", this.props.price * this.state.numShares ? this.props.price * this.state.numShares : null, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
+        variant: "contained",
+        color: "primary"
+      }, "Place Order")));
     }
   }]);
 
@@ -915,7 +927,7 @@ __webpack_require__.r(__webpack_exports__);
 
   switch (action.type) {
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_STOCK_ERRORS"]:
-      return action.errors;
+      if (action.errors.includes("Not Found")) return [];else return action.errors;
 
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_STOCK_PRICE"]:
       return [];
