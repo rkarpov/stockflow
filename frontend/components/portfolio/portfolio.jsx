@@ -8,6 +8,10 @@ class Portfolio extends React.Component {
       this.state = { stockTicker: '', numShares: '' };
   }
 
+  componentDidMount(){
+    this.props.requestTransactions();
+  }
+
   componentDidUpdate(_, prevState){
     // fetch stock price as state changes for stock ticker field input
     if (prevState.stockTicker != this.state.stockTicker) {

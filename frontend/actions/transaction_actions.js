@@ -4,20 +4,22 @@ export const RECEIVE_TRANSACTION = 'RECEIVE_TRANSACTION';
 export const RECEIVE_TRANSACTIONS = 'RECEIVE_TRANSACTIONS';
 
 export const receiveTransactions = (transactions) => {
+  debugger
   return ({
     type: RECEIVE_TRANSACTIONS,
     transactions
   })
 }
 
-const receiveTransaction = transaction => {
+const receiveTransaction = (transaction) => {
+  debugger
   return ({
     type: RECEIVE_TRANSACTION,
     transaction
   })
 }
 
-export const receiveAllTransactions = () => dispatch => {
+export const requestTransactions = () => dispatch => {
   return (
     transactionApiUtil.fetchTransactions().then(
       transactions => dispatch(receiveTransactions(transactions)))

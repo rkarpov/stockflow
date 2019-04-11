@@ -1,0 +1,1 @@
+json.extract! transaction, :stock_price, :num_shares, :transaction_type
