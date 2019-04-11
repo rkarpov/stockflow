@@ -27,3 +27,10 @@ export const fetchStockPrice = (tickerSymbol) => {
     url: baseUrl + `/stock/${tickerSymbol}/price`
   })
 }
+
+// export const fetchAllStockPrices = (tickerSymbols) => {
+//   return $.ajax({
+//     method: "GET",
+//     url: baseUrl + `/stock/market/batch?symbols=${tickerSymbols}&types=price`
+//   })
+// }

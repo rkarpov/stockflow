@@ -1086,7 +1086,12 @@ var fetchStockPrice = function fetchStockPrice(tickerSymbol) {
     method: "GET",
     url: baseUrl + "/stock/".concat(tickerSymbol, "/price")
   });
-};
+}; // export const fetchAllStockPrices = (tickerSymbols) => {
+//   return $.ajax({
+//     method: "GET",
+//     url: baseUrl + `/stock/market/batch?symbols=${tickerSymbols}&types=price`
+//   })
+// }
 
 /***/ }),
 

@@ -6,7 +6,10 @@ class User < ApplicationRecord
     attr_reader :password
     after_initialize :ensure_token
    
-    
+    has_many :transactions,
+      foreign_key: :user_id,
+      class_name: 'Transaction'
+
     def self.find_by_credentials(email, password)
         user = User.find_by(email: email)
         return user if user && user.is_password?(password)

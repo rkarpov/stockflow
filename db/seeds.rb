@@ -10,6 +10,7 @@ require 'csv'
 
 User.destroy_all
 Stock.destroy_all
+Transactions.destroy_all
 
 # add stocks to database
 csv_text = File.read(Rails.root.join('lib', 'seeds', 'nasdaq.csv'))
