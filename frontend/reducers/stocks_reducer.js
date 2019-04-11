@@ -1,15 +1,18 @@
 import merge from 'lodash/merge';
 
-import { RECEIVESTOCKPRICE } from '../actions/stock_actions';
+import { RECEIVE_STOCK_PRICE } from '../actions/stock_actions';
+import { RECEIVE_STOCK_ERRORS } from '../actions/stock_actions';
+
 
 const stocksReducer = (oldState = {}, action) => {
   Object.freeze(oldState);
   let newState = merge({}, oldState);
-  debugger
   switch (action.type) {
-    case RECEIVESTOCKPRICE:
-    debugger
+    case RECEIVE_STOCK_PRICE:
       merge(newState, { ["price"]: action.price} );
+      return newState;
+    case RECEIVE_STOCK_ERRORS:
+      merge(newState, { ["price"]: action.errors} );
       return newState;
     default:
       return oldState;

@@ -158,35 +158,39 @@ var logout = function logout() {
 /*!*******************************************!*\
   !*** ./frontend/actions/stock_actions.js ***!
   \*******************************************/
-/*! exports provided: RECEIVESTOCKPRICE, requestStockPrice */
+/*! exports provided: RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS, requestStockPrice */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVESTOCKPRICE", function() { return RECEIVESTOCKPRICE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCK_PRICE", function() { return RECEIVE_STOCK_PRICE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCK_ERRORS", function() { return RECEIVE_STOCK_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStockPrice", function() { return requestStockPrice; });
 /* harmony import */ var _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/iex_api_util */ "./frontend/util/iex_api_util.js");
- // export const RECEIVESTOCK = 'RECEIVE_STOCK';
 
-var RECEIVESTOCKPRICE = 'RECEIVE_STOCK_PRICE'; // const receiveStock = (stock) => {
-//   return({
-//     type: RECEIVESTOCK,
-//     stock
-//   });
-// };
+var RECEIVE_STOCK_PRICE = 'RECEIVE_STOCK_PRICE';
+var RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
 
 var receiveStockPrice = function receiveStockPrice(price) {
   return {
-    type: RECEIVESTOCKPRICE,
+    type: RECEIVE_STOCK_PRICE,
     price: price
   };
-}; // export const requestStock = ()
+};
 
+var receiveErrors = function receiveErrors(errors) {
+  return {
+    type: RECEIVE_STOCK_ERRORS,
+    errors: errors
+  };
+};
 
 var requestStockPrice = function requestStockPrice(tickerSymbol) {
   return function (dispatch) {
     return _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchStockPrice"](tickerSymbol).then(function (price) {
       return dispatch(receiveStockPrice(price));
+    }, function (error) {
+      return dispatch(receiveErrors(error["responseText"]));
     });
   };
 };
@@ -284,17 +288,18 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Portfolio).call(this, props));
     _this.state = {
-      stockTicker: '' // price: this.props.stocks.price
-
+      stockTicker: '',
+      price: _this.props.price
     };
     return _this;
   }
 
   _createClass(Portfolio, [{
-    key: "handleSubmit",
-    value: function handleSubmit(e) {
-      e.preventDefault();
-      this.props.processForm(this.state);
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState) {
+      if (prevState.stockTicker != this.state.stockTicker) {
+        this.props.requestStockPrice(this.state.stockTicker);
+      }
     }
   }, {
     key: "update",
@@ -310,7 +315,6 @@ function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      debugger;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "users portfolio. Your balance:", this.props.currentUser.balance, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
         variant: "contained",
         color: "primary",
@@ -320,13 +324,7 @@ function (_React$Component) {
       }, "Sign Out"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         onChange: this.update('stockTicker'),
         value: this.state.stockTicker
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
-        variant: "contained",
-        color: "primary",
-        onClick: function onClick() {
-          return _this3.props.requestStockPrice(_this3.state.stockTicker);
-        }
-      }, "get price"), this.props.price));
+      }), this.props.price));
     }
   }]);
 
@@ -359,18 +357,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state) {
-  debugger;
-  var stockPrice = state.entities.stocks.price || 0;
+  var stockPrice = state.entities.stocks.price || "Estimated share value";
   return {
     currentUser: state.entities.users[state.session.id],
     formType: "Portfolio",
-    credentials: {
-      email: '',
-      password: ''
-    },
-    price: stockPrice // loginErrors: errors.session,
-    // errors: errors.session,
-
+    price: stockPrice
   };
 };
 
@@ -812,6 +803,27 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./frontend/reducers/errors_reducer.js":
+/*!*********************************************!*\
+  !*** ./frontend/reducers/errors_reducer.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
+/* harmony import */ var _stocks_error_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./stocks_error_reducer */ "./frontend/reducers/stocks_error_reducer.js");
+ // import session from './session_errors_reducer';
+
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
+  stock: _stocks_error_reducer__WEBPACK_IMPORTED_MODULE_1__["default"] // session,
+
+}));
+
+/***/ }),
+
 /***/ "./frontend/reducers/root_reducer.js":
 /*!*******************************************!*\
   !*** ./frontend/reducers/root_reducer.js ***!
@@ -824,14 +836,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _entities_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./entities_reducer */ "./frontend/reducers/entities_reducer.js");
 /* harmony import */ var _session_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./session_reducer */ "./frontend/reducers/session_reducer.js");
+/* harmony import */ var _errors_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./errors_reducer */ "./frontend/reducers/errors_reducer.js");
 
 
- // import errors from './errors_reducer';
+
 
 var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   entities: _entities_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
-  session: _session_reducer__WEBPACK_IMPORTED_MODULE_2__["default"] // errors,
-
+  session: _session_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  errors: _errors_reducer__WEBPACK_IMPORTED_MODULE_3__["default"]
 });
 /* harmony default export */ __webpack_exports__["default"] = (rootReducer);
 
@@ -875,6 +888,33 @@ var sessionReducer = function sessionReducer() {
 
 /***/ }),
 
+/***/ "./frontend/reducers/stocks_error_reducer.js":
+/*!***************************************************!*\
+  !*** ./frontend/reducers/stocks_error_reducer.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_stock_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/stock_actions */ "./frontend/actions/stock_actions.js");
+
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(oldState);
+
+  switch (action.type) {
+    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_STOCK_ERRORS"]:
+      return action.errors;
+
+    default:
+      return oldState;
+  }
+});
+
+/***/ }),
+
 /***/ "./frontend/reducers/stocks_reducer.js":
 /*!*********************************************!*\
   !*** ./frontend/reducers/stocks_reducer.js ***!
@@ -892,17 +932,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 var stocksReducer = function stocksReducer() {
   var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(oldState);
   var newState = lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()({}, oldState);
-  debugger;
 
   switch (action.type) {
-    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVESTOCKPRICE"]:
-      debugger;
+    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_PRICE"]:
       lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, _defineProperty({}, "price", action.price));
+      return newState;
+
+    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_ERRORS"]:
+      lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, _defineProperty({}, "price", action.errors));
       return newState;
 
     default:
@@ -1016,7 +1059,6 @@ var fetchStockCompany = function fetchStockCompany(tickerSymbol) {
   });
 };
 var fetchStockPrice = function fetchStockPrice(tickerSymbol) {
-  debugger;
   return $.ajax({
     method: "GET",
     url: baseUrl + "/stock/".concat(tickerSymbol, "/price")

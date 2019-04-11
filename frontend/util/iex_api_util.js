@@ -22,7 +22,6 @@ export const fetchStockCompany = (tickerSymbol) => {
 }
 
 export const fetchStockPrice = (tickerSymbol) => {
-  debugger
   return $.ajax({
     method: "GET",
     url: baseUrl + `/stock/${tickerSymbol}/price`

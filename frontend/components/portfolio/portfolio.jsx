@@ -8,13 +8,14 @@ class Portfolio extends React.Component {
 
       this.state = {
         stockTicker: '',
-        // price: this.props.stocks.price
+        price: this.props.price
       };
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
-    this.props.processForm(this.state)
+  componentDidUpdate(prevProps, prevState){
+    if (prevState.stockTicker != this.state.stockTicker) {
+      this.props.requestStockPrice(this.state.stockTicker)
+    }
   }
 
   update(field) {
@@ -24,7 +25,6 @@ class Portfolio extends React.Component {
   }
 
   render() {
-    debugger
     return (
       <div>
         users portfolio. Your balance: 
@@ -34,12 +34,8 @@ class Portfolio extends React.Component {
         </Button>
 
         <form>
-          <input onChange={this.update('stockTicker')}
-            value={this.state.stockTicker}/>
-          <Button variant="contained" color="primary" onClick={() => this.props.requestStockPrice(this.state.stockTicker)}>
-            get price
-        </Button>
-        {this.props.price}
+          <input onChange={this.update('stockTicker')} value={this.state.stockTicker}/>
+          {this.props.price}
         </form>
       </div>
     )

@@ -1,26 +1,27 @@
 import * as iexApiUtil from '../util/iex_api_util';
 
-// export const RECEIVESTOCK = 'RECEIVE_STOCK';
-export const RECEIVESTOCKPRICE = 'RECEIVE_STOCK_PRICE';
-
-// const receiveStock = (stock) => {
-//   return({
-//     type: RECEIVESTOCK,
-//     stock
-//   });
-// };
+export const RECEIVE_STOCK_PRICE = 'RECEIVE_STOCK_PRICE';
+export const RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
 
 const receiveStockPrice = (price) => {
   return({
-    type: RECEIVESTOCKPRICE,
+    type: RECEIVE_STOCK_PRICE,
     price
   });
 };
 
-// export const requestStock = ()
+const receiveErrors = errors => {
+  return ({
+    type: RECEIVE_STOCK_ERRORS,
+    errors
+  });
+};
 
 export const requestStockPrice = (tickerSymbol) => dispatch => {
   return (
-    iexApiUtil.fetchStockPrice(tickerSymbol).then(price => dispatch(receiveStockPrice(price)))
+    iexApiUtil.fetchStockPrice(tickerSymbol).then(
+      price => dispatch(receiveStockPrice(price)),
+      error => dispatch(receiveErrors(error["responseText"]))
+    )
   );
 };
