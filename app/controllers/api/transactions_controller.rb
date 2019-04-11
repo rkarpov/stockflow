@@ -9,26 +9,13 @@ class Api::TransactionsController < ApplicationController
   end
 
   def create
-    debugger
-    # user_id = params[:data][:user_id].to_i
+    @transaction = Transaction.new(transaction_params)
 
-    @stock = Stock.find_by(ticker_symbol: params[:data][:stock_symbol].upcase)
     if !@stock
       render json: 'Please enter a valid stock symbol'
     elsif (params[:data][:stock_price].to_i * params[:data][:num_shares].to_i) > current_user.balance
       render json: 'You do not have enough funds'
-    end
-
-    debugger
-    @transaction = Transaction.new({ 
-      user_id: current_user.id, stock_id: @stock.id,
-      stock_price: params[:data][:stock_price].to_f,
-      num_shares: params[:data][:num_shares].to_i,
-      transaction_type: params[:data][:transaction_type]
-    })
-    # @transaction.type = params[:data][:type]
-debugger
-    if @transaction.save
+    elsif @transaction.save
       render :show
     else
       render json: @transaction.errors.full_messages, status: 401
@@ -37,6 +24,9 @@ debugger
 
   private
   def transaction_params
-    params.require(:data).permit(:user_id, :stock_symbol, :stock_price, :num_shares, :transaction_type)
+    strong_params_hash = params.require(:data).permit(:user_id, :stock_price, :num_shares, :transaction_type)
+    @stock = Stock.find_by(ticker_symbol: params[:data][:stock_symbol].upcase)
+    strong_params_hash["stock_id"] = @stock.id if @stock
+    return strong_params_hash
   end
 end
