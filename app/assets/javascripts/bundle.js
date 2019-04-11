@@ -158,18 +158,23 @@ var logout = function logout() {
 /*!*******************************************!*\
   !*** ./frontend/actions/stock_actions.js ***!
   \*******************************************/
-/*! exports provided: RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS, requestStockPrice */
+/*! exports provided: RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS, CREATE_TRANSACTION, requestStockPrice, createTransaction */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCK_PRICE", function() { return RECEIVE_STOCK_PRICE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCK_ERRORS", function() { return RECEIVE_STOCK_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CREATE_TRANSACTION", function() { return CREATE_TRANSACTION; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStockPrice", function() { return requestStockPrice; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTransaction", function() { return createTransaction; });
 /* harmony import */ var _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/iex_api_util */ "./frontend/util/iex_api_util.js");
+/* harmony import */ var _util_stock_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/stock_api_util */ "./frontend/util/stock_api_util.js");
+
 
 var RECEIVE_STOCK_PRICE = 'RECEIVE_STOCK_PRICE';
 var RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
+var CREATE_TRANSACTION = 'CREATE_TRANSACTION';
 
 var receiveStockPrice = function receiveStockPrice(price) {
   return {
@@ -185,12 +190,26 @@ var receiveErrors = function receiveErrors(errors) {
   };
 };
 
+var receiveTransaction = function receiveTransaction(transaction) {
+  return {
+    type: CREATE_TRANSACTION,
+    transaction: transaction
+  };
+};
+
 var requestStockPrice = function requestStockPrice(tickerSymbol) {
   return function (dispatch) {
     return _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchStockPrice"](tickerSymbol).then(function (price) {
       return dispatch(receiveStockPrice(price));
     }, function (error) {
       return dispatch(receiveErrors(error["responseText"]));
+    });
+  };
+};
+var createTransaction = function createTransaction(payload) {
+  return function (dispatch) {
+    return _util_stock_api_util__WEBPACK_IMPORTED_MODULE_1__["createTransaction"](payload).then(function (transaction) {
+      return dispatch(receiveTransaction(transaction));
     });
   };
 };
@@ -315,6 +334,12 @@ function (_React$Component) {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
+      this.props.createTransaction({
+        user_id: this.props.currentUser.id,
+        symbol: this.state.stockTicker,
+        numShares: this.state.numShares,
+        price: this.props.price
+      });
     }
   }, {
     key: "render",
@@ -341,6 +366,7 @@ function (_React$Component) {
         onChange: this.update('numShares'),
         value: this.state.numShares
       }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "$ ", this.props.price, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Total $ ", this.props.price * this.state.numShares ? this.props.price * this.state.numShares : null, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
+        type: "submit",
         variant: "contained",
         color: "primary"
       }, "Place Order")));
@@ -393,6 +419,9 @@ var mdp = function mdp(dispatch) {
     },
     requestStockPrice: function requestStockPrice(stockTicker) {
       return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_4__["requestStockPrice"])(stockTicker));
+    },
+    createTransaction: function createTransaction(transaction) {
+      return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_4__["createTransaction"])(transaction));
     }
   };
 };
@@ -971,6 +1000,10 @@ var stocksReducer = function stocksReducer() {
       lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, _defineProperty({}, "price", "Price per share"));
       return newState;
 
+    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["CREATE_TRANSACTION"]:
+      lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, _defineProperty({}, "transaction", action.transaction));
+      return newState;
+
     default:
       return oldState;
   }
@@ -1053,7 +1086,7 @@ var configureStore = function configureStore() {
 /*!***************************************!*\
   !*** ./frontend/util/iex_api_util.js ***!
   \***************************************/
-/*! exports provided: fetchStocks, fetchStockQuote, fetchStockCompany, fetchStockPrice */
+/*! exports provided: fetchStocks, fetchStockQuote, fetchStockCompany, fetchStockPrice, fetchAllStockPrices */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1062,6 +1095,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockQuote", function() { return fetchStockQuote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockCompany", function() { return fetchStockCompany; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockPrice", function() { return fetchStockPrice; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchAllStockPrices", function() { return fetchAllStockPrices; });
 var baseUrl = "https://api.iextrading.com/1.0";
 var fetchStocks = function fetchStocks() {
   return $.ajax({
@@ -1086,12 +1120,13 @@ var fetchStockPrice = function fetchStockPrice(tickerSymbol) {
     method: "GET",
     url: baseUrl + "/stock/".concat(tickerSymbol, "/price")
   });
-}; // export const fetchAllStockPrices = (tickerSymbols) => {
-//   return $.ajax({
-//     method: "GET",
-//     url: baseUrl + `/stock/market/batch?symbols=${tickerSymbols}&types=price`
-//   })
-// }
+};
+var fetchAllStockPrices = function fetchAllStockPrices(tickerSymbols) {
+  return $.ajax({
+    method: "GET",
+    url: baseUrl + "/stock/market/batch?symbols=".concat(tickerSymbols, "&types=price")
+  });
+};
 
 /***/ }),
 
@@ -1191,6 +1226,36 @@ var logout = function logout() {
   return $.ajax({
     method: 'DELETE',
     url: '/api/session'
+  });
+};
+
+/***/ }),
+
+/***/ "./frontend/util/stock_api_util.js":
+/*!*****************************************!*\
+  !*** ./frontend/util/stock_api_util.js ***!
+  \*****************************************/
+/*! exports provided: fetchTransactions, createTransaction */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchTransactions", function() { return fetchTransactions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTransaction", function() { return createTransaction; });
+var fetchTransactions = function fetchTransactions() {
+  return $.ajax({
+    method: "GET",
+    url: "/api/transactions"
+  });
+}; // (stockSymbol, price, numShares, buy/sell)
+
+var createTransaction = function createTransaction(_ref) {
+  var data = _ref.data;
+  debugger;
+  return $.ajax({
+    method: "POST",
+    url: "/api/transactions",
+    data: data
   });
 };
 

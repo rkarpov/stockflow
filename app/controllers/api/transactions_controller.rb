@@ -8,11 +8,12 @@ class Api::TransactionsController < ApplicationController
   end
 
   def create
+    debugger
     @stock = Stock.find_by(params(:symbol))
     if !@stock
       render json: @stock.errors.full_messages, status: 401 
     elsif params(:amount) > current_user.balance
-      render json: 
+      render json: 'You do not have enough funds'
     end
 
     @transaction = Transaction.new(transaction_params)

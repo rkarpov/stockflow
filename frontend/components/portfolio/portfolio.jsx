@@ -23,7 +23,12 @@ class Portfolio extends React.Component {
 
   handleSubmit(e){
     e.preventDefault();
-
+    this.props.createTransaction({ 
+      user_id: this.props.currentUser.id, 
+      symbol: this.state.stockTicker, 
+      numShares: this.state.numShares, 
+      price: this.props.price 
+    })
   }
 
   render() {
@@ -42,8 +47,9 @@ class Portfolio extends React.Component {
           <input placeholder={"Amount of shares"} onChange={this.update('numShares')} value={this.state.numShares}/> <br/>
           $ {this.props.price} <br/>
           Total $ {this.props.price * this.state.numShares ? this.props.price * this.state.numShares : null} <br/>
-          <Button variant="contained" color="primary">
-            Place Order
+          <Button type="submit" 
+                  variant="contained" color="primary">
+                  Place Order
           </Button>
         </form>
       </div>
