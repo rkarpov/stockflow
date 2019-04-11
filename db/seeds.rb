@@ -10,11 +10,20 @@ require 'csv'
 
 User.destroy_all
 Stock.destroy_all
-Transactions.destroy_all
+Transaction.destroy_all
 
 # add stocks to database
-csv_text = File.read(Rails.root.join('lib', 'seeds', 'nasdaq.csv'))
-csv = CSV.parse(csv_text, :headers => true, :encoding => 'ISO-8859-1')
+nasdaq_csv_text = File.read(Rails.root.join('lib', 'seeds', 'nasdaq.csv'))
+csv = CSV.parse(nasdaq_csv_text, :headers => true, :encoding => 'ISO-8859-1')
+csv.each do |row|
+  s = Stock.new
+  s.ticker_symbol = row['Symbol']
+  s.company_name = row['Name']
+  s.save
+end
+
+nyse_csv_text = File.read(Rails.root.join('lib', 'seeds', 'nyse.csv'))
+csv = CSV.parse(nyse_csv_text, :headers => true, :encoding => 'ISO-8859-1')
 csv.each do |row|
   s = Stock.new
   s.ticker_symbol = row['Symbol']

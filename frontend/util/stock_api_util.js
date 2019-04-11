@@ -6,11 +6,11 @@ export const fetchTransactions = () => {
 }
 
 // (stockSymbol, price, numShares, buy/sell)
-export const createTransaction = ({data}) => {
+export const createTransaction = (data) => {
   debugger
   return $.ajax({
     method: `POST`,
     url: `/api/transactions`,
-    data: data
+    data: { data } 
   })
 }

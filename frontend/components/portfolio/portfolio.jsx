@@ -23,11 +23,12 @@ class Portfolio extends React.Component {
 
   handleSubmit(e){
     e.preventDefault();
-    this.props.createTransaction({ 
-      user_id: this.props.currentUser.id, 
-      symbol: this.state.stockTicker, 
-      numShares: this.state.numShares, 
-      price: this.props.price 
+    this.props.createTransaction({
+      user_id: this.props.currentUser.id,
+      stock_symbol: this.state.stockTicker,
+      num_shares: this.state.numShares,
+      stock_price: this.props.price,
+      type: 'buy'
     })
   }
 

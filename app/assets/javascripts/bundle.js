@@ -336,9 +336,10 @@ function (_React$Component) {
       e.preventDefault();
       this.props.createTransaction({
         user_id: this.props.currentUser.id,
-        symbol: this.state.stockTicker,
-        numShares: this.state.numShares,
-        price: this.props.price
+        stock_symbol: this.state.stockTicker,
+        num_shares: this.state.numShares,
+        stock_price: this.props.price,
+        type: 'buy'
       });
     }
   }, {
@@ -1249,13 +1250,14 @@ var fetchTransactions = function fetchTransactions() {
   });
 }; // (stockSymbol, price, numShares, buy/sell)
 
-var createTransaction = function createTransaction(_ref) {
-  var data = _ref.data;
+var createTransaction = function createTransaction(data) {
   debugger;
   return $.ajax({
     method: "POST",
     url: "/api/transactions",
-    data: data
+    data: {
+      data: data
+    }
   });
 };
 
