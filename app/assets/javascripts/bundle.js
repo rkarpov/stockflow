@@ -158,23 +158,18 @@ var logout = function logout() {
 /*!*******************************************!*\
   !*** ./frontend/actions/stock_actions.js ***!
   \*******************************************/
-/*! exports provided: RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS, CREATE_TRANSACTION, requestStockPrice, createTransaction */
+/*! exports provided: RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS, requestStockPrice */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCK_PRICE", function() { return RECEIVE_STOCK_PRICE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCK_ERRORS", function() { return RECEIVE_STOCK_ERRORS; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CREATE_TRANSACTION", function() { return CREATE_TRANSACTION; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStockPrice", function() { return requestStockPrice; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTransaction", function() { return createTransaction; });
 /* harmony import */ var _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/iex_api_util */ "./frontend/util/iex_api_util.js");
-/* harmony import */ var _util_stock_api_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../util/stock_api_util */ "./frontend/util/stock_api_util.js");
-
 
 var RECEIVE_STOCK_PRICE = 'RECEIVE_STOCK_PRICE';
 var RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
-var CREATE_TRANSACTION = 'CREATE_TRANSACTION';
 
 var receiveStockPrice = function receiveStockPrice(price) {
   return {
@@ -190,13 +185,6 @@ var receiveErrors = function receiveErrors(errors) {
   };
 };
 
-var receiveTransaction = function receiveTransaction(transaction) {
-  return {
-    type: CREATE_TRANSACTION,
-    transaction: transaction
-  };
-};
-
 var requestStockPrice = function requestStockPrice(tickerSymbol) {
   return function (dispatch) {
     return _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchStockPrice"](tickerSymbol).then(function (price) {
@@ -206,9 +194,51 @@ var requestStockPrice = function requestStockPrice(tickerSymbol) {
     });
   };
 };
+
+/***/ }),
+
+/***/ "./frontend/actions/transaction_actions.js":
+/*!*************************************************!*\
+  !*** ./frontend/actions/transaction_actions.js ***!
+  \*************************************************/
+/*! exports provided: RECEIVE_TRANSACTION, RECEIVE_TRANSACTIONS, receiveTransactions, receiveAllTransactions, createTransaction */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_TRANSACTION", function() { return RECEIVE_TRANSACTION; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_TRANSACTIONS", function() { return RECEIVE_TRANSACTIONS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveTransactions", function() { return receiveTransactions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveAllTransactions", function() { return receiveAllTransactions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTransaction", function() { return createTransaction; });
+/* harmony import */ var _util_transaction_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/transaction_api_util */ "./frontend/util/transaction_api_util.js");
+
+var RECEIVE_TRANSACTION = 'RECEIVE_TRANSACTION';
+var RECEIVE_TRANSACTIONS = 'RECEIVE_TRANSACTIONS';
+var receiveTransactions = function receiveTransactions(transactions) {
+  return {
+    type: RECEIVE_TRANSACTIONS,
+    transactions: transactions
+  };
+};
+
+var receiveTransaction = function receiveTransaction(transaction) {
+  return {
+    type: RECEIVE_TRANSACTION,
+    transaction: transaction
+  };
+};
+
+var receiveAllTransactions = function receiveAllTransactions() {
+  return function (dispatch) {
+    return _util_transaction_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchTransactions"]().then(function (transactions) {
+      return dispatch(receiveTransactions(transactions));
+    });
+  };
+};
 var createTransaction = function createTransaction(payload) {
   return function (dispatch) {
-    return _util_stock_api_util__WEBPACK_IMPORTED_MODULE_1__["createTransaction"](payload).then(function (transaction) {
+    return _util_transaction_api_util__WEBPACK_IMPORTED_MODULE_0__["createTransaction"](payload).then(function (transaction) {
       return dispatch(receiveTransaction(transaction));
     });
   };
@@ -844,12 +874,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _users_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./users_reducer */ "./frontend/reducers/users_reducer.js");
 /* harmony import */ var _stocks_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stocks_reducer */ "./frontend/reducers/stocks_reducer.js");
+/* harmony import */ var _transactions_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./transactions_reducer */ "./frontend/reducers/transactions_reducer.js");
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
-  stocks: _stocks_reducer__WEBPACK_IMPORTED_MODULE_2__["default"]
+  stocks: _stocks_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  transactions: _transactions_reducer__WEBPACK_IMPORTED_MODULE_3__["default"]
 }));
 
 /***/ }),
@@ -1001,8 +1034,41 @@ var stocksReducer = function stocksReducer() {
       lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, _defineProperty({}, "price", "Price per share"));
       return newState;
 
-    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["CREATE_TRANSACTION"]:
-      lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, _defineProperty({}, "transaction", action.transaction));
+    default:
+      return oldState;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (stocksReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/transactions_reducer.js":
+/*!***************************************************!*\
+  !*** ./frontend/reducers/transactions_reducer.js ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/merge */ "./node_modules/lodash/merge.js");
+/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/transaction_actions */ "./frontend/actions/transaction_actions.js");
+
+
+
+var transactionsReducer = function transactionsReducer() {
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(oldState);
+  var newState = lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()({}, oldState);
+
+  switch (action.type) {
+    case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TRANSACTION"]:
+      return newState;
+
+    case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TRANSACTIONS"]:
       return newState;
 
     default:
@@ -1010,7 +1076,7 @@ var stocksReducer = function stocksReducer() {
   }
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (stocksReducer);
+/* harmony default export */ __webpack_exports__["default"] = (transactionsReducer);
 
 /***/ }),
 
@@ -1232,10 +1298,10 @@ var logout = function logout() {
 
 /***/ }),
 
-/***/ "./frontend/util/stock_api_util.js":
-/*!*****************************************!*\
-  !*** ./frontend/util/stock_api_util.js ***!
-  \*****************************************/
+/***/ "./frontend/util/transaction_api_util.js":
+/*!***********************************************!*\
+  !*** ./frontend/util/transaction_api_util.js ***!
+  \***********************************************/
 /*! exports provided: fetchTransactions, createTransaction */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 

@@ -14,7 +14,7 @@ class Api::TransactionsController < ApplicationController
     if !@stock
       render json: 'Please enter a valid stock symbol'
     elsif (params[:data][:stock_price].to_i * params[:data][:num_shares].to_i) > current_user.balance
-      render json: 'You do not have enough funds'
+      render json: 'Not enough funds'
     elsif @transaction.save
       render :show
     else

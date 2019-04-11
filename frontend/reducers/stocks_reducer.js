@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 
-import { RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS, CREATE_TRANSACTION } from '../actions/stock_actions';
+import { RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS } from '../actions/stock_actions';
 
 const stocksReducer = (oldState = {}, action) => {
   Object.freeze(oldState);
@@ -11,9 +11,6 @@ const stocksReducer = (oldState = {}, action) => {
       return newState;
     case RECEIVE_STOCK_ERRORS:
       merge(newState, { ["price"]: "Price per share" });
-      return newState;
-    case CREATE_TRANSACTION:
-      merge(newState, { ["transaction"]: action.transaction });
       return newState;
     default:
       return oldState;
