@@ -339,7 +339,7 @@ function (_React$Component) {
         stock_symbol: this.state.stockTicker,
         num_shares: this.state.numShares,
         stock_price: this.props.price,
-        type: 'buy'
+        transaction_type: 'buy'
       });
     }
   }, {
