@@ -231,7 +231,7 @@ var App = function App() {
     component: _components_session_signup_form_container__WEBPACK_IMPORTED_MODULE_4__["default"]
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_2__["ProtectedRoute"], {
     exact: true,
-    path: "/index",
+    path: "/portfolio",
     component: _components_portfolio_portfolio_index_container__WEBPACK_IMPORTED_MODULE_5__["default"]
   })));
 };
@@ -296,7 +296,7 @@ function (_React$Component) {
 
   _createClass(Portfolio, [{
     key: "componentDidUpdate",
-    value: function componentDidUpdate(prevProps, prevState) {
+    value: function componentDidUpdate(_, prevState) {
       if (prevState.stockTicker != this.state.stockTicker) {
         this.props.requestStockPrice(this.state.stockTicker);
       }
@@ -311,20 +311,27 @@ function (_React$Component) {
       };
     }
   }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      e.preventDefault();
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "users portfolio. Your balance:", this.props.currentUser.balance, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.props.currentUser.username, "'s portfolio. Your balance: $", this.props.currentUser.balance, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
         variant: "contained",
         color: "primary",
         onClick: function onClick() {
           return _this3.props.logout();
         }
-      }, "Sign Out"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, "Sign Out"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit.bind(this)
+      }, this.props.errors, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         onChange: this.update('stockTicker'),
         value: this.state.stockTicker
-      }), this.props.price));
+      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "$ ", this.props.price));
     }
   }]);
 
@@ -357,11 +364,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state) {
-  var stockPrice = state.entities.stocks.price || "Estimated share value";
+  var stockPrice = state.entities.stocks.price || "Price per share";
+  debugger;
   return {
     currentUser: state.entities.users[state.session.id],
     formType: "Portfolio",
-    price: stockPrice
+    price: stockPrice,
+    errors: state.errors.stock
   };
 };
 
@@ -908,6 +917,9 @@ __webpack_require__.r(__webpack_exports__);
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_STOCK_ERRORS"]:
       return action.errors;
 
+    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_STOCK_PRICE"]:
+      return [];
+
     default:
       return oldState;
   }
@@ -932,7 +944,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
-
 var stocksReducer = function stocksReducer() {
   var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
@@ -945,7 +956,7 @@ var stocksReducer = function stocksReducer() {
       return newState;
 
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_ERRORS"]:
-      lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, _defineProperty({}, "price", action.errors));
+      lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, _defineProperty({}, "price", "Price per share"));
       return newState;
 
     default:
@@ -1096,7 +1107,7 @@ var Auth = function Auth(_ref) {
     exact: exact,
     render: function render(props) {
       return !loggedIn ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(Component, props) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
-        to: "/index"
+        to: "/portfolio"
       });
     }
   });

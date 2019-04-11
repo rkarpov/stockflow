@@ -5,11 +5,13 @@ import Portfolio from './portfolio';
 import { requestStockPrice } from '../../actions/stock_actions';
 
 const msp = (state) => {
-  const stockPrice = state.entities.stocks.price || "Estimated share value";
+  const stockPrice = state.entities.stocks.price || "Price per share";
+  debugger
   return {
     currentUser: state.entities.users[state.session.id],
     formType: "Portfolio",
-    price: stockPrice
+    price: stockPrice,
+    errors: state.errors.stock
   }
 }
 

@@ -12,7 +12,7 @@ class Portfolio extends React.Component {
       };
   }
 
-  componentDidUpdate(prevProps, prevState){
+  componentDidUpdate(_, prevState){
     if (prevState.stockTicker != this.state.stockTicker) {
       this.props.requestStockPrice(this.state.stockTicker)
     }
@@ -24,18 +24,24 @@ class Portfolio extends React.Component {
     }
   }
 
+  handleSubmit(e){
+    e.preventDefault();
+
+  }
+
   render() {
     return (
       <div>
-        users portfolio. Your balance: 
-        {this.props.currentUser.balance}
+        {this.props.currentUser.username}'s portfolio. Your balance: ${this.props.currentUser.balance}
+        
         <Button variant="contained" color="primary" onClick={() => this.props.logout()}>
             Sign Out
         </Button>
 
-        <form>
-          <input onChange={this.update('stockTicker')} value={this.state.stockTicker}/>
-          {this.props.price}
+        <form onSubmit={this.handleSubmit.bind(this)}>
+          {this.props.errors} <br/>
+          <input onChange={this.update('stockTicker')} value={this.state.stockTicker}/> <br/>
+          $ {this.props.price}
         </form>
       </div>
     )
