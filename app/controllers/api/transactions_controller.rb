@@ -10,14 +10,14 @@ class Api::TransactionsController < ApplicationController
 
   def create
     @transaction = Transaction.new(transaction_params)
-    purchase_amount = params[:data][:stock_price].to_i * params[:data][:num_shares].to_i
+    @purchase_amount = params[:data][:stock_price].to_i * params[:data][:num_shares].to_i
 
     if !@stock
       render json: 'Please enter a valid stock symbol'
-    elsif purchase_amount > current_user.balance
+    elsif @purchase_amount > current_user.balance
       render json: 'Not enough funds'
     elsif @transaction.save
-      current_user.balance -= purchase_amount
+      current_user.balance -= @purchase_amount
       current_user.save
       render :show
     else
