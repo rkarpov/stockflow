@@ -9,10 +9,8 @@ const usersReducer = (oldState = {}, action) => {
     case RECEIVE_CURRENT_USER:
       return merge(newState, { [action.currentUser.id]: action.currentUser });
     case RECEIVE_TRANSACTION:
-      if (action.transaction.transaction_type === "buy") {
-        newState[action.transaction.user_id]["balance"] -= action.transaction.purchase_amount;
-        return newState;
-      } 
+      newState[action.payload.user_id].balance = action.payload.balance
+      return newState;
     default:
       return oldState
   }

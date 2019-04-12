@@ -4,7 +4,7 @@ class Api::TransactionsController < ApplicationController
  # show only all of current user's transactions
   def index
     user_id = params[:user_id]
-    @transactions = Transaction.where('user_id == current_user.id')
+    @transactions = current_user.transactions
     render :index
   end
 

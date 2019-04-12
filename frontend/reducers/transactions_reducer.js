@@ -6,12 +6,10 @@ const transactionsReducer = (oldState = {}, action) => {
   Object.freeze(oldState);
   let newState = merge({}, oldState);
   switch (action.type) {
-    case RECEIVE_TRANSACTION:
-    debugger
-      merge(newState, action.transaction)
+    case RECEIVE_TRANSACTION:    
+      merge(newState, action.payload.transaction)
       return newState;
-    case RECEIVE_TRANSACTIONS:
-    debugger
+    case RECEIVE_TRANSACTIONS:    
       merge(newState, action.transactions)
       return newState;
     default:

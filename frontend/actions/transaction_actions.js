@@ -11,11 +11,11 @@ export const receiveTransactions = (transactions) => {
   })
 }
 
-const receiveTransaction = (transaction) => {
+const receiveTransaction = (payload) => {
   debugger
   return ({
     type: RECEIVE_TRANSACTION,
-    transaction
+    payload
   })
 }
 

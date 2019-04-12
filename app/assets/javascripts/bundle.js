@@ -223,11 +223,11 @@ var receiveTransactions = function receiveTransactions(transactions) {
   };
 };
 
-var receiveTransaction = function receiveTransaction(transaction) {
+var receiveTransaction = function receiveTransaction(payload) {
   debugger;
   return {
     type: RECEIVE_TRANSACTION,
-    transaction: transaction
+    payload: payload
   };
 };
 
@@ -1077,12 +1077,10 @@ var transactionsReducer = function transactionsReducer() {
 
   switch (action.type) {
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TRANSACTION"]:
-      debugger;
-      lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.transaction);
+      lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.transaction);
       return newState;
 
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TRANSACTIONS"]:
-      debugger;
       lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.transactions);
       return newState;
 
@@ -1125,10 +1123,8 @@ var usersReducer = function usersReducer() {
       return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, _defineProperty({}, action.currentUser.id, action.currentUser));
 
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_TRANSACTION"]:
-      if (action.transaction.transaction_type === "buy") {
-        newState[action.transaction.user_id]["balance"] -= action.transaction.purchase_amount;
-        return newState;
-      }
+      newState[action.payload.user_id].balance = action.payload.balance;
+      return newState;
 
     default:
       return oldState;
