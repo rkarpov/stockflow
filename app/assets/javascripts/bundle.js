@@ -174,7 +174,7 @@ var RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
 var receiveStockPrice = function receiveStockPrice(price) {
   return {
     type: RECEIVE_STOCK_PRICE,
-    price: price
+    price: Number.parseFloat(price).toFixed(2)
   };
 };
 

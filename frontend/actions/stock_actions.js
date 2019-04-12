@@ -6,7 +6,7 @@ export const RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
 const receiveStockPrice = (price) => {
   return ({
     type: RECEIVE_STOCK_PRICE,
-    price
+    price: Number.parseFloat(price).toFixed(2)
   });
 };
 
