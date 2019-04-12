@@ -396,7 +396,6 @@ function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      debugger;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.props.currentUser.username, "'s portfolio. Net worth: $", this.props.currentUser.portfolio, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
         variant: "contained",
         color: "primary",
@@ -418,7 +417,7 @@ function (_React$Component) {
         placeholder: "Amount of shares",
         onChange: this.update('numShares'),
         value: this.state.numShares
-      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "$ ", this.props.price, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Total $ ", this.props.price * this.state.numShares ? this.props.price * this.state.numShares : null, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
+      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "$ ", this.props.price, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.balance, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Total $ ", this.props.price * this.state.numShares ? this.props.price * this.state.numShares : null, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
         type: "submit",
         variant: "contained",
         color: "primary"

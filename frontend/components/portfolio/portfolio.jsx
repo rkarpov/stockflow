@@ -37,7 +37,6 @@ class Portfolio extends React.Component {
   }
 
   render() {
-    debugger
     return (
       <div>
         {this.props.currentUser.username}'s portfolio. Net worth: ${this.props.currentUser.portfolio}
@@ -55,6 +54,7 @@ class Portfolio extends React.Component {
           {this.props.errors.transaction.num_shares} <br />
           <Input type="number" placeholder={"Amount of shares"} onChange={this.update('numShares')} value={this.state.numShares}/> <br/>
           $ {this.props.price} <br/>
+          {this.props.errors.transaction.balance}<br />
           Total $ {this.props.price * this.state.numShares ? this.props.price * this.state.numShares : null} <br/>
           <Button type="submit" 
                   variant="contained" color="primary">
