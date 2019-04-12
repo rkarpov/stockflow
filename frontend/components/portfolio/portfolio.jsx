@@ -46,14 +46,14 @@ class Portfolio extends React.Component {
 
         <form onSubmit={this.handleSubmit.bind(this)} style={{ float: "right" }}>
           <label>Make a transaction</label> <br/>
-          Balance: ${this.props.currentUser.balance} <br/>
+          Balance: {this.props.currentUser.balance} <br/>
 
           {this.props.errors.stock} <br/>
           {this.props.errors.transaction.stock_ticker} <br/>
           <Input type="text" placeholder={"Enter stock ticker"} onChange={this.update('stockTicker')} value={this.state.stockTicker}/> <br/>
           {this.props.errors.transaction.num_shares} <br />
           <Input type="number" placeholder={"Amount of shares"} onChange={this.update('numShares')} value={this.state.numShares}/> <br/>
-          $ {this.props.price} <br/>
+          ${this.props.price} <br/>
           {this.props.errors.transaction.balance}<br />
           Total $ {this.props.price * this.state.numShares ? this.props.price * this.state.numShares : null} <br/>
           <Button type="submit" 

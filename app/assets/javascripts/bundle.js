@@ -407,7 +407,7 @@ function (_React$Component) {
         style: {
           float: "right"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Make a transaction"), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Balance: $", this.props.currentUser.balance, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.stock, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.stock_ticker, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Make a transaction"), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Balance: ", this.props.currentUser.balance, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.stock, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.stock_ticker, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_2___default.a, {
         type: "text",
         placeholder: "Enter stock ticker",
         onChange: this.update('stockTicker'),
@@ -417,7 +417,7 @@ function (_React$Component) {
         placeholder: "Amount of shares",
         onChange: this.update('numShares'),
         value: this.state.numShares
-      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "$ ", this.props.price, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.balance, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Total $ ", this.props.price * this.state.numShares ? this.props.price * this.state.numShares : null, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
+      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "$", this.props.price, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.balance, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Total $ ", this.props.price * this.state.numShares ? this.props.price * this.state.numShares : null, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
         type: "submit",
         variant: "contained",
         color: "primary"

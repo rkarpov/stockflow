@@ -7,4 +7,4 @@ end
 
 json.user_id current_user.id
 json.purchase_amount @purchase_amount
-json.balance current_user.balance
+json.balance current_user.get_balance
