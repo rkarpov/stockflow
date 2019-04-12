@@ -38,4 +38,15 @@ class User < ApplicationRecord
     def ensure_token 
         self.session_token ||= User.generate_token
     end
+
+    def portfolio_value
+      portfolio_amount = 0
+      transactions = self.transactions
+      transactions.each do |t|
+        amt = t.num_shares * t.stock_price
+        portfolio_amount += amt if t.transaction_type == "buy"
+        portfolio_amount -= amt if t.transaction_type == "sell"
+      end
+      return portfolio_amount
+    end
 end

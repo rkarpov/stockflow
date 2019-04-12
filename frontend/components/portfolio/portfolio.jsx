@@ -39,7 +39,7 @@ class Portfolio extends React.Component {
   render() {
     return (
       <div>
-        {this.props.currentUser.username}'s portfolio. 
+        {this.props.currentUser.username}'s portfolio. Net worth: ${this.props.currentUser.portfolio}
         <Button variant="contained" color="primary" onClick={() => this.props.logout()}>
             Sign Out
         </Button>

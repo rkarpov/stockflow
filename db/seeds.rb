@@ -14,8 +14,8 @@ Transaction.destroy_all
 
 # add stocks to database
 nasdaq_csv_text = File.read(Rails.root.join('lib', 'seeds', 'nasdaq.csv'))
-csv = CSV.parse(nasdaq_csv_text, :headers => true, :encoding => 'ISO-8859-1')
-csv.each do |row|
+nasdaq_csv = CSV.parse(nasdaq_csv_text, :headers => true, :encoding => 'ISO-8859-1')
+nasdaq_csv.each do |row|
   s = Stock.new
   s.ticker_symbol = row['Symbol']
   s.company_name = row['Name']
@@ -23,8 +23,8 @@ csv.each do |row|
 end
 
 nyse_csv_text = File.read(Rails.root.join('lib', 'seeds', 'nyse.csv'))
-csv = CSV.parse(nyse_csv_text, :headers => true, :encoding => 'ISO-8859-1')
-csv.each do |row|
+nyse_csv = CSV.parse(nyse_csv_text, :headers => true, :encoding => 'ISO-8859-1')
+nyse_csv.each do |row|
   s = Stock.new
   s.ticker_symbol = row['Symbol']
   s.company_name = row['Name']
