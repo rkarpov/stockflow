@@ -11,7 +11,7 @@ const msp = (state) => {
     currentUser: state.entities.users[state.session.id],
     formType: "Portfolio",
     price: stockPrice,
-    errors: state.errors.stock
+    errors: state.errors
   }
 }
 

@@ -201,13 +201,14 @@ var requestStockPrice = function requestStockPrice(tickerSymbol) {
 /*!*************************************************!*\
   !*** ./frontend/actions/transaction_actions.js ***!
   \*************************************************/
-/*! exports provided: RECEIVE_TRANSACTION, RECEIVE_TRANSACTIONS, receiveTransactions, requestTransactions, createTransaction */
+/*! exports provided: RECEIVE_TRANSACTION, RECEIVE_TRANSACTIONS, RECEIVE_TRANSACTION_ERRORS, receiveTransactions, requestTransactions, createTransaction */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_TRANSACTION", function() { return RECEIVE_TRANSACTION; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_TRANSACTIONS", function() { return RECEIVE_TRANSACTIONS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_TRANSACTION_ERRORS", function() { return RECEIVE_TRANSACTION_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveTransactions", function() { return receiveTransactions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestTransactions", function() { return requestTransactions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTransaction", function() { return createTransaction; });
@@ -215,8 +216,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var RECEIVE_TRANSACTION = 'RECEIVE_TRANSACTION';
 var RECEIVE_TRANSACTIONS = 'RECEIVE_TRANSACTIONS';
+var RECEIVE_TRANSACTION_ERRORS = 'RECEIVE_TRANSACTION_ERRORS';
 var receiveTransactions = function receiveTransactions(transactions) {
-  debugger;
   return {
     type: RECEIVE_TRANSACTIONS,
     transactions: transactions
@@ -224,10 +225,16 @@ var receiveTransactions = function receiveTransactions(transactions) {
 };
 
 var receiveTransaction = function receiveTransaction(payload) {
-  debugger;
   return {
     type: RECEIVE_TRANSACTION,
     payload: payload
+  };
+};
+
+var receiveErrors = function receiveErrors(errors) {
+  return {
+    type: RECEIVE_TRANSACTION_ERRORS,
+    errors: errors
   };
 };
 
@@ -242,6 +249,8 @@ var createTransaction = function createTransaction(payload) {
   return function (dispatch) {
     return _util_transaction_api_util__WEBPACK_IMPORTED_MODULE_0__["createTransaction"](payload).then(function (transaction) {
       return dispatch(receiveTransaction(transaction));
+    }, function (error) {
+      return dispatch(receiveErrors(error.responseJSON));
     });
   };
 };
@@ -304,6 +313,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @material-ui/core/Button */ "./node_modules/@material-ui/core/Button/index.js");
 /* harmony import */ var _material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _material_ui_core_Input__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core/Input */ "./node_modules/@material-ui/core/Input/index.js");
+/* harmony import */ var _material_ui_core_Input__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_2__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -323,6 +334,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -384,6 +396,7 @@ function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
+      debugger;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.props.currentUser.username, "'s portfolio. Net worth: $", this.props.currentUser.portfolio, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
         variant: "contained",
         color: "primary",
@@ -395,11 +408,13 @@ function (_React$Component) {
         style: {
           float: "right"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Make a transaction"), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Balance: $", this.props.currentUser.balance, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Make a transaction"), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Balance: $", this.props.currentUser.balance, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.stock, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.stock_ticker, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        type: "text",
         placeholder: "Enter stock ticker",
         onChange: this.update('stockTicker'),
         value: this.state.stockTicker
-      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.num_shares, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        type: "number",
         placeholder: "Amount of shares",
         onChange: this.update('numShares'),
         value: this.state.numShares
@@ -447,7 +462,7 @@ var msp = function msp(state) {
     currentUser: state.entities.users[state.session.id],
     formType: "Portfolio",
     price: stockPrice,
-    errors: state.errors.stock
+    errors: state.errors
   };
 };
 
@@ -909,11 +924,14 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _stocks_error_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./stocks_error_reducer */ "./frontend/reducers/stocks_error_reducer.js");
+/* harmony import */ var _transactions_error_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./transactions_error_reducer */ "./frontend/reducers/transactions_error_reducer.js");
  // import session from './session_errors_reducer';
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  stock: _stocks_error_reducer__WEBPACK_IMPORTED_MODULE_1__["default"] // session,
+  stock: _stocks_error_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
+  transaction: _transactions_error_reducer__WEBPACK_IMPORTED_MODULE_2__["default"] // session,
 
 }));
 
@@ -1051,6 +1069,44 @@ var stocksReducer = function stocksReducer() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (stocksReducer);
+
+/***/ }),
+
+/***/ "./frontend/reducers/transactions_error_reducer.js":
+/*!*********************************************************!*\
+  !*** ./frontend/reducers/transactions_error_reducer.js ***!
+  \*********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/merge */ "./node_modules/lodash/merge.js");
+/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/transaction_actions */ "./frontend/actions/transaction_actions.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var _newState;
+
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(oldState);
+  var newState = (_newState = {}, _defineProperty(_newState, "stock_ticker", []), _defineProperty(_newState, "balance", []), _defineProperty(_newState, "num_shares", []), _newState);
+
+  switch (action.type) {
+    case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TRANSACTION_ERRORS"]:
+      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.errors);
+
+    case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TRANSACTION"]:
+      return [];
+
+    default:
+      return oldState;
+  }
+});
 
 /***/ }),
 

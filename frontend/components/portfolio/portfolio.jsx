@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-
+import Input from '@material-ui/core/Input';
 
 class Portfolio extends React.Component {
   constructor(props) {
@@ -37,6 +37,7 @@ class Portfolio extends React.Component {
   }
 
   render() {
+    debugger
     return (
       <div>
         {this.props.currentUser.username}'s portfolio. Net worth: ${this.props.currentUser.portfolio}
@@ -47,9 +48,12 @@ class Portfolio extends React.Component {
         <form onSubmit={this.handleSubmit.bind(this)} style={{ float: "right" }}>
           <label>Make a transaction</label> <br/>
           Balance: ${this.props.currentUser.balance} <br/>
-          {this.props.errors} <br/>
-          <input placeholder={"Enter stock ticker"} onChange={this.update('stockTicker')} value={this.state.stockTicker}/> <br/>
-          <input placeholder={"Amount of shares"} onChange={this.update('numShares')} value={this.state.numShares}/> <br/>
+
+          {this.props.errors.stock} <br/>
+          {this.props.errors.transaction.stock_ticker} <br/>
+          <Input type="text" placeholder={"Enter stock ticker"} onChange={this.update('stockTicker')} value={this.state.stockTicker}/> <br/>
+          {this.props.errors.transaction.num_shares} <br />
+          <Input type="number" placeholder={"Amount of shares"} onChange={this.update('numShares')} value={this.state.numShares}/> <br/>
           $ {this.props.price} <br/>
           Total $ {this.props.price * this.state.numShares ? this.props.price * this.state.numShares : null} <br/>
           <Button type="submit" 
