@@ -7,10 +7,15 @@ const stocksReducer = (oldState = {}, action) => {
   let newState = merge({}, oldState);
   switch (action.type) {
     case RECEIVE_STOCK_PRICE:
-      merge(newState, { ["price"]: action.price });
+      if (action.price === undefined) { // if input field empty
+        merge(newState, { ["price"]: "", ["company"]: "" })
+      } else {
+        merge(newState, action.price);
+      }
+      // merge(newState, { ["price"]: action.price }); // for front end call
       return newState;
     case RECEIVE_STOCK_ERRORS:
-      merge(newState, { ["price"]: "Price per share" });
+      merge(newState, { ["price"]: "Price per share", ["company"]: "" });
       return newState;
     default:
       return oldState;

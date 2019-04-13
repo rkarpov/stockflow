@@ -3,7 +3,8 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: :json} do
       resources :users, only: [:create, :show]      # user sign up
       resource :session, only: [:create, :destroy]  # user login, logout
-      resources :stocks, only: [:index, :show]
+      resources :stocks, only: [:index]
+      get 'stocks/:ticker_symbol', to: 'stocks#show'
       resources :transactions, only: [:index, :create]
   end
 

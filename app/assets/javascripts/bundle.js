@@ -174,11 +174,13 @@ var RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
 var receiveStockPrice = function receiveStockPrice(price) {
   return {
     type: RECEIVE_STOCK_PRICE,
-    price: Number.parseFloat(price).toFixed(2)
+    price: price // price: Number.parseFloat(price).toFixed(2)
+
   };
 };
 
 var receiveErrors = function receiveErrors(errors) {
+  debugger;
   return {
     type: RECEIVE_STOCK_ERRORS,
     errors: errors
@@ -190,8 +192,9 @@ var requestStockPrice = function requestStockPrice(tickerSymbol) {
     return _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchStockPrice"](tickerSymbol).then(function (price) {
       return dispatch(receiveStockPrice(price));
     }, function (error) {
-      return dispatch(receiveErrors(error["responseText"]));
-    });
+      return dispatch(receiveErrors(error.responseJSON));
+    } // error => dispatch(receiveErrors(error["responseText"])) // for front end calls
+    );
   };
 };
 
@@ -390,12 +393,17 @@ function (_React$Component) {
         stock_price: this.props.price,
         transaction_type: 'buy'
       });
-    }
+    } // test(){
+    //   debugger
+    //   BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
+    // }
+
   }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
+      // this.test()
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.props.currentUser.username, "'s portfolio. Net worth: $", this.props.currentUser.portfolio, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
         variant: "contained",
         color: "primary",
@@ -417,7 +425,7 @@ function (_React$Component) {
         placeholder: "Amount of shares",
         onChange: this.update('numShares'),
         value: this.state.numShares
-      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "$", this.props.price, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.balance, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Total $ ", this.props.price * this.state.numShares ? this.props.price * this.state.numShares : null, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
+      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.price, " ", this.props.company, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.balance, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Total $ ", this.props.price * this.state.numShares ? this.props.price * this.state.numShares : null, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
         type: "submit",
         variant: "contained",
         color: "primary"
@@ -460,6 +468,7 @@ var msp = function msp(state) {
   return {
     currentUser: state.entities.users[state.session.id],
     formType: "Portfolio",
+    company: state.entities.stocks.company,
     price: stockPrice,
     errors: state.errors
   };
@@ -1018,7 +1027,9 @@ __webpack_require__.r(__webpack_exports__);
 
   switch (action.type) {
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_STOCK_ERRORS"]:
-      if (action.errors.includes("Not Found")) return [];else return action.errors;
+      // if (action.errors.includes("Not Found")) return [];
+      // else return action.errors;
+      return action.errors;
 
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_STOCK_PRICE"]:
       return [];
@@ -1048,6 +1059,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var stocksReducer = function stocksReducer() {
+  var _merge2;
+
   var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(oldState);
@@ -1055,11 +1068,20 @@ var stocksReducer = function stocksReducer() {
 
   switch (action.type) {
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_PRICE"]:
-      lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, _defineProperty({}, "price", action.price));
+      if (action.price === undefined) {
+        var _merge;
+
+        // if input field empty
+        lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, (_merge = {}, _defineProperty(_merge, "price", ""), _defineProperty(_merge, "company", ""), _merge));
+      } else {
+        lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.price);
+      } // merge(newState, { ["price"]: action.price }); // for front end call
+
+
       return newState;
 
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_ERRORS"]:
-      lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, _defineProperty({}, "price", "Price per share"));
+      lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, (_merge2 = {}, _defineProperty(_merge2, "price", "Price per share"), _defineProperty(_merge2, "company", ""), _merge2));
       return newState;
 
     default:
@@ -1259,9 +1281,16 @@ var fetchStockCompany = function fetchStockCompany(tickerSymbol) {
 var fetchStockPrice = function fetchStockPrice(tickerSymbol) {
   return $.ajax({
     method: "GET",
-    url: baseUrl + "/stock/".concat(tickerSymbol, "/price")
+    url: "/api/stocks/".concat(tickerSymbol)
   });
-};
+}; // front end api call to fetch price
+// export const fetchStockPrice = (tickerSymbol) => {
+//   return $.ajax({
+//     method: "GET",
+//     url: baseUrl + `/stock/${tickerSymbol}/price`
+//   })
+// }
+
 var fetchAllStockPrices = function fetchAllStockPrices(tickerSymbols) {
   return $.ajax({
     method: "GET",

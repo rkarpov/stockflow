@@ -36,7 +36,14 @@ class Portfolio extends React.Component {
     })
   }
 
+  // test(){
+  //   debugger
+  //   BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
+
+  // }
+
   render() {
+    // this.test()
     return (
       <div>
         {this.props.currentUser.username}'s portfolio. Net worth: ${this.props.currentUser.portfolio}
@@ -53,7 +60,7 @@ class Portfolio extends React.Component {
           <Input type="text" placeholder={"Enter stock ticker"} onChange={this.update('stockTicker')} value={this.state.stockTicker}/> <br/>
           {this.props.errors.transaction.num_shares} <br />
           <Input type="number" placeholder={"Amount of shares"} onChange={this.update('numShares')} value={this.state.numShares}/> <br/>
-          ${this.props.price} <br/>
+          {this.props.price} {this.props.company}<br/>
           {this.props.errors.transaction.balance}<br />
           Total $ {this.props.price * this.state.numShares ? this.props.price * this.state.numShares : null} <br/>
           <Button type="submit" 

@@ -10,6 +10,7 @@ const msp = (state) => {
   return {
     currentUser: state.entities.users[state.session.id],
     formType: "Portfolio",
+    company: state.entities.stocks.company,
     price: stockPrice,
     errors: state.errors
   }

@@ -24,9 +24,18 @@ export const fetchStockCompany = (tickerSymbol) => {
 export const fetchStockPrice = (tickerSymbol) => {
   return $.ajax({
     method: "GET",
-    url: baseUrl + `/stock/${tickerSymbol}/price`
+    url: `/api/stocks/${tickerSymbol}`
   })
 }
+
+// front end api call to fetch price
+
+// export const fetchStockPrice = (tickerSymbol) => {
+//   return $.ajax({
+//     method: "GET",
+//     url: baseUrl + `/stock/${tickerSymbol}/price`
+//   })
+// }
 
 export const fetchAllStockPrices = (tickerSymbols) => {
   return $.ajax({
