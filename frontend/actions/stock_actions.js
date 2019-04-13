@@ -12,7 +12,6 @@ const receiveStockPrice = (price) => {
 };
 
 const receiveErrors = errors => {
-  debugger
   return ({
     type: RECEIVE_STOCK_ERRORS,
     errors

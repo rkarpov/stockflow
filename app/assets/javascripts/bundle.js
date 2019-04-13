@@ -180,7 +180,6 @@ var receiveStockPrice = function receiveStockPrice(price) {
 };
 
 var receiveErrors = function receiveErrors(errors) {
-  debugger;
   return {
     type: RECEIVE_STOCK_ERRORS,
     errors: errors
@@ -393,17 +392,19 @@ function (_React$Component) {
         stock_price: this.props.price,
         transaction_type: 'buy'
       });
-    } // test(){
-    //   debugger
-    //   BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
-    // }
-
+    }
+  }, {
+    key: "calculateTotalCost",
+    value: function calculateTotalCost() {
+      // BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
+      var total = this.props.price.slice(1) * this.state.numShares;
+      if (total) return "Total $".concat(Number.parseFloat(total).toFixed(2));else return null;
+    }
   }, {
     key: "render",
     value: function render() {
       var _this3 = this;
 
-      // this.test()
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.props.currentUser.username, "'s portfolio. Net worth: $", this.props.currentUser.portfolio, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
         variant: "contained",
         color: "primary",
@@ -425,7 +426,7 @@ function (_React$Component) {
         placeholder: "Amount of shares",
         onChange: this.update('numShares'),
         value: this.state.numShares
-      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.price, " ", this.props.company, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.balance, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Total $ ", this.props.price * this.state.numShares ? this.props.price * this.state.numShares : null, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
+      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.price, " ", this.props.company, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.balance, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.calculateTotalCost(), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
         type: "submit",
         variant: "contained",
         color: "primary"
