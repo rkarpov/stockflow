@@ -10,6 +10,10 @@ class User < ApplicationRecord
     foreign_key: :user_id,
     class_name: 'Transaction'
 
+  has_many :stocks,
+    through: :transactions,
+    source: :stock
+
   def self.find_by_credentials(email, password)
     user = User.find_by(email: email)
     return user if user && user.is_password?(password)
@@ -39,18 +43,25 @@ class User < ApplicationRecord
     self.session_token ||= User.generate_token
   end
 
-  def get_balance
-    ActionController::Base.helpers.number_to_currency(self.balance)
+  # transaction & portfolio methods
+  def get_amount(amount)
+    # helper method to convert decimal data type to currency
+    ActionController::Base.helpers.number_to_currency(amount)
+  end
+
+  def get_stocks
+    stocks_hash = self.stocks.uniq.pluck(:id, :ticker_symbol).to_h
+  end
+
+  def stock_purchases
+    self.transactions.where(:type == "buy")
   end
 
   def portfolio_value
-    portfolio_amount = 0
-    transactions = self.transactions
-    transactions.each do |t|
-      amt = t.num_shares * t.stock_price
-      portfolio_amount += amt if t.transaction_type == "buy"
-      portfolio_amount -= amt if t.transaction_type == "sell"
+    portfolio_value = BigDecimal(0)
+    self.stock_purchases.each do |purchase|
+      portfolio_value += BigDecimal(purchase.stock_price * purchase.num_shares)
     end
-    return portfolio_amount
+    return self.get_amount(portfolio_value)
   end
 end
