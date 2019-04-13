@@ -1,9 +1,15 @@
+require 'rest-client'
+
 class Api::TransactionsController < ApplicationController
   before_action :require_login
 
- # show only all of current user's transactions
+  # show only all of current user's transactions
   def index
-    user_id = params[:user_id]
+    stock_ids = current_user.transactions.pluck(:stock_id).uniq
+    stock_symbols = stock_ids.map { |id| Stock.find_by(id: id).ticker_symbol }
+    fetch_stock_prices = RestClient.get("https://api.iextrading.com/1.0/stock/market/batch?symbols=#{stock_symbols.join}&types=price")
+    @stock_prices = JSON.parse(fetch_stock_prices.body)
+
     @transactions = current_user.transactions
     render :index
   end
