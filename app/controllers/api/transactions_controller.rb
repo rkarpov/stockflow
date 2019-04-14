@@ -18,7 +18,7 @@ class Api::TransactionsController < ApplicationController
 
   def create
     @transaction = Transaction.new(transaction_params)
-    @purchase_amount = params[:data][:stock_price].to_f * params[:data][:num_shares].to_i
+    @purchase_amount = params[:data][:stock_price][1..-1].to_f * params[:data][:num_shares].to_i
 
     errors = {}
     errors["stock_ticker"] = 'Invalid stock symbol' if !@stock
