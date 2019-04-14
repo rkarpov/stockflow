@@ -38,7 +38,8 @@ class Portfolio extends React.Component {
 
   calculateTotalCost(){
     // BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
-    let total = this.props.price.slice(1) * this.state.numShares;
+    const stock_price = Number((this.props.price).replace(/[^0-9.-]+/g, ""))
+    let total = stock_price * this.state.numShares;
     if (total) return `Total $${Number.parseFloat(total).toFixed(2)}`;
     else return null;
   }

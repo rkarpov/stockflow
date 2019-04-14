@@ -174,10 +174,10 @@ var RECEIVE_STOCK_PRICE = 'RECEIVE_STOCK_PRICE';
 var RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
 var RECEIVE_STOCKS_PORTFOLIO = 'RECEIVE_STOCKS_PORTFOLIO';
 
-var receiveStocksPortfolio = function receiveStocksPortfolio(portfolio) {
+var receiveStocksPortfolio = function receiveStocksPortfolio(payload) {
   return {
     type: RECEIVE_STOCKS_PORTFOLIO,
-    portfolio: portfolio
+    payload: payload
   };
 };
 
@@ -414,7 +414,8 @@ function (_React$Component) {
     key: "calculateTotalCost",
     value: function calculateTotalCost() {
       // BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
-      var total = this.props.price.slice(1) * this.state.numShares;
+      var stock_price = Number(this.props.price.replace(/[^0-9.-]+/g, ""));
+      var total = stock_price * this.state.numShares;
       if (total) return "Total $".concat(Number.parseFloat(total).toFixed(2));else return null;
     }
   }, {
@@ -1083,6 +1084,9 @@ var stocksReducer = function stocksReducer() {
   var newState = lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()({}, oldState);
 
   switch (action.type) {
+    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCKS_PORTFOLIO"]:
+      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.individual_stocks);
+
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_PRICE"]:
       if (action.price === undefined) {
         var _merge;
@@ -1199,7 +1203,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
 /* harmony import */ var _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/transaction_actions */ "./frontend/actions/transaction_actions.js");
+/* harmony import */ var _actions_stock_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../actions/stock_actions */ "./frontend/actions/stock_actions.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -1218,6 +1224,9 @@ var usersReducer = function usersReducer() {
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_TRANSACTION"]:
       newState[action.payload.user_id].balance = action.payload.balance;
       return newState;
+
+    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_3__["RECEIVE_STOCKS_PORTFOLIO"]:
+      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, newState[action.payload.user_id], _defineProperty({}, "net_asset_value", action.payload.net_asset_value));
 
     default:
       return oldState;

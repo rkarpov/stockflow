@@ -7,7 +7,7 @@ class Api::StocksController < ApplicationController
     fetch_prices_companies = RestClient.get("https://api.iextrading.com/1.0/stock/market/batch?symbols=#{@stock_symbols.values.join(",")}&types=price,company")
     prices_companies = JSON.parse(fetch_prices_companies.body)
     @portfolio = current_user.get_stock_portfolio(transactions, @stock_symbols, prices_companies)
-    # { ticker => { price => $..., companyname => "asdf", num_shares => X, etc}
+    # portfolio => { total_portfolio_value => $X.XX, companyname => "...", num_shares_owned => X, net_stock_value => $X.XX}
     render :index
   end
 

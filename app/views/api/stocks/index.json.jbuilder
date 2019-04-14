@@ -11,5 +11,5 @@ json.individual_stocks do
     end
   end
 end
-
+json.user_id current_user.id
 json.net_asset_value @portfolio["net_portfolio_worth"]

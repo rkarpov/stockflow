@@ -1,6 +1,7 @@
 import merge from 'lodash/merge';
 import { RECEIVE_CURRENT_USER } from '../actions/session_actions';
 import { RECEIVE_TRANSACTION } from '../actions/transaction_actions';
+import { RECEIVE_STOCKS_PORTFOLIO } from '../actions/stock_actions';
 
 const usersReducer = (oldState = {}, action) => {
   Object.freeze(oldState);
@@ -11,6 +12,8 @@ const usersReducer = (oldState = {}, action) => {
     case RECEIVE_TRANSACTION:
       newState[action.payload.user_id].balance = action.payload.balance
       return newState;
+    case RECEIVE_STOCKS_PORTFOLIO:
+      return merge(newState, newState[action.payload.user_id], { ["net_asset_value"]: action.payload.net_asset_value })
     default:
       return oldState
   }

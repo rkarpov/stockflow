@@ -4,10 +4,10 @@ export const RECEIVE_STOCK_PRICE = 'RECEIVE_STOCK_PRICE';
 export const RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
 export const RECEIVE_STOCKS_PORTFOLIO = 'RECEIVE_STOCKS_PORTFOLIO';
 
-const receiveStocksPortfolio = (portfolio) => {
+const receiveStocksPortfolio = (payload) => {
   return ({
     type: RECEIVE_STOCKS_PORTFOLIO,
-    portfolio
+    payload
   })
 }
 
