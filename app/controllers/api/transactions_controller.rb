@@ -8,12 +8,6 @@ class Api::TransactionsController < ApplicationController
     @transactions = current_user.transactions
     @stocks = current_user.get_stocks # returns hash { :id => ticker_symbol }
     render :index
-
-    # logic for portfolio conroller
-    # portfolio = current_user.portfolio_value
-    # stock_symbols = @stocks_hash.values.join(",")
-    # fetch_stock_prices = RestClient.get("https://api.iextrading.com/1.0/stock/market/batch?symbols=#{stock_symbols}&types=price")
-    # @stock_prices = JSON.parse(fetch_stock_prices.body)
   end
 
   def create

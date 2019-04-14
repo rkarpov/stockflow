@@ -50,18 +50,45 @@ class User < ApplicationRecord
   end
 
   def get_stocks
-    stocks_hash = self.stocks.uniq.pluck(:id, :ticker_symbol).to_h
+    stocks_hash = self.stocks.pluck(:id, :ticker_symbol).to_h
   end
 
   def stock_purchases
     self.transactions.where(:type == "buy")
   end
 
-  def portfolio_value
-    portfolio_value = BigDecimal(0)
+  # continue calculating share holdings
+  # def get_share_holdings(transactions, stock_symbols)
+  #   # result = {}
+  #   holdings = Hash.new(0)
+  #   transactions.each do |t|
+  #     # key = stock_symbols[t.stock_id]
+  #     # holdings[key] => { price += t.num_shares }
+  #     holdings[stock_symbols[t.stock_id]] += t.num_shares
+  #     # result["num_shares"] = holdings
+  #   end
+  #   return holdings
+  # end
+
+  def get_stock_portfolio(transactions, stock_symbols, prices_companies)
+    value = BigDecimal(0)
+    num_stocks_owned = Hash.new(0)
+    companies = {}
     self.stock_purchases.each do |purchase|
-      portfolio_value += BigDecimal(purchase.stock_price * purchase.num_shares)
+      stock_ticker = stock_symbols[purchase.stock_id]
+      stock_price = prices_companies[stock_ticker]["price"]
+      company_name = prices_companies[stock_ticker]["company"]["companyName"]
+      
+      value += stock_price * purchase.num_shares
+      num_stocks_owned[stock_ticker] += purchase.num_shares
+      companies[stock_ticker] = company_name
     end
-    return self.get_amount(portfolio_value)
+
+    stock_value = {}
+    stock_symbols.each do |stock| # { stock_id => ticker_symbol }
+      stock_value[stock[1]] = self.get_amount(num_stocks_owned[stock[1]] * prices_companies[stock_symbols[stock[0]]]["price"])
+    end
+    portfolio_value = self.get_amount(value)
+    return { "num_shares" => num_stocks_owned, "net_stock_worth" => stock_value, "net_portfolio_worth" => portfolio_value, "company_name" => companies }
   end
 end

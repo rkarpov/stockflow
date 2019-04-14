@@ -158,18 +158,28 @@ var logout = function logout() {
 /*!*******************************************!*\
   !*** ./frontend/actions/stock_actions.js ***!
   \*******************************************/
-/*! exports provided: RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS, requestStockPrice */
+/*! exports provided: RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS, RECEIVE_STOCKS_PORTFOLIO, requestStockPortfolio, requestStockPrice */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCK_PRICE", function() { return RECEIVE_STOCK_PRICE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCK_ERRORS", function() { return RECEIVE_STOCK_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCKS_PORTFOLIO", function() { return RECEIVE_STOCKS_PORTFOLIO; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStockPortfolio", function() { return requestStockPortfolio; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStockPrice", function() { return requestStockPrice; });
 /* harmony import */ var _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/iex_api_util */ "./frontend/util/iex_api_util.js");
 
 var RECEIVE_STOCK_PRICE = 'RECEIVE_STOCK_PRICE';
 var RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
+var RECEIVE_STOCKS_PORTFOLIO = 'RECEIVE_STOCKS_PORTFOLIO';
+
+var receiveStocksPortfolio = function receiveStocksPortfolio(portfolio) {
+  return {
+    type: RECEIVE_STOCKS_PORTFOLIO,
+    portfolio: portfolio
+  };
+};
 
 var receiveStockPrice = function receiveStockPrice(price) {
   return {
@@ -186,6 +196,13 @@ var receiveErrors = function receiveErrors(errors) {
   };
 };
 
+var requestStockPortfolio = function requestStockPortfolio() {
+  return function (dispatch) {
+    return _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchStockPortfolio"]().then(function (portfolio) {
+      return dispatch(receiveStocksPortfolio(portfolio));
+    });
+  };
+};
 var requestStockPrice = function requestStockPrice(tickerSymbol) {
   return function (dispatch) {
     return _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchStockPrice"](tickerSymbol).then(function (price) {
@@ -362,7 +379,7 @@ function (_React$Component) {
   _createClass(Portfolio, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.props.requestTransactions();
+      this.props.requestStockPortfolio();
     }
   }, {
     key: "componentDidUpdate",
@@ -486,8 +503,8 @@ var mdp = function mdp(dispatch) {
     createTransaction: function createTransaction(transaction) {
       return dispatch(Object(_actions_transaction_actions__WEBPACK_IMPORTED_MODULE_5__["createTransaction"])(transaction));
     },
-    requestTransactions: function requestTransactions() {
-      return dispatch(Object(_actions_transaction_actions__WEBPACK_IMPORTED_MODULE_5__["requestTransactions"])());
+    requestStockPortfolio: function requestStockPortfolio() {
+      return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_4__["requestStockPortfolio"])());
     }
   };
 };
@@ -1028,9 +1045,7 @@ __webpack_require__.r(__webpack_exports__);
 
   switch (action.type) {
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_STOCK_ERRORS"]:
-      // if (action.errors.includes("Not Found")) return [];
-      // else return action.errors;
-      return action.errors;
+      if (action.errors === undefined) return [];else return action.errors;
 
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_STOCK_PRICE"]:
       return [];
@@ -1250,17 +1265,42 @@ var configureStore = function configureStore() {
 /*!***************************************!*\
   !*** ./frontend/util/iex_api_util.js ***!
   \***************************************/
-/*! exports provided: fetchStocks, fetchStockQuote, fetchStockCompany, fetchStockPrice, fetchAllStockPrices */
+/*! exports provided: fetchStockPortfolio, fetchStockPrice, fetchStocks, fetchStockQuote, fetchStockCompany */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockPortfolio", function() { return fetchStockPortfolio; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockPrice", function() { return fetchStockPrice; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStocks", function() { return fetchStocks; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockQuote", function() { return fetchStockQuote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockCompany", function() { return fetchStockCompany; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockPrice", function() { return fetchStockPrice; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchAllStockPrices", function() { return fetchAllStockPrices; });
 var baseUrl = "https://api.iextrading.com/1.0";
+var fetchStockPortfolio = function fetchStockPortfolio() {
+  return $.ajax({
+    method: "GET",
+    url: "/api/stocks"
+  });
+};
+var fetchStockPrice = function fetchStockPrice(tickerSymbol) {
+  return $.ajax({
+    method: "GET",
+    url: "/api/stocks/".concat(tickerSymbol)
+  });
+}; // front end api call to fetch price
+// export const fetchStockPrice = (tickerSymbol) => {
+//   return $.ajax({
+//     method: "GET",
+//     url: baseUrl + `/stock/${tickerSymbol}/price`
+//   })
+// }
+// export const fetchAllStockPrices = (tickerSymbols) => {
+//   return $.ajax({
+//     method: "GET",
+//     url: baseUrl + `/stock/market/batch?symbols=${tickerSymbols}&types=price`
+//   })
+// }
+
 var fetchStocks = function fetchStocks() {
   return $.ajax({
     method: "GET",
@@ -1277,25 +1317,6 @@ var fetchStockCompany = function fetchStockCompany(tickerSymbol) {
   return $.ajax({
     method: "GET",
     url: baseUrl + "/stock/".concat(tickerSymbol, "/company")
-  });
-};
-var fetchStockPrice = function fetchStockPrice(tickerSymbol) {
-  return $.ajax({
-    method: "GET",
-    url: "/api/stocks/".concat(tickerSymbol)
-  });
-}; // front end api call to fetch price
-// export const fetchStockPrice = (tickerSymbol) => {
-//   return $.ajax({
-//     method: "GET",
-//     url: baseUrl + `/stock/${tickerSymbol}/price`
-//   })
-// }
-
-var fetchAllStockPrices = function fetchAllStockPrices(tickerSymbols) {
-  return $.ajax({
-    method: "GET",
-    url: baseUrl + "/stock/market/batch?symbols=".concat(tickerSymbols, "&types=price")
   });
 };
 

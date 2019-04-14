@@ -9,7 +9,7 @@ class Portfolio extends React.Component {
   }
 
   componentDidMount(){
-    this.props.requestTransactions();
+    this.props.requestStockPortfolio();
   }
 
   componentDidUpdate(_, prevState){
