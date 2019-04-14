@@ -1,18 +1,15 @@
-# @stock_symbols.each do |stock|
-#   json.set! stock.id do
-#     # json.partial! "api/stocks/stock", stock: stock
-#     json.ticker_symbol @stocks[stock.stock_id]
-
-#     # logic for portfolio current stock pricing
-#     # json.ticker_symbol current_user.stocks.pluck
-#     json.current_price @stock_prices[@stocks_hash[stock.id]]["price"]
-#   end
-# end
-debugger
-  @stock_symbols.each do |stock|
-    json.set! stock.id do
-
+json.individual_stocks do
+  @stock_symbols.each do |stock| # [id, symbol]
+    stock_id = stock[0]
+    stock_ticker = stock[1]
+  
+    json.set! stock_id do
+      json.symbol stock_ticker
+      json.net_stock_value @portfolio["net_stock_worth"][stock_ticker]
+      json.num_shares @portfolio["num_shares"][stock_ticker]
+      json.company @portfolio["company_name"][stock_ticker]
     end
   end
-  
-json.portfolio @portfolio["net_portfolio_worth"]
+end
+
+json.net_asset_value @portfolio["net_portfolio_worth"]

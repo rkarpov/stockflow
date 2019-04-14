@@ -43,9 +43,12 @@ class User < ApplicationRecord
     self.session_token ||= User.generate_token
   end
 
+
   # transaction & portfolio methods
+
+
   def get_amount(amount)
-    # helper method to convert decimal data type to currency
+    # helper method to convert Decimal data type to currency
     ActionController::Base.helpers.number_to_currency(amount)
   end
 
@@ -56,19 +59,6 @@ class User < ApplicationRecord
   def stock_purchases
     self.transactions.where(:type == "buy")
   end
-
-  # continue calculating share holdings
-  # def get_share_holdings(transactions, stock_symbols)
-  #   # result = {}
-  #   holdings = Hash.new(0)
-  #   transactions.each do |t|
-  #     # key = stock_symbols[t.stock_id]
-  #     # holdings[key] => { price += t.num_shares }
-  #     holdings[stock_symbols[t.stock_id]] += t.num_shares
-  #     # result["num_shares"] = holdings
-  #   end
-  #   return holdings
-  # end
 
   def get_stock_portfolio(transactions, stock_symbols, prices_companies)
     value = BigDecimal(0)
@@ -83,12 +73,18 @@ class User < ApplicationRecord
       num_stocks_owned[stock_ticker] += purchase.num_shares
       companies[stock_ticker] = company_name
     end
+    portfolio_value = self.get_amount(value)
 
     stock_value = {}
-    stock_symbols.each do |stock| # { stock_id => ticker_symbol }
+    stock_symbols.each do |stock| # [stock_id, ticker_symbol]
       stock_value[stock[1]] = self.get_amount(num_stocks_owned[stock[1]] * prices_companies[stock_symbols[stock[0]]]["price"])
     end
-    portfolio_value = self.get_amount(value)
-    return { "num_shares" => num_stocks_owned, "net_stock_worth" => stock_value, "net_portfolio_worth" => portfolio_value, "company_name" => companies }
+    
+    return {
+      "num_shares" => num_stocks_owned,
+      "net_stock_worth" => stock_value,
+      "net_portfolio_worth" => portfolio_value,
+      "company_name" => companies
+    }
   end
 end
