@@ -6,7 +6,7 @@ class Api::TransactionsController < ApplicationController
   # show only all of current user's transactions
   def index
     @transactions = current_user.transactions
-    @stocks = current_user.get_stocks # returns hash { :id => ticker_symbol }
+    @stocks = current_user.get_stocks # { :id => { :ticker_symbol => symbol, :company_name => name }, etc..}
     render :index
   end
 

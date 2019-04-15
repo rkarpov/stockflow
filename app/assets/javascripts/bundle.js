@@ -1004,7 +1004,7 @@ function (_React$Component) {
   _createClass(TransactionIndexItem, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.transaction.transaction_type.toUpperCase(), this.transaction.ticker_symbol, this.transaction.num_shares, " shares", this.transaction.stock_price);
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.transaction.transaction_type.toUpperCase(), this.transaction.ticker_symbol, this.transaction.company, this.transaction.num_shares, " shares", this.transaction.stock_price);
     }
   }]);
 

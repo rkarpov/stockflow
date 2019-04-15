@@ -52,8 +52,15 @@ class User < ApplicationRecord
     ActionController::Base.helpers.number_to_currency(amount)
   end
 
+  def get_stock_symbols
+    symbols_hash = self.stocks.pluck(:id, :ticker_symbol).to_h
+  end
+
   def get_stocks
-    stocks_hash = self.stocks.pluck(:id, :ticker_symbol).to_h
+    stocks_hash = {}
+    self.stocks.pluck(:id, :ticker_symbol, :company_name)
+      .each { |id, symbol, name| stocks_hash[id] = { ticker_symbol: symbol, company_name: name }}
+    return stocks_hash
   end
 
   def stock_purchases
@@ -77,7 +84,8 @@ class User < ApplicationRecord
 
     stock_value = {}
     stock_symbols.each do |stock| # [stock_id, ticker_symbol]
-      stock_value[stock[1]] = self.get_amount(num_stocks_owned[stock[1]] * prices_companies[stock_symbols[stock[0]]]["price"])
+      stock_value[stock[1]] = 
+        self.get_amount(num_stocks_owned[stock[1]] * prices_companies[stock_symbols[stock[0]]]["price"])
     end
     
     return {

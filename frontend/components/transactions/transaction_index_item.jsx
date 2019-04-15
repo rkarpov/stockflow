@@ -13,6 +13,7 @@ class TransactionIndexItem extends React.Component {
       <div>     
         {this.transaction.transaction_type.toUpperCase()}
         {this.transaction.ticker_symbol}
+        {this.transaction.company}
         {this.transaction.num_shares} shares
         {this.transaction.stock_price}
       </div>

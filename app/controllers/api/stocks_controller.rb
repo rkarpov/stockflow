@@ -3,7 +3,7 @@ class Api::StocksController < ApplicationController
   # retreive current user's stock portfolio
   def retreive_stock_portfolio
     transactions = current_user.transactions
-    @stock_symbols = current_user.get_stocks # returns hash { :id => ticker_symbol }
+    @stock_symbols = current_user.get_stock_symbols # returns hash { :id => ticker_symbol }
     fetch_prices_companies = RestClient.get("https://api.iextrading.com/1.0/stock/market/batch?symbols=#{@stock_symbols.values.join(",")}&types=price,company")
     prices_companies = JSON.parse(fetch_prices_companies.body)
     @portfolio = current_user.get_stock_portfolio(transactions, @stock_symbols, prices_companies)
