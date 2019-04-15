@@ -16,7 +16,11 @@ class Api::TransactionsController < ApplicationController
     purchase_amount = params[:data][:stock_price].to_f * params[:data][:num_shares].to_i
     purchase_amount = ActiveSupport::NumberHelper.number_to_rounded(purchase_amount, precision: 2).to_f
     net_asset_value = params[:data][:net_asset_value].to_f + purchase_amount
+    net_stock_value = params[:data][:net_stock_value].to_f + purchase_amount
     @net_asset_value = current_user.get_amount(net_asset_value)
+    @netStockValue = current_user.get_amount(net_stock_value)
+    @shares_purchased = params[:data][:num_shares].to_i
+    @netStockShares = @shares_purchased + params[:data][:netStockShares].to_i
 
     errors = {}
     errors["stock_ticker"] = 'Invalid stock symbol' if !@stock

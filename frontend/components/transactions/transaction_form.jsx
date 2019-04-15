@@ -9,10 +9,6 @@ class TransactionForm extends React.Component {
     this.currencyToNum = this.currencyToNum.bind(this)
   }
 
-  // componentDidMount() {
-  //   this.props.requestStockPortfolio();
-  // }
-
   componentDidUpdate(_, prevState) {
     // fetch stock price as state changes for stock ticker field input
     if (prevState.stockTicker != this.state.stockTicker) {
@@ -41,13 +37,16 @@ class TransactionForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    debugger
     this.props.createTransaction({
+      transaction_type: 'buy',
       user_id: this.props.currentUser.id,
       stock_symbol: this.state.stockTicker,
       num_shares: this.state.numShares,
+      netStockShares: this.props.netStockShares,
       stock_price: this.currencyToNum(this.props.price),
+      net_stock_value: this.currencyToNum(this.props.netStockValue),
       net_asset_value: this.currencyToNum(this.props.currentUser.netAssetValue),
-      transaction_type: 'buy',
     })
   }
 
