@@ -181,10 +181,10 @@ var receiveStocksPortfolio = function receiveStocksPortfolio(payload) {
   };
 };
 
-var receiveStockPrice = function receiveStockPrice(price) {
+var receiveStockPrice = function receiveStockPrice(payload) {
   return {
     type: RECEIVE_STOCK_PRICE,
-    price: price // price: Number.parseFloat(price).toFixed(2)
+    payload: payload // price: Number.parseFloat(price).toFixed(2)
 
   };
 };
@@ -423,7 +423,7 @@ function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.props.currentUser.username, "'s portfolio. Net worth: $", this.props.currentUser.portfolio, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.props.currentUser.username, "'s portfolio. Net worth: ", this.props.currentUser.netAssetValue, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_1___default.a, {
         variant: "contained",
         color: "primary",
         onClick: function onClick() {
@@ -483,11 +483,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state) {
-  var stockPrice = state.entities.stocks.price || "Price per share";
+  var stockPrice = state.entities.ordersForm.price || "Price per share";
   return {
-    currentUser: state.entities.users[state.session.id],
     formType: "Portfolio",
-    company: state.entities.stocks.company,
+    currentUser: state.entities.users[state.session.id],
+    company: state.entities.ordersForm.company,
     price: stockPrice,
     errors: state.errors
   };
@@ -928,6 +928,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _users_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./users_reducer */ "./frontend/reducers/users_reducer.js");
 /* harmony import */ var _stocks_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stocks_reducer */ "./frontend/reducers/stocks_reducer.js");
 /* harmony import */ var _transactions_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./transactions_reducer */ "./frontend/reducers/transactions_reducer.js");
+/* harmony import */ var _orders_form_reducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./orders_form_reducer */ "./frontend/reducers/orders_form_reducer.js");
+
 
 
 
@@ -935,7 +937,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
   stocks: _stocks_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
-  transactions: _transactions_reducer__WEBPACK_IMPORTED_MODULE_3__["default"]
+  transactions: _transactions_reducer__WEBPACK_IMPORTED_MODULE_3__["default"],
+  ordersForm: _orders_form_reducer__WEBPACK_IMPORTED_MODULE_4__["default"]
 }));
 
 /***/ }),
@@ -961,6 +964,52 @@ __webpack_require__.r(__webpack_exports__);
   transaction: _transactions_error_reducer__WEBPACK_IMPORTED_MODULE_2__["default"] // session,
 
 }));
+
+/***/ }),
+
+/***/ "./frontend/reducers/orders_form_reducer.js":
+/*!**************************************************!*\
+  !*** ./frontend/reducers/orders_form_reducer.js ***!
+  \**************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/merge */ "./node_modules/lodash/merge.js");
+/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/stock_actions */ "./frontend/actions/stock_actions.js");
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+
+
+var ordersFormReducer = function ordersFormReducer() {
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(oldState);
+  var newState = lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()({}, oldState);
+
+  switch (action.type) {
+    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_PRICE"]:
+      if (action.payload.price === undefined) {
+        var _merge;
+
+        // if input field empty
+        lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, (_merge = {}, _defineProperty(_merge, "price", ""), _defineProperty(_merge, "company", ""), _merge));
+      } else {
+        lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload);
+      } // merge(newState, { ["price"]: action.price }); // for front end call
+
+
+      return newState;
+
+    default:
+      return oldState;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (ordersFormReducer);
 
 /***/ }),
 
@@ -1076,7 +1125,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var stocksReducer = function stocksReducer() {
-  var _merge2;
+  var _merge;
 
   var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
@@ -1087,21 +1136,8 @@ var stocksReducer = function stocksReducer() {
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCKS_PORTFOLIO"]:
       return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.individual_stocks);
 
-    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_PRICE"]:
-      if (action.price === undefined) {
-        var _merge;
-
-        // if input field empty
-        lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, (_merge = {}, _defineProperty(_merge, "price", ""), _defineProperty(_merge, "company", ""), _merge));
-      } else {
-        lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.price);
-      } // merge(newState, { ["price"]: action.price }); // for front end call
-
-
-      return newState;
-
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_ERRORS"]:
-      lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, (_merge2 = {}, _defineProperty(_merge2, "price", "Price per share"), _defineProperty(_merge2, "company", ""), _merge2));
+      lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, (_merge = {}, _defineProperty(_merge, "price", "Price per share"), _defineProperty(_merge, "company", ""), _merge));
       return newState;
 
     default:
@@ -1226,7 +1262,7 @@ var usersReducer = function usersReducer() {
       return newState;
 
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_3__["RECEIVE_STOCKS_PORTFOLIO"]:
-      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, newState[action.payload.user_id], _defineProperty({}, "net_asset_value", action.payload.net_asset_value));
+      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, _defineProperty({}, action.payload.user_id, _defineProperty({}, "netAssetValue", action.payload.net_asset_value)));
 
     default:
       return oldState;

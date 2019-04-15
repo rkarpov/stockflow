@@ -11,10 +11,10 @@ const receiveStocksPortfolio = (payload) => {
   })
 }
 
-const receiveStockPrice = (price) => {
+const receiveStockPrice = (payload) => {
   return ({
     type: RECEIVE_STOCK_PRICE,
-    price
+    payload
     // price: Number.parseFloat(price).toFixed(2)
   });
 };

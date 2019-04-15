@@ -6,11 +6,11 @@ import { requestStockPrice, requestStockPortfolio } from '../../actions/stock_ac
 import { createTransaction } from '../../actions/transaction_actions';
 
 const msp = (state) => {
-  const stockPrice = state.entities.stocks.price || "Price per share";
+  const stockPrice = state.entities.ordersForm.price || "Price per share";
   return {
-    currentUser: state.entities.users[state.session.id],
     formType: "Portfolio",
-    company: state.entities.stocks.company,
+    currentUser: state.entities.users[state.session.id],
+    company: state.entities.ordersForm.company,
     price: stockPrice,
     errors: state.errors
   }

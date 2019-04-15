@@ -1,6 +1,6 @@
 import merge from 'lodash/merge';
 
-import { RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS, RECEIVE_STOCKS_PORTFOLIO } from '../actions/stock_actions';
+import { RECEIVE_STOCK_ERRORS, RECEIVE_STOCKS_PORTFOLIO } from '../actions/stock_actions';
 
 const stocksReducer = (oldState = {}, action) => {
   Object.freeze(oldState);
@@ -8,14 +8,6 @@ const stocksReducer = (oldState = {}, action) => {
   switch (action.type) {
     case RECEIVE_STOCKS_PORTFOLIO:
       return merge(newState, action.payload.individual_stocks);
-    case RECEIVE_STOCK_PRICE:
-      if (action.price === undefined) { // if input field empty
-        merge(newState, { ["price"]: "", ["company"]: "" })
-      } else {
-        merge(newState, action.price);
-      }
-      // merge(newState, { ["price"]: action.price }); // for front end call
-      return newState;
     case RECEIVE_STOCK_ERRORS:
       merge(newState, { ["price"]: "Price per share", ["company"]: "" });
       return newState;

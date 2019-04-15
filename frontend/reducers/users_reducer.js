@@ -13,7 +13,7 @@ const usersReducer = (oldState = {}, action) => {
       newState[action.payload.user_id].balance = action.payload.balance
       return newState;
     case RECEIVE_STOCKS_PORTFOLIO:
-      return merge(newState, newState[action.payload.user_id], { ["net_asset_value"]: action.payload.net_asset_value })
+      return merge(newState, { [action.payload.user_id]: { ["netAssetValue"]: action.payload.net_asset_value }})
     default:
       return oldState
   }
