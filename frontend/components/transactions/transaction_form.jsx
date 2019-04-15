@@ -29,8 +29,8 @@ class TransactionForm extends React.Component {
 
   calculateTotalCost() {
     // BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
-    const stock_price = this.currencyToNum(this.props.price)
-    let total = stock_price * this.state.numShares;
+    const stockPrice = this.currencyToNum(this.props.price)
+    let total = stockPrice * this.state.numShares;
     if (total) return `Total $${Number.parseFloat(total).toFixed(2)}`;
     else return null;
   }
@@ -43,7 +43,7 @@ class TransactionForm extends React.Component {
       user_id: this.props.currentUser.id,
       stock_symbol: this.state.stockTicker,
       num_shares: this.state.numShares,
-      netStockShares: this.props.netStockShares,
+      net_stock_shares: this.props.netStockShares,
       stock_price: this.currencyToNum(this.props.price),
       net_stock_value: this.currencyToNum(this.props.netStockValue),
       net_asset_value: this.currencyToNum(this.props.currentUser.netAssetValue),
@@ -57,9 +57,9 @@ class TransactionForm extends React.Component {
           <label>Make a transaction</label> <br />
           Balance: {this.props.currentUser.balance} <br />
           {this.props.errors.stock} <br />
-          {this.props.errors.transaction.stock_ticker} <br />
+          {this.props.errors.transaction.stockTicker} <br />
           <Input type="text" placeholder={"Enter stock ticker"} onChange={this.update('stockTicker')} value={this.state.stockTicker} /> <br />
-          {this.props.errors.transaction.num_shares} <br />
+          {this.props.errors.transaction.numShares} <br />
           <Input type="number" placeholder={"Amount of shares"} onChange={this.update('numShares')} value={this.state.numShares} /> <br />
           {this.props.price} {this.props.company}<br />
           {this.props.errors.transaction.balance}<br />

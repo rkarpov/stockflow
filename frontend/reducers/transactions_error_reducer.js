@@ -3,7 +3,7 @@ import { RECEIVE_TRANSACTION_ERRORS, RECEIVE_TRANSACTION } from '../actions/tran
 
 export default (oldState = [], action) => {
   Object.freeze(oldState);
-  let newState = { ["stock_ticker"]: [], ["balance"]: [], ["num_shares"]: [] }
+  let newState = { ["stockTicker"]: [], ["balance"]: [], ["numShares"]: [] }
   switch (action.type) {
     case RECEIVE_TRANSACTION_ERRORS:
       return merge(newState, action.errors);

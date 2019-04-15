@@ -12,22 +12,21 @@ class Api::TransactionsController < ApplicationController
 
   def create
     @transaction = Transaction.new(transaction_params)
-
+    
     purchase_amount = params[:data][:stock_price].to_f * params[:data][:num_shares].to_i
     purchase_amount = ActiveSupport::NumberHelper.number_to_rounded(purchase_amount, precision: 2).to_f
     net_asset_value = params[:data][:net_asset_value].to_f + purchase_amount
     net_stock_value = params[:data][:net_stock_value].to_f + purchase_amount
     @net_asset_value = current_user.get_amount(net_asset_value)
-    @netStockValue = current_user.get_amount(net_stock_value)
-    @shares_purchased = params[:data][:num_shares].to_i
-    @netStockShares = @shares_purchased + params[:data][:netStockShares].to_i
+    @net_stock_value = current_user.get_amount(net_stock_value)
+    @net_stock_shares = params[:data][:num_shares].to_i + params[:data][:net_stock_shares].to_i
 
     errors = {}
-    errors["stock_ticker"] = 'Invalid stock symbol' if !@stock
-    errors["stock_ticker"] = 'Symbol cannot be blank' if params[:data][:stock_symbol] == ""
+    errors["stockTicker"] = 'Invalid stock symbol' if !@stock
+    errors["stockTicker"] = 'Symbol cannot be blank' if params[:data][:stock_symbol] == ""
     errors["balance"] = 'Not enough funds' if purchase_amount > current_user.balance
-    errors["num_shares"] = 'Amount must be a whole number' if params[:data][:num_shares].to_f % 1 != 0
-    errors["num_shares"] = 'Amount cannot be blank' if params[:data][:num_shares].to_f == 0
+    errors["numShares"] = 'Amount must be a whole number' if params[:data][:num_shares].to_f % 1 != 0
+    errors["numShares"] = 'Amount cannot be blank' if params[:data][:num_shares].to_f == 0
  
     if errors.length != 0
       render json: errors, status: 401

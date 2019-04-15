@@ -1,19 +1,21 @@
 json.transaction do
   json.set! @transaction.id do
     json.partial! "api/transactions/transaction", transaction: @transaction
-    json.ticker_symbol @stock.ticker_symbol
+    json.tickerSymbol @stock.ticker_symbol
   end
 end
 
 json.stock do
   json.set! @stock.id do
     json.partial! "api/stocks/stock", stock: @stock
-    json.netStockValue @netStockValue
-    json.netStockShares @netStockShares
+    json.netStockValue @net_stock_value
+    json.numShares @net_stock_shares
   end
 end
 
-json.user_id current_user.id
-json.balance current_user.get_amount(current_user.balance)
-json.net_asset_value @net_asset_value
-json.shares_purchased @shares_purchased
+json.user do
+  json.set! current_user.id do
+    json.balance current_user.get_amount(current_user.balance)
+    json.netAssetValue @net_asset_value
+  end
+end

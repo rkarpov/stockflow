@@ -6,13 +6,13 @@ import { createTransaction } from '../../actions/transaction_actions';
 
 const msp = (state) => {
   const stockPrice = state.entities.ordersForm.price || "Price per share";
-  const stock = state.entities.stocks[state.entities.ordersForm.stockId] || { ["net_stock_value"]: "0", ["num_shares"]: 0 };
+  const stock = state.entities.stocks[state.entities.ordersForm.stockId] || { ["netStockValue"]: "0", ["numShares"]: 0 };
   return {
     currentUser: state.entities.users[state.session.id],
     company: state.entities.ordersForm.company,
     price: stockPrice,
-    netStockValue: stock.net_stock_value,
-    netStockShares: stock.num_shares,
+    netStockValue: stock.netStockValue,
+    netStockShares: stock.numShares,
     errors: state.errors
   }
 }

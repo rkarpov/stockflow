@@ -8,7 +8,6 @@ class TransactionIndex extends React.Component {
 
   render() {
     const transactions = this.props.transactions.map(transaction => {
-      debugger
       return <TransactionIndexItem
         key={`transaction-${transaction.id}`}
         transaction={ transaction }

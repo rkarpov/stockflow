@@ -12,8 +12,8 @@ class StockIndexItem extends React.Component {
       <div>
         {this.stock.ticker_symbol}
         {this.stock.company}
-        {this.stock.num_shares} shares
-        {this.stock.net_stock_value}
+        {this.stock.numShares} shares
+        {this.stock.netStockValue}
       </div>
     )
   }

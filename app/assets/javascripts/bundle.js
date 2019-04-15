@@ -379,9 +379,6 @@ function (_React$Component) {
 
   _createClass(StockIndex, [{
     key: "componentDidMount",
-    // constructor(props){
-    //   super(props)
-    // }
     value: function componentDidMount() {
       this.props.requestStockPortfolio();
     }
@@ -390,6 +387,7 @@ function (_React$Component) {
     value: function render() {
       var _this = this;
 
+      debugger;
       var stocks = this.props.stocks.map(function (stock) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stock_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: "stock-".concat(stock.id),
@@ -438,6 +436,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state) {
+  debugger;
   return {
     currentUser: state.entities.users[state.session.id],
     stocks: Object.values(state.entities.stocks),
@@ -517,7 +516,7 @@ function (_React$Component) {
   _createClass(StockIndexItem, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.stock.ticker_symbol, this.stock.company, this.stock.num_shares, " shares", this.stock.net_stock_value);
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.stock.ticker_symbol, this.stock.company, this.stock.numShares, " shares", this.stock.netStockValue);
     }
   }]);
 
@@ -909,13 +908,13 @@ var msp = function msp(state) {
   var _ref;
 
   var stockPrice = state.entities.ordersForm.price || "Price per share";
-  var stock = state.entities.stocks[state.entities.ordersForm.stockId] || (_ref = {}, _defineProperty(_ref, "net_stock_value", "0"), _defineProperty(_ref, "num_shares", 0), _ref);
+  var stock = state.entities.stocks[state.entities.ordersForm.stockId] || (_ref = {}, _defineProperty(_ref, "netStockValue", "0"), _defineProperty(_ref, "numShares", 0), _ref);
   return {
     currentUser: state.entities.users[state.session.id],
     company: state.entities.ordersForm.company,
     price: stockPrice,
-    netStockValue: stock.net_stock_value,
-    netStockShares: stock.num_shares,
+    netStockValue: stock.netStockValue,
+    netStockShares: stock.numShares,
     errors: state.errors
   };
 };
@@ -1019,8 +1018,8 @@ function (_React$Component) {
     key: "calculateTotalCost",
     value: function calculateTotalCost() {
       // BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
-      var stock_price = this.currencyToNum(this.props.price);
-      var total = stock_price * this.state.numShares;
+      var stockPrice = this.currencyToNum(this.props.price);
+      var total = stockPrice * this.state.numShares;
       if (total) return "Total $".concat(Number.parseFloat(total).toFixed(2));else return null;
     }
   }, {
@@ -1033,7 +1032,7 @@ function (_React$Component) {
         user_id: this.props.currentUser.id,
         stock_symbol: this.state.stockTicker,
         num_shares: this.state.numShares,
-        netStockShares: this.props.netStockShares,
+        net_stock_shares: this.props.netStockShares,
         stock_price: this.currencyToNum(this.props.price),
         net_stock_value: this.currencyToNum(this.props.netStockValue),
         net_asset_value: this.currencyToNum(this.props.currentUser.netAssetValue)
@@ -1047,12 +1046,12 @@ function (_React$Component) {
         style: {
           float: "right"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Make a transaction"), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Balance: ", this.props.currentUser.balance, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.stock, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.stock_ticker, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Make a transaction"), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Balance: ", this.props.currentUser.balance, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.stock, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.stockTicker, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_2___default.a, {
         type: "text",
         placeholder: "Enter stock ticker",
         onChange: this.update('stockTicker'),
         value: this.state.stockTicker
-      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.num_shares, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.numShares, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_2___default.a, {
         type: "number",
         placeholder: "Amount of shares",
         onChange: this.update('numShares'),
@@ -1127,7 +1126,6 @@ function (_React$Component) {
       var _this = this;
 
       var transactions = this.props.transactions.map(function (transaction) {
-        debugger;
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: "transaction-".concat(transaction.id),
           transaction: transaction,
@@ -1368,6 +1366,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 var ordersFormReducer = function ordersFormReducer() {
+  var _merge2;
+
   var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(oldState);
@@ -1386,6 +1386,9 @@ var ordersFormReducer = function ordersFormReducer() {
 
 
       return newState;
+
+    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_ERRORS"]:
+      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, (_merge2 = {}, _defineProperty(_merge2, "price", "Price per share"), _defineProperty(_merge2, "company", ""), _merge2));
 
     default:
       return oldState;
@@ -1502,14 +1505,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/merge */ "./node_modules/lodash/merge.js");
 /* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/stock_actions */ "./frontend/actions/stock_actions.js");
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+/* harmony import */ var _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/transaction_actions */ "./frontend/actions/transaction_actions.js");
 
 
 
 
 var stocksReducer = function stocksReducer() {
-  var _merge;
-
   var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(oldState);
@@ -1517,11 +1518,10 @@ var stocksReducer = function stocksReducer() {
 
   switch (action.type) {
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCKS_PORTFOLIO"]:
-      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.individual_stocks);
+      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.stocks);
 
-    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_ERRORS"]:
-      lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, (_merge = {}, _defineProperty(_merge, "price", "Price per share"), _defineProperty(_merge, "company", ""), _merge));
-      return newState;
+    case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_TRANSACTION"]:
+      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.stock);
 
     default:
       return oldState;
@@ -1554,7 +1554,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(oldState);
-  var newState = (_newState = {}, _defineProperty(_newState, "stock_ticker", []), _defineProperty(_newState, "balance", []), _defineProperty(_newState, "num_shares", []), _newState);
+  var newState = (_newState = {}, _defineProperty(_newState, "stockTicker", []), _defineProperty(_newState, "balance", []), _defineProperty(_newState, "numShares", []), _newState);
 
   switch (action.type) {
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TRANSACTION_ERRORS"]:
@@ -1641,12 +1641,13 @@ var usersReducer = function usersReducer() {
       return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, _defineProperty({}, action.currentUser.id, action.currentUser));
 
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_TRANSACTION"]:
-      newState[action.payload.user_id].balance = action.payload.balance;
-      newState[action.payload.user_id].netAssetValue = action.payload.net_asset_value;
-      return newState;
+      // newState[action.payload.userId].balance = action.payload.balance;
+      // newState[action.payload.userId].netAssetValue = action.payload.netAssetValue;
+      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.user);
 
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_3__["RECEIVE_STOCKS_PORTFOLIO"]:
-      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, _defineProperty({}, action.payload.user_id, _defineProperty({}, "netAssetValue", action.payload.net_asset_value)));
+      // return merge(newState, { [action.payload.userId]: { ["netAssetValue"]: action.payload.netAssetValue }})
+      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.user);
 
     default:
       return oldState;

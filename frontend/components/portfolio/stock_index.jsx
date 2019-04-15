@@ -6,23 +6,18 @@ import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
 
 class StockIndex extends React.Component {
-  // constructor(props){
-  //   super(props)
-  // }
-
   componentDidMount(){
     this.props.requestStockPortfolio();
   }
 
   render() {
-    
+    debugger
     const stocks = this.props.stocks.map(stock => {
       return <StockIndexItem
         key={`stock-${stock.id}`}
         stock={stock}
         currentUser={this.props.currentUser}
       />
-      
     });
 
     return (
