@@ -8,7 +8,6 @@ import { createTransaction } from '../../actions/transaction_actions';
 const msp = (state) => {
   const stockPrice = state.entities.ordersForm.price || "Price per share";
   return {
-    formType: "Portfolio",
     currentUser: state.entities.users[state.session.id],
     company: state.entities.ordersForm.company,
     price: stockPrice,

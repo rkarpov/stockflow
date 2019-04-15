@@ -1,17 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/session_actions';
-import Portfolio from './portfolio';
-import { requestStockPrice } from '../../actions/stock_actions';
-import { createTransaction, requestTransactions } from '../../actions/transaction_actions';
+import { requestTransactions } from '../../actions/transaction_actions';
+import TransactionIndex from './transaction_index'
 
 const msp = (state) => {
-  const stockPrice = state.entities.stocks.price || "Price per share";
   return {
     currentUser: state.entities.users[state.session.id],
-    formType: "Portfolio",
-    company: state.entities.stocks.company,
-    price: stockPrice,
+    transactions: Object.values(state.entities.transactions),
     errors: state.errors
   }
 }
@@ -19,11 +15,9 @@ const msp = (state) => {
 const mdp = dispatch => {
   return ({
     logout: () => dispatch(logout()),
-    requestStockPrice: (stockTicker) => dispatch(requestStockPrice(stockTicker)),
-    createTransaction: (transaction) => dispatch(createTransaction(transaction)),
     requestTransactions: () => dispatch(requestTransactions())
   })
 }
 
-export default connect(msp, mdp)(Transactions)
+export default connect(msp, mdp)(TransactionIndex)
 
