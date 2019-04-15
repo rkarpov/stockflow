@@ -4,8 +4,9 @@ import Input from '@material-ui/core/Input';
 
 class Portfolio extends React.Component {
   constructor(props) {
-      super(props);
-      this.state = { stockTicker: '', numShares: '' };
+    super(props);
+    this.state = { stockTicker: '', numShares: '' };
+    this.currencyToNum = this.currencyToNum.bind(this)
   }
 
   componentDidMount(){
@@ -25,23 +26,29 @@ class Portfolio extends React.Component {
     }
   }
 
+  currencyToNum(amt) {
+    if (amt != undefined) return Number((amt).replace(/[^0-9.-]+/g, ""));
+    else return null; // after registration amt can be null
+  }
+
+  calculateTotalCost() {
+    // BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
+    const stock_price = this.currencyToNum(this.props.price)
+    let total = stock_price * this.state.numShares;
+    if (total) return `Total $${Number.parseFloat(total).toFixed(2)}`;
+    else return null;
+  }
+
   handleSubmit(e){
     e.preventDefault();
     this.props.createTransaction({
       user_id: this.props.currentUser.id,
       stock_symbol: this.state.stockTicker,
       num_shares: this.state.numShares,
-      stock_price: this.props.price,
-      transaction_type: 'buy'
+      stock_price: this.currencyToNum(this.props.price),
+      net_asset_value: this.currencyToNum(this.props.currentUser.netAssetValue),
+      transaction_type: 'buy',
     })
-  }
-
-  calculateTotalCost(){
-    // BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
-    const stock_price = Number((this.props.price).replace(/[^0-9.-]+/g, ""))
-    let total = stock_price * this.state.numShares;
-    if (total) return `Total $${Number.parseFloat(total).toFixed(2)}`;
-    else return null;
   }
 
   render() {

@@ -6,5 +6,5 @@ json.transaction do
 end
 
 json.user_id current_user.id
-json.purchase_amount @purchase_amount
+json.net_asset_value @net_asset_value
 json.balance current_user.get_amount(current_user.balance)

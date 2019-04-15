@@ -346,9 +346,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -373,6 +373,7 @@ function (_React$Component) {
       stockTicker: '',
       numShares: ''
     };
+    _this.currencyToNum = _this.currencyToNum.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -399,6 +400,19 @@ function (_React$Component) {
       };
     }
   }, {
+    key: "currencyToNum",
+    value: function currencyToNum(amt) {
+      if (amt != undefined) return Number(amt.replace(/[^0-9.-]+/g, ""));else return null; // after registration amt can be null
+    }
+  }, {
+    key: "calculateTotalCost",
+    value: function calculateTotalCost() {
+      // BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
+      var stock_price = this.currencyToNum(this.props.price);
+      var total = stock_price * this.state.numShares;
+      if (total) return "Total $".concat(Number.parseFloat(total).toFixed(2));else return null;
+    }
+  }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
@@ -406,17 +420,10 @@ function (_React$Component) {
         user_id: this.props.currentUser.id,
         stock_symbol: this.state.stockTicker,
         num_shares: this.state.numShares,
-        stock_price: this.props.price,
+        stock_price: this.currencyToNum(this.props.price),
+        net_asset_value: this.currencyToNum(this.props.currentUser.netAssetValue),
         transaction_type: 'buy'
       });
-    }
-  }, {
-    key: "calculateTotalCost",
-    value: function calculateTotalCost() {
-      // BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
-      var stock_price = Number(this.props.price.replace(/[^0-9.-]+/g, ""));
-      var total = stock_price * this.state.numShares;
-      if (total) return "Total $".concat(Number.parseFloat(total).toFixed(2));else return null;
     }
   }, {
     key: "render",
@@ -1259,6 +1266,7 @@ var usersReducer = function usersReducer() {
 
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_TRANSACTION"]:
       newState[action.payload.user_id].balance = action.payload.balance;
+      newState[action.payload.user_id].netAssetValue = action.payload.net_asset_value;
       return newState;
 
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_3__["RECEIVE_STOCKS_PORTFOLIO"]:

@@ -10,7 +10,8 @@ const usersReducer = (oldState = {}, action) => {
     case RECEIVE_CURRENT_USER:
       return merge(newState, { [action.currentUser.id]: action.currentUser });
     case RECEIVE_TRANSACTION:
-      newState[action.payload.user_id].balance = action.payload.balance
+      newState[action.payload.user_id].balance = action.payload.balance;
+      newState[action.payload.user_id].netAssetValue = action.payload.net_asset_value;
       return newState;
     case RECEIVE_STOCKS_PORTFOLIO:
       return merge(newState, { [action.payload.user_id]: { ["netAssetValue"]: action.payload.net_asset_value }})
