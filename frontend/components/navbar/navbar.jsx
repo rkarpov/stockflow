@@ -38,13 +38,13 @@ class Navbar extends React.Component {
       };
   }
 
-  // handleClick = event => {
-  //   this.setState({ anchorEl: event.currentTarget });
-  // };
+  handleClick = event => {
+    this.setState({ anchorEl: event.currentTarget });
+  };
 
-  // handleClose = () => {
-  //   this.setState({ anchorEl: null });
-  // };
+  handleClose = () => {
+    this.setState({ anchorEl: null });
+  };
 
   render(){
     const { classes } = this.props;
@@ -56,42 +56,31 @@ class Navbar extends React.Component {
     return (
       <div className={classes.root}>
 
-        {/* <div>
-          <Button
-            aria-owns={anchorEl ? 'simple-menu' : undefined}
-            aria-haspopup="true"
-            onClick={this.handleClick}
-          >
-            Open Menu
-        </Button>
           <Menu
             id="simple-menu"
             anchorEl={anchorEl}
             open={Boolean(anchorEl)}
             onClose={this.handleClose}
           >
-            <MenuItem onClick={this.handleClose}>Profile</MenuItem>
-            <MenuItem onClick={this.handleClose}>My account</MenuItem>
-            <MenuItem onClick={this.handleClose}>Logout</MenuItem>
+            <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
+            <MenuItem onClick={this.handleClose}>Cancel</MenuItem>
           </Menu>
-        </div> */}
 
 
         <AppBar className={classes.appBar} position="static">
           <Toolbar>
 
-            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu">
+            <IconButton className={classes.menuButton} color="inherit" aria-label="Menu"
+              aria-owns={anchorEl ? 'simple-menu' : undefined}
+              aria-haspopup="true"
+              onClick={this.handleClick}
+            >
               <MenuIcon />
             </IconButton>
 
-            <Typography variant="h6" color="inherit" className={classes.grow}>
+            <Typography variant="h6" color="inherit" className={classes.grow} style={{ marginLeft: 25 }}>
               TTP-FS
             </Typography>
-            {/* <Button color="inherit">Logout</Button> */}
-            <Button variant="contained" color="primary" onClick={() => this.props.logout()}>
-              Sign Out
-            </Button>
-
 
             <Link component={linkToPortfolio} className={classes.link}>
               Portfolio
