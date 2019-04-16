@@ -6,7 +6,6 @@ import { requestStockPrice, requestStockPortfolio } from '../../actions/stock_ac
 import { createTransaction } from '../../actions/transaction_actions';
 
 const msp = (state) => {
-  debugger
   return {
     currentUser: state.entities.users[state.session.id],
     stocks: Object.values(state.entities.stocks),

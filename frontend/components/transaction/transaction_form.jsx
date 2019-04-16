@@ -37,7 +37,6 @@ class TransactionForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    debugger
     this.props.createTransaction({
       transaction_type: 'buy',
       user_id: this.props.currentUser.id,

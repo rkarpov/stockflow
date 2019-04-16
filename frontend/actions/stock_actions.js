@@ -28,7 +28,9 @@ const receiveErrors = errors => {
 
 export const requestStockPortfolio = () => dispatch => {
   return (
-    iexApiUtil.fetchStockPortfolio().then(portfolio => dispatch(receiveStocksPortfolio(portfolio)))
+    iexApiUtil.fetchStockPortfolio().then(
+      portfolio => dispatch(receiveStocksPortfolio(portfolio)),
+      error => dispatch(receiveErrors(error.responseJSON)))
   );
 };
 

@@ -11,7 +11,6 @@ class StockIndex extends React.Component {
   }
 
   render() {
-    debugger
     const stocks = this.props.stocks.map(stock => {
       return <StockIndexItem
         key={`stock-${stock.id}`}

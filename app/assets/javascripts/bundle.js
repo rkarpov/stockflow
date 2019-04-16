@@ -200,6 +200,8 @@ var requestStockPortfolio = function requestStockPortfolio() {
   return function (dispatch) {
     return _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchStockPortfolio"]().then(function (portfolio) {
       return dispatch(receiveStocksPortfolio(portfolio));
+    }, function (error) {
+      return dispatch(receiveErrors(error.responseJSON));
     });
   };
 };
@@ -387,7 +389,6 @@ function (_React$Component) {
     value: function render() {
       var _this = this;
 
-      debugger;
       var stocks = this.props.stocks.map(function (stock) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stock_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
           key: "stock-".concat(stock.id),
@@ -436,7 +437,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state) {
-  debugger;
   return {
     currentUser: state.entities.users[state.session.id],
     stocks: Object.values(state.entities.stocks),
@@ -503,20 +503,16 @@ var StockIndexItem =
 function (_React$Component) {
   _inherits(StockIndexItem, _React$Component);
 
-  function StockIndexItem(props) {
-    var _this;
-
+  function StockIndexItem() {
     _classCallCheck(this, StockIndexItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(StockIndexItem).call(this, props));
-    _this.stock = _this.props.stock;
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(StockIndexItem).apply(this, arguments));
   }
 
   _createClass(StockIndexItem, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.stock.ticker_symbol, this.stock.company, this.stock.numShares, " shares", this.stock.netStockValue);
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "(", this.props.stock.ticker_symbol, ") (", this.props.stock.company, ") (", this.props.stock.numShares, " shares) (", this.props.stock.netStockValue, ")");
     }
   }]);
 
