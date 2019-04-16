@@ -12,7 +12,7 @@ class Main extends React.Component {
 
   method(){
     debugger
-    switch (this.props.match.url) {
+    switch (this.props.location.pathname) {
       case "/transactions":
         return (
           <div>
@@ -27,7 +27,7 @@ class Main extends React.Component {
           </div>
         )
       default:
-        return null;
+        return "Page not found";
     }
   }
 
