@@ -1,6 +1,6 @@
 import React from 'react';
 import StockIndexItem from './stock_index_item';
-import CreateTransactionContainer from '../transactions/create_transaction_container';
+import CreateTransactionContainer from '../transaction/create_transaction_container';
 
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';

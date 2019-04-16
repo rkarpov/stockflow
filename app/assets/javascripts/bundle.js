@@ -294,7 +294,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_session_login_form_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../components/session/login_form_container */ "./frontend/components/session/login_form_container.jsx");
 /* harmony import */ var _components_session_signup_form_container__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../components/session/signup_form_container */ "./frontend/components/session/signup_form_container.jsx");
 /* harmony import */ var _components_portfolio_stock_index_container__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../components/portfolio/stock_index_container */ "./frontend/components/portfolio/stock_index_container.jsx");
-/* harmony import */ var _components_transactions_transactions_container__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/transactions/transactions_container */ "./frontend/components/transactions/transactions_container.jsx");
+/* harmony import */ var _components_transaction_transaction_index_container__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../components/transaction/transaction_index_container */ "./frontend/components/transaction/transaction_index_container.jsx");
 
 
 
@@ -319,7 +319,7 @@ var App = function App() {
   }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_util_route_util__WEBPACK_IMPORTED_MODULE_2__["ProtectedRoute"], {
     exact: true,
     path: "/transactions",
-    component: _components_transactions_transactions_container__WEBPACK_IMPORTED_MODULE_6__["default"]
+    component: _components_transaction_transaction_index_container__WEBPACK_IMPORTED_MODULE_6__["default"]
   })));
 };
 
@@ -339,7 +339,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _stock_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./stock_index_item */ "./frontend/components/portfolio/stock_index_item.jsx");
-/* harmony import */ var _transactions_create_transaction_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../transactions/create_transaction_container */ "./frontend/components/transactions/create_transaction_container.jsx");
+/* harmony import */ var _transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../transaction/create_transaction_container */ "./frontend/components/transaction/create_transaction_container.jsx");
 /* harmony import */ var _material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core/Button */ "./node_modules/@material-ui/core/Button/index.js");
 /* harmony import */ var _material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _material_ui_core_Input__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core/Input */ "./node_modules/@material-ui/core/Input/index.js");
@@ -402,7 +402,7 @@ function (_React$Component) {
         onClick: function onClick() {
           return _this.props.logout();
         }
-      }, "Sign Out"), this.props.currentUser.username, "'s portfolio. Net worth: ", this.props.currentUser.netAssetValue, stocks, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transactions_create_transaction_container__WEBPACK_IMPORTED_MODULE_2__["default"], null));
+      }, "Sign Out"), this.props.currentUser.username, "'s portfolio. Net worth: ", this.props.currentUser.netAssetValue, stocks, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_2__["default"], null));
     }
   }]);
 
@@ -877,10 +877,10 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 
 /***/ }),
 
-/***/ "./frontend/components/transactions/create_transaction_container.jsx":
-/*!***************************************************************************!*\
-  !*** ./frontend/components/transactions/create_transaction_container.jsx ***!
-  \***************************************************************************/
+/***/ "./frontend/components/transaction/create_transaction_container.jsx":
+/*!**************************************************************************!*\
+  !*** ./frontend/components/transaction/create_transaction_container.jsx ***!
+  \**************************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -889,7 +889,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _transaction_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./transaction_form */ "./frontend/components/transactions/transaction_form.jsx");
+/* harmony import */ var _transaction_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./transaction_form */ "./frontend/components/transaction/transaction_form.jsx");
 /* harmony import */ var _actions_stock_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/stock_actions */ "./frontend/actions/stock_actions.js");
 /* harmony import */ var _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../actions/transaction_actions */ "./frontend/actions/transaction_actions.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -930,10 +930,10 @@ var mdp = function mdp(dispatch) {
 
 /***/ }),
 
-/***/ "./frontend/components/transactions/transaction_form.jsx":
-/*!***************************************************************!*\
-  !*** ./frontend/components/transactions/transaction_form.jsx ***!
-  \***************************************************************/
+/***/ "./frontend/components/transaction/transaction_form.jsx":
+/*!**************************************************************!*\
+  !*** ./frontend/components/transaction/transaction_form.jsx ***!
+  \**************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1022,7 +1022,6 @@ function (_React$Component) {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
-      debugger;
       this.props.createTransaction({
         transaction_type: 'buy',
         user_id: this.props.currentUser.id,
@@ -1067,10 +1066,10 @@ function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/transactions/transaction_index.jsx":
-/*!****************************************************************!*\
-  !*** ./frontend/components/transactions/transaction_index.jsx ***!
-  \****************************************************************/
+/***/ "./frontend/components/transaction/transaction_index.jsx":
+/*!***************************************************************!*\
+  !*** ./frontend/components/transaction/transaction_index.jsx ***!
+  \***************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1078,7 +1077,7 @@ function (_React$Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _transaction_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./transaction_index_item */ "./frontend/components/transactions/transaction_index_item.jsx");
+/* harmony import */ var _transaction_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./transaction_index_item */ "./frontend/components/transaction/transaction_index_item.jsx");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1139,10 +1138,54 @@ function (_React$Component) {
 
 /***/ }),
 
-/***/ "./frontend/components/transactions/transaction_index_item.jsx":
-/*!*********************************************************************!*\
-  !*** ./frontend/components/transactions/transaction_index_item.jsx ***!
-  \*********************************************************************/
+/***/ "./frontend/components/transaction/transaction_index_container.jsx":
+/*!*************************************************************************!*\
+  !*** ./frontend/components/transaction/transaction_index_container.jsx ***!
+  \*************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
+/* harmony import */ var _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/transaction_actions */ "./frontend/actions/transaction_actions.js");
+/* harmony import */ var _transaction_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./transaction_index */ "./frontend/components/transaction/transaction_index.jsx");
+
+
+
+
+
+
+var msp = function msp(state) {
+  return {
+    currentUser: state.entities.users[state.session.id],
+    transactions: Object.values(state.entities.transactions),
+    errors: state.errors
+  };
+};
+
+var mdp = function mdp(dispatch) {
+  return {
+    logout: function logout() {
+      return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["logout"])());
+    },
+    requestTransactions: function requestTransactions() {
+      return dispatch(Object(_actions_transaction_actions__WEBPACK_IMPORTED_MODULE_3__["requestTransactions"])());
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(msp, mdp)(_transaction_index__WEBPACK_IMPORTED_MODULE_4__["default"]));
+
+/***/ }),
+
+/***/ "./frontend/components/transaction/transaction_index_item.jsx":
+/*!********************************************************************!*\
+  !*** ./frontend/components/transaction/transaction_index_item.jsx ***!
+  \********************************************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1177,20 +1220,16 @@ var TransactionIndexItem =
 function (_React$Component) {
   _inherits(TransactionIndexItem, _React$Component);
 
-  function TransactionIndexItem(props) {
-    var _this;
-
+  function TransactionIndexItem() {
     _classCallCheck(this, TransactionIndexItem);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(TransactionIndexItem).call(this, props));
-    _this.transaction = _this.props.transaction;
-    return _this;
+    return _possibleConstructorReturn(this, _getPrototypeOf(TransactionIndexItem).apply(this, arguments));
   }
 
   _createClass(TransactionIndexItem, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.transaction.transaction_type.toUpperCase(), this.transaction.ticker_symbol, this.transaction.company, this.transaction.num_shares, " shares", this.transaction.stock_price);
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.props.transaction.transaction_type.toUpperCase(), this.props.transaction.ticker_symbol, this.props.transaction.company, this.props.transaction.num_shares, " shares", this.props.transaction.stock_price);
     }
   }]);
 
@@ -1198,50 +1237,6 @@ function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(TransactionIndexItem));
-
-/***/ }),
-
-/***/ "./frontend/components/transactions/transactions_container.jsx":
-/*!*********************************************************************!*\
-  !*** ./frontend/components/transactions/transactions_container.jsx ***!
-  \*********************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/session_actions */ "./frontend/actions/session_actions.js");
-/* harmony import */ var _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/transaction_actions */ "./frontend/actions/transaction_actions.js");
-/* harmony import */ var _transaction_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./transaction_index */ "./frontend/components/transactions/transaction_index.jsx");
-
-
-
-
-
-
-var msp = function msp(state) {
-  return {
-    currentUser: state.entities.users[state.session.id],
-    transactions: Object.values(state.entities.transactions),
-    errors: state.errors
-  };
-};
-
-var mdp = function mdp(dispatch) {
-  return {
-    logout: function logout() {
-      return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["logout"])());
-    },
-    requestTransactions: function requestTransactions() {
-      return dispatch(Object(_actions_transaction_actions__WEBPACK_IMPORTED_MODULE_3__["requestTransactions"])());
-    }
-  };
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(msp, mdp)(_transaction_index__WEBPACK_IMPORTED_MODULE_4__["default"]));
 
 /***/ }),
 
