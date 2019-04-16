@@ -22,8 +22,8 @@ class Api::TransactionsController < ApplicationController
     @net_stock_shares = params[:data][:num_shares].to_i + params[:data][:net_stock_shares].to_i
 
     errors = {}
-    errors["stockTicker"] = 'Invalid stock symbol' if !@stock
-    errors["stockTicker"] = 'Symbol cannot be blank' if params[:data][:stock_symbol] == ""
+    errors["tickerSymbol"] = 'Invalid stock symbol' if !@stock
+    errors["tickerSymbol"] = 'Symbol cannot be blank' if params[:data][:stock_symbol] == ""
     errors["balance"] = 'Not enough funds' if purchase_amount > current_user.balance
     errors["numShares"] = 'Amount must be a whole number' if params[:data][:num_shares].to_f % 1 != 0
     errors["numShares"] = 'Amount cannot be blank' if params[:data][:num_shares].to_f == 0

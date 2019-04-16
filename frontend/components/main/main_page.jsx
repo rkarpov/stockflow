@@ -11,12 +11,11 @@ class Main extends React.Component {
   }
 
   method(){
-    debugger
     switch (this.props.location.pathname) {
       case "/transactions":
         return (
           <div>
-            <TransactionIndexContainer/>)
+            <TransactionIndexContainer/>
           </div>
         )
       case "/portfolio":

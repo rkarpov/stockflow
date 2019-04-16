@@ -378,11 +378,9 @@ function (_React$Component) {
   _createClass(Main, [{
     key: "method",
     value: function method() {
-      debugger;
-
       switch (this.props.location.pathname) {
         case "/transactions":
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_transaction_index_container__WEBPACK_IMPORTED_MODULE_4__["default"], null), ")");
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_transaction_index_container__WEBPACK_IMPORTED_MODULE_4__["default"], null));
 
         case "/portfolio":
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_portfolio_stock_index_container__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_3__["default"], null));
@@ -738,8 +736,8 @@ var mdp = function mdp(dispatch) {
     logout: function logout() {
       return dispatch(Object(_actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["logout"])());
     },
-    requestStockPrice: function requestStockPrice(stockTicker) {
-      return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_4__["requestStockPrice"])(stockTicker));
+    requestStockPrice: function requestStockPrice(tickerSymbol) {
+      return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_4__["requestStockPrice"])(tickerSymbol));
     },
     createTransaction: function createTransaction(transaction) {
       return dispatch(Object(_actions_transaction_actions__WEBPACK_IMPORTED_MODULE_5__["createTransaction"])(transaction));
@@ -1206,8 +1204,8 @@ var msp = function msp(state) {
 
 var mdp = function mdp(dispatch) {
   return {
-    requestStockPrice: function requestStockPrice(stockTicker) {
-      return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_3__["requestStockPrice"])(stockTicker));
+    requestStockPrice: function requestStockPrice(tickerSymbol) {
+      return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_3__["requestStockPrice"])(tickerSymbol));
     },
     createTransaction: function createTransaction(transaction) {
       return dispatch(Object(_actions_transaction_actions__WEBPACK_IMPORTED_MODULE_4__["createTransaction"])(transaction));
@@ -1270,7 +1268,7 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(TransactionForm).call(this, props));
     _this.state = {
-      stockTicker: '',
+      tickerSymbol: '',
       numShares: ''
     };
     _this.currencyToNum = _this.currencyToNum.bind(_assertThisInitialized(_this));
@@ -1281,8 +1279,8 @@ function (_React$Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate(_, prevState) {
       // fetch stock price as state changes for stock ticker field input
-      if (prevState.stockTicker != this.state.stockTicker) {
-        this.props.requestStockPrice(this.state.stockTicker);
+      if (prevState.tickerSymbol != this.state.tickerSymbol) {
+        this.props.requestStockPrice(this.state.tickerSymbol);
       }
     }
   }, {
@@ -1314,7 +1312,7 @@ function (_React$Component) {
       this.props.createTransaction({
         transaction_type: 'buy',
         user_id: this.props.currentUser.id,
-        stock_symbol: this.state.stockTicker,
+        stock_symbol: this.state.tickerSymbol,
         num_shares: this.state.numShares,
         net_stock_shares: this.props.netStockShares,
         stock_price: this.currencyToNum(this.props.price),
@@ -1330,11 +1328,11 @@ function (_React$Component) {
         style: {
           float: "right"
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Make a transaction"), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Balance: ", this.props.currentUser.balance, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.stock, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.stockTicker, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Make a transaction"), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Balance: ", this.props.currentUser.balance, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.stock, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.tickerSymbol, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_2___default.a, {
         type: "text",
         placeholder: "Enter stock ticker",
-        onChange: this.update('stockTicker'),
-        value: this.state.stockTicker
+        onChange: this.update('tickerSymbol'),
+        value: this.state.tickerSymbol
       }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.errors.transaction.numShares, " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_2___default.a, {
         type: "number",
         placeholder: "Amount of shares",
@@ -1367,6 +1365,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _transaction_index_item__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./transaction_index_item */ "./frontend/components/transaction/transaction_index_item.jsx");
+/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/styles/index.js");
+/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _material_ui_core_Table__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core/Table */ "./node_modules/@material-ui/core/Table/index.js");
+/* harmony import */ var _material_ui_core_Table__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Table__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _material_ui_core_TableBody__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core/TableBody */ "./node_modules/@material-ui/core/TableBody/index.js");
+/* harmony import */ var _material_ui_core_TableBody__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_TableBody__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core/TableCell */ "./node_modules/@material-ui/core/TableCell/index.js");
+/* harmony import */ var _material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _material_ui_core_TableHead__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/TableHead */ "./node_modules/@material-ui/core/TableHead/index.js");
+/* harmony import */ var _material_ui_core_TableHead__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_TableHead__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _material_ui_core_TableRow__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/core/TableRow */ "./node_modules/@material-ui/core/TableRow/index.js");
+/* harmony import */ var _material_ui_core_TableRow__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_TableRow__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _material_ui_core_Paper__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @material-ui/core/Paper */ "./node_modules/@material-ui/core/Paper/index.js");
+/* harmony import */ var _material_ui_core_Paper__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Paper__WEBPACK_IMPORTED_MODULE_8__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1388,15 +1400,36 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
+
+
+
+
+
+
+var styles = function styles(theme) {
+  return {
+    root: {
+      maxWidth: 650,
+      height: 600,
+      marginTop: theme.spacing.unit * 3,
+      overflowX: 'auto'
+    },
+    table: {
+      minWidth: 400
+    }
+  };
+};
+
 var TransactionIndex =
 /*#__PURE__*/
 function (_React$Component) {
   _inherits(TransactionIndex, _React$Component);
 
-  function TransactionIndex() {
+  function TransactionIndex(props) {
     _classCallCheck(this, TransactionIndex);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(TransactionIndex).apply(this, arguments));
+    return _possibleConstructorReturn(this, _getPrototypeOf(TransactionIndex).call(this, props));
   }
 
   _createClass(TransactionIndex, [{
@@ -1416,14 +1449,29 @@ function (_React$Component) {
           currentUser: _this.props.currentUser
         });
       });
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, "TYPE / TICKER / NUM / PRICE", transactions);
+      var classes = this.props.classes;
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Paper__WEBPACK_IMPORTED_MODULE_8___default.a, {
+        className: classes.root
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Table__WEBPACK_IMPORTED_MODULE_3___default.a, {
+        className: classes.table
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableHead__WEBPACK_IMPORTED_MODULE_6___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableRow__WEBPACK_IMPORTED_MODULE_7___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        align: "center"
+      }, "Type"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        align: "center"
+      }, "Ticker"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        align: "center"
+      }, "Company"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        align: "center"
+      }, "Shares"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_5___default.a, {
+        align: "center"
+      }, "Price Per Share"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableBody__WEBPACK_IMPORTED_MODULE_4___default.a, null, transactions))));
     }
   }]);
 
   return TransactionIndex;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (TransactionIndex);
+/* harmony default export */ __webpack_exports__["default"] = (Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_2__["withStyles"])(styles)(TransactionIndex)); // export default TransactionIndex;
 
 /***/ }),
 
@@ -1483,6 +1531,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core/TableCell */ "./node_modules/@material-ui/core/TableCell/index.js");
+/* harmony import */ var _material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _material_ui_core_TableRow__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core/TableRow */ "./node_modules/@material-ui/core/TableRow/index.js");
+/* harmony import */ var _material_ui_core_TableRow__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_TableRow__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1504,6 +1556,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
+
 var TransactionIndexItem =
 /*#__PURE__*/
 function (_React$Component) {
@@ -1518,7 +1572,17 @@ function (_React$Component) {
   _createClass(TransactionIndexItem, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.props.transaction.transaction_type.toUpperCase(), this.props.transaction.ticker_symbol, this.props.transaction.company, this.props.transaction.num_shares, " shares", this.props.transaction.stock_price);
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableRow__WEBPACK_IMPORTED_MODULE_3___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        align: "center"
+      }, this.props.transaction.transaction_type.toUpperCase()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        align: "center"
+      }, this.props.transaction.tickerSymbol), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        align: "center"
+      }, this.props.transaction.company), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        align: "center"
+      }, this.props.transaction.num_shares), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        align: "center"
+      }, "$", this.props.transaction.stock_price));
     }
   }]);
 
@@ -1834,7 +1898,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(oldState);
-  var newState = (_newState = {}, _defineProperty(_newState, "stockTicker", []), _defineProperty(_newState, "balance", []), _defineProperty(_newState, "numShares", []), _newState);
+  var newState = (_newState = {}, _defineProperty(_newState, "tickerSymbol", []), _defineProperty(_newState, "balance", []), _defineProperty(_newState, "numShares", []), _newState);
 
   switch (action.type) {
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TRANSACTION_ERRORS"]:
@@ -12622,6 +12686,930 @@ var _SvgIcon = _interopRequireDefault(__webpack_require__(/*! ./SvgIcon */ "./no
 
 /***/ }),
 
+/***/ "./node_modules/@material-ui/core/Table/Table.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@material-ui/core/Table/Table.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+
+var _classCallCheck2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/classCallCheck */ "./node_modules/@babel/runtime/helpers/classCallCheck.js"));
+
+var _createClass2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js"));
+
+var _possibleConstructorReturn2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/possibleConstructorReturn */ "./node_modules/@babel/runtime/helpers/possibleConstructorReturn.js"));
+
+var _getPrototypeOf3 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/getPrototypeOf */ "./node_modules/@babel/runtime/helpers/getPrototypeOf.js"));
+
+var _inherits2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/inherits */ "./node_modules/@babel/runtime/helpers/inherits.js"));
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _classnames = _interopRequireDefault(__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"));
+
+var _utils = __webpack_require__(/*! @material-ui/utils */ "./node_modules/@material-ui/utils/index.es.js");
+
+var _withStyles = _interopRequireDefault(__webpack_require__(/*! ../styles/withStyles */ "./node_modules/@material-ui/core/styles/withStyles.js"));
+
+var _TableContext = _interopRequireDefault(__webpack_require__(/*! ./TableContext */ "./node_modules/@material-ui/core/Table/TableContext.js"));
+
+var styles = function styles(theme) {
+  return {
+    /* Styles applied to the root element. */
+    root: {
+      display: 'table',
+      fontFamily: theme.typography.fontFamily,
+      width: '100%',
+      borderCollapse: 'collapse',
+      borderSpacing: 0
+    }
+  };
+};
+
+exports.styles = styles;
+
+var Table =
+/*#__PURE__*/
+function (_React$Component) {
+  (0, _inherits2.default)(Table, _React$Component);
+
+  function Table() {
+    var _getPrototypeOf2;
+
+    var _this;
+
+    (0, _classCallCheck2.default)(this, Table);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = (0, _possibleConstructorReturn2.default)(this, (_getPrototypeOf2 = (0, _getPrototypeOf3.default)(Table)).call.apply(_getPrototypeOf2, [this].concat(args)));
+    _this.memoizedContextValue = {};
+    return _this;
+  }
+
+  (0, _createClass2.default)(Table, [{
+    key: "useMemo",
+    // To replace with the corresponding Hook once Material-UI v4 is out:
+    // https://reactjs.org/docs/hooks-reference.html#usememo
+    value: function useMemo(contextValue) {
+      var objectKeys = Object.keys(contextValue);
+
+      for (var i = 0; i < objectKeys.length; i += 1) {
+        var objectKey = objectKeys[i];
+
+        if (contextValue[objectKey] !== this.memoizedContextValue[objectKey]) {
+          this.memoizedContextValue = contextValue;
+          break;
+        }
+      }
+
+      return this.memoizedContextValue;
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this$props = this.props,
+          classes = _this$props.classes,
+          className = _this$props.className,
+          Component = _this$props.component,
+          padding = _this$props.padding,
+          other = (0, _objectWithoutProperties2.default)(_this$props, ["classes", "className", "component", "padding"]);
+      return _react.default.createElement(_TableContext.default.Provider, {
+        value: this.useMemo({
+          padding: padding
+        })
+      }, _react.default.createElement(Component, (0, _extends2.default)({
+        className: (0, _classnames.default)(classes.root, className)
+      }, other)));
+    }
+  }]);
+  return Table;
+}(_react.default.Component);
+
+ true ? Table.propTypes = {
+  /**
+   * The content of the table, normally `TableHead` and `TableBody`.
+   */
+  children: _propTypes.default.node.isRequired,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css-api) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
+   */
+  component: _utils.componentPropType,
+
+  /**
+   * Allows TableCells to inherit padding of the Table.
+   */
+  padding: _propTypes.default.oneOf(['default', 'checkbox', 'dense', 'none'])
+} : undefined;
+Table.defaultProps = {
+  component: 'table',
+  padding: 'default'
+};
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiTable'
+})(Table);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/Table/TableContext.js":
+/*!**************************************************************!*\
+  !*** ./node_modules/@material-ui/core/Table/TableContext.js ***!
+  \**************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+/**
+ * @ignore - internal component.
+ */
+var TableContext = _react.default.createContext();
+
+var _default = TableContext;
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/Table/Tablelvl2Context.js":
+/*!******************************************************************!*\
+  !*** ./node_modules/@material-ui/core/Table/Tablelvl2Context.js ***!
+  \******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+/**
+ * @ignore - internal component.
+ */
+var Tablelvl2Context = _react.default.createContext();
+
+var _default = Tablelvl2Context;
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/Table/index.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/@material-ui/core/Table/index.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _Table.default;
+  }
+});
+
+var _Table = _interopRequireDefault(__webpack_require__(/*! ./Table */ "./node_modules/@material-ui/core/Table/Table.js"));
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/TableBody/TableBody.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@material-ui/core/TableBody/TableBody.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _classnames = _interopRequireDefault(__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"));
+
+var _utils = __webpack_require__(/*! @material-ui/utils */ "./node_modules/@material-ui/utils/index.es.js");
+
+var _withStyles = _interopRequireDefault(__webpack_require__(/*! ../styles/withStyles */ "./node_modules/@material-ui/core/styles/withStyles.js"));
+
+var _Tablelvl2Context = _interopRequireDefault(__webpack_require__(/*! ../Table/Tablelvl2Context */ "./node_modules/@material-ui/core/Table/Tablelvl2Context.js"));
+
+var styles = {
+  /* Styles applied to the root element. */
+  root: {
+    display: 'table-row-group'
+  }
+};
+exports.styles = styles;
+var contextValue = {
+  variant: 'body'
+};
+
+function TableBody(props) {
+  var classes = props.classes,
+      className = props.className,
+      Component = props.component,
+      other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "component"]);
+  return _react.default.createElement(_Tablelvl2Context.default.Provider, {
+    value: contextValue
+  }, _react.default.createElement(Component, (0, _extends2.default)({
+    className: (0, _classnames.default)(classes.root, className)
+  }, other)));
+}
+
+ true ? TableBody.propTypes = {
+  /**
+   * The content of the component, normally `TableRow`.
+   */
+  children: _propTypes.default.node,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css-api) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
+   */
+  component: _utils.componentPropType
+} : undefined;
+TableBody.defaultProps = {
+  component: 'tbody'
+};
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiTableBody'
+})(TableBody);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/TableBody/index.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@material-ui/core/TableBody/index.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _TableBody.default;
+  }
+});
+
+var _TableBody = _interopRequireDefault(__webpack_require__(/*! ./TableBody */ "./node_modules/@material-ui/core/TableBody/TableBody.js"));
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/TableCell/TableCell.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@material-ui/core/TableCell/TableCell.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
+
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _classnames = _interopRequireDefault(__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"));
+
+var _utils = __webpack_require__(/*! @material-ui/utils */ "./node_modules/@material-ui/utils/index.es.js");
+
+var _withStyles = _interopRequireDefault(__webpack_require__(/*! ../styles/withStyles */ "./node_modules/@material-ui/core/styles/withStyles.js"));
+
+var _helpers = __webpack_require__(/*! ../utils/helpers */ "./node_modules/@material-ui/core/utils/helpers.js");
+
+var _deprecatedPropType = _interopRequireDefault(__webpack_require__(/*! ../utils/deprecatedPropType */ "./node_modules/@material-ui/core/utils/deprecatedPropType.js"));
+
+var _colorManipulator = __webpack_require__(/*! ../styles/colorManipulator */ "./node_modules/@material-ui/core/styles/colorManipulator.js");
+
+var _TableContext = _interopRequireDefault(__webpack_require__(/*! ../Table/TableContext */ "./node_modules/@material-ui/core/Table/TableContext.js"));
+
+var _Tablelvl2Context = _interopRequireDefault(__webpack_require__(/*! ../Table/Tablelvl2Context */ "./node_modules/@material-ui/core/Table/Tablelvl2Context.js"));
+
+var styles = function styles(theme) {
+  return {
+    /* Styles applied to the root element. */
+    root: {
+      display: 'table-cell',
+      verticalAlign: 'inherit',
+      // Workaround for a rendering bug with spanned columns in Chrome 62.0.
+      // Removes the alpha (sets it to 1), and lightens or darkens the theme color.
+      borderBottom: "1px solid\n    ".concat(theme.palette.type === 'light' ? (0, _colorManipulator.lighten)((0, _colorManipulator.fade)(theme.palette.divider, 1), 0.88) : (0, _colorManipulator.darken)((0, _colorManipulator.fade)(theme.palette.divider, 1), 0.68)),
+      textAlign: 'left',
+      padding: '4px 56px 4px 24px',
+      '&:last-child': {
+        paddingRight: 24
+      }
+    },
+
+    /* Styles applied to the root element if `variant="head"` or `context.table.head`. */
+    head: {
+      color: theme.palette.text.secondary,
+      fontSize: theme.typography.pxToRem(12),
+      fontWeight: theme.typography.fontWeightMedium
+    },
+
+    /* Styles applied to the root element if `variant="body"` or `context.table.body`. */
+    body: {
+      color: theme.palette.text.primary,
+      fontSize: theme.typography.pxToRem(13),
+      fontWeight: theme.typography.fontWeightRegular
+    },
+
+    /* Styles applied to the root element if `variant="footer"` or `context.table.footer`. */
+    footer: {
+      borderBottom: 0,
+      color: theme.palette.text.secondary,
+      fontSize: theme.typography.pxToRem(12)
+    },
+
+    /* Styles applied to the root element if `numeric={true}`. */
+    numeric: {
+      textAlign: 'right',
+      flexDirection: 'row-reverse' // can be dynamically inherited at runtime by contents
+
+    },
+
+    /* Styles applied to the root element if `padding="dense"`. */
+    paddingDense: {
+      paddingRight: 24
+    },
+
+    /* Styles applied to the root element if `padding="checkbox"`. */
+    paddingCheckbox: {
+      padding: '0 12px',
+      '&:last-child': {
+        paddingRight: 12
+      }
+    },
+
+    /* Styles applied to the root element if `padding="none"`. */
+    paddingNone: {
+      padding: 0,
+      '&:last-child': {
+        padding: 0
+      }
+    },
+
+    /* Styles applied to the root element if `align="left"`. */
+    alignLeft: {
+      textAlign: 'left'
+    },
+
+    /* Styles applied to the root element if `align="center"`. */
+    alignCenter: {
+      textAlign: 'center'
+    },
+
+    /* Styles applied to the root element if `align="right"`. */
+    alignRight: {
+      textAlign: 'right',
+      flexDirection: 'row-reverse'
+    },
+
+    /* Styles applied to the root element if `align="justify"`. */
+    alignJustify: {
+      textAlign: 'justify'
+    }
+  };
+};
+
+exports.styles = styles;
+
+function TableCell(props) {
+  var align = props.align,
+      children = props.children,
+      classes = props.classes,
+      classNameProp = props.className,
+      component = props.component,
+      sortDirection = props.sortDirection,
+      _props$numeric = props.numeric,
+      numeric = _props$numeric === void 0 ? false : _props$numeric,
+      paddingProp = props.padding,
+      scopeProp = props.scope,
+      variant = props.variant,
+      other = (0, _objectWithoutProperties2.default)(props, ["align", "children", "classes", "className", "component", "sortDirection", "numeric", "padding", "scope", "variant"]);
+  return _react.default.createElement(_TableContext.default.Consumer, null, function (table) {
+    return _react.default.createElement(_Tablelvl2Context.default.Consumer, null, function (tablelvl2) {
+      var _classNames;
+
+      var Component;
+
+      if (component) {
+        Component = component;
+      } else {
+        Component = tablelvl2 && tablelvl2.variant === 'head' ? 'th' : 'td';
+      }
+
+      var scope = scopeProp;
+
+      if (!scope && tablelvl2 && tablelvl2.variant === 'head') {
+        scope = 'col';
+      }
+
+      var padding = paddingProp || (table && table.padding ? table.padding : 'default');
+      var className = (0, _classnames.default)(classes.root, (_classNames = {}, (0, _defineProperty2.default)(_classNames, classes.head, variant ? variant === 'head' : tablelvl2 && tablelvl2.variant === 'head'), (0, _defineProperty2.default)(_classNames, classes.body, variant ? variant === 'body' : tablelvl2 && tablelvl2.variant === 'body'), (0, _defineProperty2.default)(_classNames, classes.footer, variant ? variant === 'footer' : tablelvl2 && tablelvl2.variant === 'footer'), (0, _defineProperty2.default)(_classNames, classes["align".concat((0, _helpers.capitalize)(align))], align !== 'inherit'), (0, _defineProperty2.default)(_classNames, classes.numeric, numeric), (0, _defineProperty2.default)(_classNames, classes["padding".concat((0, _helpers.capitalize)(padding))], padding !== 'default'), _classNames), classNameProp);
+      var ariaSort = null;
+
+      if (sortDirection) {
+        ariaSort = sortDirection === 'asc' ? 'ascending' : 'descending';
+      }
+
+      return _react.default.createElement(Component, (0, _extends2.default)({
+        className: className,
+        "aria-sort": ariaSort,
+        scope: scope
+      }, other), children);
+    });
+  });
+}
+
+ true ? TableCell.propTypes = {
+  /**
+   * Set the text-align on the table cell content.
+   *
+   * Monetary or generally number fields **should be right aligned** as that allows
+   * you to add them up quickly in your head without having to worry about decimals.
+   */
+  align: _propTypes.default.oneOf(['inherit', 'left', 'center', 'right', 'justify']),
+
+  /**
+   * The table cell contents.
+   */
+  children: _propTypes.default.node,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css-api) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
+   */
+  component: _utils.componentPropType,
+
+  /**
+   * If `true`, content will align to the right.
+   */
+  numeric: (0, _deprecatedPropType.default)(_propTypes.default.bool, 'Instead, use the `align` property.'),
+
+  /**
+   * Sets the padding applied to the cell.
+   * By default, the Table parent component set the value.
+   */
+  padding: _propTypes.default.oneOf(['default', 'checkbox', 'dense', 'none']),
+
+  /**
+   * Set scope attribute.
+   */
+  scope: _propTypes.default.string,
+
+  /**
+   * Set aria-sort direction.
+   */
+  sortDirection: _propTypes.default.oneOf(['asc', 'desc', false]),
+
+  /**
+   * Specify the cell type.
+   * By default, the TableHead, TableBody or TableFooter parent component set the value.
+   */
+  variant: _propTypes.default.oneOf(['head', 'body', 'footer'])
+} : undefined;
+TableCell.defaultProps = {
+  align: 'inherit'
+};
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiTableCell'
+})(TableCell);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/TableCell/index.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@material-ui/core/TableCell/index.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _TableCell.default;
+  }
+});
+
+var _TableCell = _interopRequireDefault(__webpack_require__(/*! ./TableCell */ "./node_modules/@material-ui/core/TableCell/TableCell.js"));
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/TableHead/TableHead.js":
+/*!***************************************************************!*\
+  !*** ./node_modules/@material-ui/core/TableHead/TableHead.js ***!
+  \***************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _classnames = _interopRequireDefault(__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"));
+
+var _utils = __webpack_require__(/*! @material-ui/utils */ "./node_modules/@material-ui/utils/index.es.js");
+
+var _withStyles = _interopRequireDefault(__webpack_require__(/*! ../styles/withStyles */ "./node_modules/@material-ui/core/styles/withStyles.js"));
+
+var _Tablelvl2Context = _interopRequireDefault(__webpack_require__(/*! ../Table/Tablelvl2Context */ "./node_modules/@material-ui/core/Table/Tablelvl2Context.js"));
+
+var styles = {
+  /* Styles applied to the root element. */
+  root: {
+    display: 'table-header-group'
+  }
+};
+exports.styles = styles;
+var contextValue = {
+  variant: 'head'
+};
+
+function TableHead(props) {
+  var classes = props.classes,
+      className = props.className,
+      Component = props.component,
+      other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "component"]);
+  return _react.default.createElement(_Tablelvl2Context.default.Provider, {
+    value: contextValue
+  }, _react.default.createElement(Component, (0, _extends2.default)({
+    className: (0, _classnames.default)(classes.root, className)
+  }, other)));
+}
+
+ true ? TableHead.propTypes = {
+  /**
+   * The content of the component, normally `TableRow`.
+   */
+  children: _propTypes.default.node,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css-api) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
+   */
+  component: _utils.componentPropType
+} : undefined;
+TableHead.defaultProps = {
+  component: 'thead'
+};
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiTableHead'
+})(TableHead);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/TableHead/index.js":
+/*!***********************************************************!*\
+  !*** ./node_modules/@material-ui/core/TableHead/index.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _TableHead.default;
+  }
+});
+
+var _TableHead = _interopRequireDefault(__webpack_require__(/*! ./TableHead */ "./node_modules/@material-ui/core/TableHead/TableHead.js"));
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/TableRow/TableRow.js":
+/*!*************************************************************!*\
+  !*** ./node_modules/@material-ui/core/TableRow/TableRow.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = exports.styles = void 0;
+
+var _extends2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/extends */ "./node_modules/@babel/runtime/helpers/extends.js"));
+
+var _defineProperty2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js"));
+
+var _objectWithoutProperties2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/objectWithoutProperties */ "./node_modules/@babel/runtime/helpers/objectWithoutProperties.js"));
+
+var _react = _interopRequireDefault(__webpack_require__(/*! react */ "./node_modules/react/index.js"));
+
+var _propTypes = _interopRequireDefault(__webpack_require__(/*! prop-types */ "./node_modules/prop-types/index.js"));
+
+var _classnames = _interopRequireDefault(__webpack_require__(/*! classnames */ "./node_modules/classnames/index.js"));
+
+var _utils = __webpack_require__(/*! @material-ui/utils */ "./node_modules/@material-ui/utils/index.es.js");
+
+var _withStyles = _interopRequireDefault(__webpack_require__(/*! ../styles/withStyles */ "./node_modules/@material-ui/core/styles/withStyles.js"));
+
+var _Tablelvl2Context = _interopRequireDefault(__webpack_require__(/*! ../Table/Tablelvl2Context */ "./node_modules/@material-ui/core/Table/Tablelvl2Context.js"));
+
+var styles = function styles(theme) {
+  return {
+    /* Styles applied to the root element. */
+    root: {
+      color: 'inherit',
+      display: 'table-row',
+      height: 48,
+      verticalAlign: 'middle',
+      // We disable the focus ring for mouse, touch and keyboard users.
+      outline: 'none',
+      '&$selected': {
+        backgroundColor: theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.04)' // grey[100]
+        : 'rgba(255, 255, 255, 0.08)'
+      },
+      '&$hover:hover': {
+        backgroundColor: theme.palette.type === 'light' ? 'rgba(0, 0, 0, 0.07)' // grey[200]
+        : 'rgba(255, 255, 255, 0.14)'
+      }
+    },
+
+    /* Styles applied to the root element if `selected={true}`. */
+    selected: {},
+
+    /* Styles applied to the root element if `hover={true}`. */
+    hover: {},
+
+    /* Styles applied to the root element if table variant = 'head'. */
+    head: {
+      height: 56
+    },
+
+    /* Styles applied to the root element if table variant = 'footer'. */
+    footer: {
+      height: 56
+    }
+  };
+};
+/**
+ * Will automatically set dynamic row height
+ * based on the material table element parent (head, body, etc).
+ */
+
+
+exports.styles = styles;
+
+function TableRow(props) {
+  var classes = props.classes,
+      classNameProp = props.className,
+      Component = props.component,
+      hover = props.hover,
+      selected = props.selected,
+      other = (0, _objectWithoutProperties2.default)(props, ["classes", "className", "component", "hover", "selected"]);
+  return _react.default.createElement(_Tablelvl2Context.default.Consumer, null, function (tablelvl2) {
+    var _classNames;
+
+    var className = (0, _classnames.default)(classes.root, (_classNames = {}, (0, _defineProperty2.default)(_classNames, classes.head, tablelvl2 && tablelvl2.variant === 'head'), (0, _defineProperty2.default)(_classNames, classes.footer, tablelvl2 && tablelvl2.variant === 'footer'), (0, _defineProperty2.default)(_classNames, classes.hover, hover), (0, _defineProperty2.default)(_classNames, classes.selected, selected), _classNames), classNameProp);
+    return _react.default.createElement(Component, (0, _extends2.default)({
+      className: className
+    }, other));
+  });
+}
+
+ true ? TableRow.propTypes = {
+  /**
+   * Should be valid <tr> children such as `TableCell`.
+   */
+  children: _propTypes.default.node,
+
+  /**
+   * Override or extend the styles applied to the component.
+   * See [CSS API](#css-api) below for more details.
+   */
+  classes: _propTypes.default.object.isRequired,
+
+  /**
+   * @ignore
+   */
+  className: _propTypes.default.string,
+
+  /**
+   * The component used for the root node.
+   * Either a string to use a DOM element or a component.
+   */
+  component: _utils.componentPropType,
+
+  /**
+   * If `true`, the table row will shade on hover.
+   */
+  hover: _propTypes.default.bool,
+
+  /**
+   * If `true`, the table row will have the selected shading.
+   */
+  selected: _propTypes.default.bool
+} : undefined;
+TableRow.defaultProps = {
+  component: 'tr',
+  hover: false,
+  selected: false
+};
+
+var _default = (0, _withStyles.default)(styles, {
+  name: 'MuiTableRow'
+})(TableRow);
+
+exports.default = _default;
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/TableRow/index.js":
+/*!**********************************************************!*\
+  !*** ./node_modules/@material-ui/core/TableRow/index.js ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _interopRequireDefault = __webpack_require__(/*! @babel/runtime/helpers/interopRequireDefault */ "./node_modules/@babel/runtime/helpers/interopRequireDefault.js");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+Object.defineProperty(exports, "default", {
+  enumerable: true,
+  get: function get() {
+    return _TableRow.default;
+  }
+});
+
+var _TableRow = _interopRequireDefault(__webpack_require__(/*! ./TableRow */ "./node_modules/@material-ui/core/TableRow/TableRow.js"));
+
+/***/ }),
+
 /***/ "./node_modules/@material-ui/core/Toolbar/Toolbar.js":
 /*!***********************************************************!*\
   !*** ./node_modules/@material-ui/core/Toolbar/Toolbar.js ***!
@@ -16247,6 +17235,42 @@ function getTransitionProps(props, options) {
     delay: style.transitionDelay
   };
 }
+
+/***/ }),
+
+/***/ "./node_modules/@material-ui/core/utils/deprecatedPropType.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/@material-ui/core/utils/deprecatedPropType.js ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function deprecatedPropType(validator, reason) {
+  /* istanbul ignore if */
+  if (false) {}
+
+  return function (props, propName, componentName, location, propFullName) {
+    var componentNameSafe = componentName || '<<anonymous>>';
+    var propFullNameSafe = propFullName || propName;
+
+    if (typeof props[propName] !== 'undefined') {
+      return new Error("The ".concat(location, " `").concat(propFullNameSafe, "` of ") + "`".concat(componentNameSafe, "` is deprecated. ").concat(reason));
+    }
+
+    return null;
+  };
+}
+
+var _default = deprecatedPropType;
+exports.default = _default;
 
 /***/ }),
 

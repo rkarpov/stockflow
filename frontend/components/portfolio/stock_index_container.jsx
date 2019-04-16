@@ -16,7 +16,7 @@ const msp = (state) => {
 const mdp = dispatch => {
   return ({
     logout: () => dispatch(logout()),
-    requestStockPrice: (stockTicker) => dispatch(requestStockPrice(stockTicker)),
+    requestStockPrice: (tickerSymbol) => dispatch(requestStockPrice(tickerSymbol)),
     createTransaction: (transaction) => dispatch(createTransaction(transaction)),
     requestStockPortfolio: () => dispatch(requestStockPortfolio())
   })

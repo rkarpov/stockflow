@@ -5,14 +5,14 @@ import Input from '@material-ui/core/Input';
 class TransactionForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { stockTicker: '', numShares: '' };
+    this.state = { tickerSymbol: '', numShares: '' };
     this.currencyToNum = this.currencyToNum.bind(this)
   }
 
   componentDidUpdate(_, prevState) {
     // fetch stock price as state changes for stock ticker field input
-    if (prevState.stockTicker != this.state.stockTicker) {
-      this.props.requestStockPrice(this.state.stockTicker)
+    if (prevState.tickerSymbol != this.state.tickerSymbol) {
+      this.props.requestStockPrice(this.state.tickerSymbol)
     }
   }
 
@@ -40,7 +40,7 @@ class TransactionForm extends React.Component {
     this.props.createTransaction({
       transaction_type: 'buy',
       user_id: this.props.currentUser.id,
-      stock_symbol: this.state.stockTicker,
+      stock_symbol: this.state.tickerSymbol,
       num_shares: this.state.numShares,
       net_stock_shares: this.props.netStockShares,
       stock_price: this.currencyToNum(this.props.price),
@@ -56,8 +56,8 @@ class TransactionForm extends React.Component {
           <label>Make a transaction</label> <br />
           Balance: {this.props.currentUser.balance} <br />
           {this.props.errors.stock} <br />
-          {this.props.errors.transaction.stockTicker} <br />
-          <Input type="text" placeholder={"Enter stock ticker"} onChange={this.update('stockTicker')} value={this.state.stockTicker} /> <br />
+          {this.props.errors.transaction.tickerSymbol} <br />
+          <Input type="text" placeholder={"Enter stock ticker"} onChange={this.update('tickerSymbol')} value={this.state.tickerSymbol} /> <br />
           {this.props.errors.transaction.numShares} <br />
           <Input type="number" placeholder={"Amount of shares"} onChange={this.update('numShares')} value={this.state.numShares} /> <br />
           {this.props.price} {this.props.company}<br />

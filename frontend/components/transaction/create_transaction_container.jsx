@@ -19,7 +19,7 @@ const msp = (state) => {
 
 const mdp = dispatch => {
   return ({
-    requestStockPrice: (stockTicker) => dispatch(requestStockPrice(stockTicker)),
+    requestStockPrice: (tickerSymbol) => dispatch(requestStockPrice(tickerSymbol)),
     createTransaction: (transaction) => dispatch(createTransaction(transaction)),
   })
 }
