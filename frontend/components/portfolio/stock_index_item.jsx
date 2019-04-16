@@ -1,16 +1,18 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import TableCell from '@material-ui/core/TableCell';
+import TableRow from '@material-ui/core/TableRow';
 
 class StockIndexItem extends React.Component {
 
   render() {
     return (
-      <div>
-        ({this.props.stock.ticker_symbol})
-        ({this.props.stock.company})
-        ({this.props.stock.numShares} shares)
-        ({this.props.stock.netStockValue})
-      </div>
+      <TableRow>
+        <TableCell align="center">{this.props.stock.ticker_symbol}</TableCell>
+        <TableCell align="center">{this.props.stock.company}</TableCell>
+        <TableCell align="center">{this.props.stock.numShares}</TableCell>
+        <TableCell align="center">{this.props.stock.netStockValue}</TableCell>
+      </TableRow>
     )
   }
 
