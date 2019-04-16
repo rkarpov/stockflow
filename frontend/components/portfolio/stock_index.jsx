@@ -2,6 +2,7 @@ import React from 'react';
 import StockIndexItem from './stock_index_item';
 
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,13 +13,17 @@ import Paper from '@material-ui/core/Paper';
 const styles = theme => ({
   root: {
     maxWidth: 650,
-    maxHeight: 600,
+    maxHeight: 550,
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
   },
   table: {
     minWidth: 400,
   },
+  header: {
+    marginLeft: 105,
+    marginTop: 25,
+  }
 });
 
 class StockIndex extends React.Component {
@@ -43,7 +48,9 @@ class StockIndex extends React.Component {
 
     return (
       <div>
-        {this.props.currentUser.username}'s portfolio. Net worth: {this.props.currentUser.netAssetValue}
+        <Typography variant="h4" color="inherit" className={classes.header} align="left">
+          Portfolio ({this.props.currentUser.netAssetValue})
+        </Typography>
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableHead>

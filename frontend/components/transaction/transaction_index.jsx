@@ -2,6 +2,7 @@ import React from 'react';
 import TransactionIndexItem from './transaction_index_item';
 
 import { withStyles } from '@material-ui/core/styles';
+import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -12,13 +13,17 @@ import Paper from '@material-ui/core/Paper';
 const styles = theme => ({
   root: {
     maxWidth: 650,
-    maxHeight: 600,
+    maxHeight: 550,
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
   },
   table: {
     minWidth: 400,
   },
+  header: {
+    marginLeft: 225,
+    marginTop: 25,
+  }
 });
 
 class TransactionIndex extends React.Component {
@@ -43,6 +48,9 @@ class TransactionIndex extends React.Component {
 
     return (
       <div>
+        <Typography variant="h4" color="inherit" className={classes.header} align="left">
+          Transactions
+        </Typography>
         <Paper className={classes.root}>
           <Table className={classes.table}>
             <TableHead>
@@ -64,5 +72,3 @@ class TransactionIndex extends React.Component {
 }
 }
 export default withStyles(styles)(TransactionIndex);
-
-// export default TransactionIndex;
