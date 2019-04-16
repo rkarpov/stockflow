@@ -67,32 +67,44 @@ class User < ApplicationRecord
     self.transactions.where(:type == "buy")
   end
 
-  def get_stock_portfolio(transactions, stock_symbols, prices_companies)
+  def get_stock_portfolio(transactions, stock_symbols, quotes)
     value = BigDecimal(0)
     num_stocks_owned = Hash.new(0)
     companies = {}
+    performance = {}
     self.stock_purchases.each do |purchase|
       stock_ticker = stock_symbols[purchase.stock_id]
-      stock_price = prices_companies[stock_ticker]["price"]
-      company_name = prices_companies[stock_ticker]["company"]["companyName"]
-      
+      quote = quotes[stock_ticker]["quote"]
+      company_name = quote["companyName"]
+      stock_price = quote["latestPrice"]
+      open_price = quote["open"]
+
       value += stock_price * purchase.num_shares
       num_stocks_owned[stock_ticker] += purchase.num_shares
       companies[stock_ticker] = company_name
+
+      case open_price <=> stock_price
+      when 1
+        performance[stock_ticker] = "red"
+      when -1
+        performance[stock_ticker] = "green"
+      else
+        performance[stock_ticker] = "grey"
+      end
     end
     portfolio_value = self.get_amount(value)
-
     stock_value = {}
     stock_symbols.each do |stock| # [stock_id, ticker_symbol]
       stock_value[stock[1]] = 
-        self.get_amount(num_stocks_owned[stock[1]] * prices_companies[stock_symbols[stock[0]]]["price"])
+      self.get_amount(num_stocks_owned[stock[1]] * quotes[stock_symbols[stock[0]]]["quote"]["latestPrice"])
     end
-    
+
     return {
       "num_shares" => num_stocks_owned,
       "net_stock_worth" => stock_value,
       "net_portfolio_worth" => portfolio_value,
-      "company_name" => companies
+      "company_name" => companies,
+      "performance" => performance
     }
   end
 end

@@ -8,10 +8,10 @@ class StockIndexItem extends React.Component {
   render() {
     return (
       <TableRow>
-        <TableCell align="center">{this.props.stock.ticker_symbol}</TableCell>
+        <TableCell style={{ color: `${this.props.stock.performance}` }} align="center">{this.props.stock.ticker_symbol}</TableCell>
         <TableCell align="center">{this.props.stock.company}</TableCell>
         <TableCell align="center">{this.props.stock.numShares}</TableCell>
-        <TableCell align="center">{this.props.stock.netStockValue}</TableCell>
+        <TableCell style={{ color: `${this.props.stock.performance}` }} align="center">{this.props.stock.netStockValue}</TableCell>
       </TableRow>
     )
   }

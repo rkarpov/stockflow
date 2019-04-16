@@ -865,12 +865,18 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableRow__WEBPACK_IMPORTED_MODULE_3___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        style: {
+          color: "".concat(this.props.stock.performance)
+        },
         align: "center"
       }, this.props.stock.ticker_symbol), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         align: "center"
       }, this.props.stock.company), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         align: "center"
       }, this.props.stock.numShares), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        style: {
+          color: "".concat(this.props.stock.performance)
+        },
         align: "center"
       }, this.props.stock.netStockValue));
     }
@@ -2195,7 +2201,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStocks", function() { return fetchStocks; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockQuote", function() { return fetchStockQuote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockCompany", function() { return fetchStockCompany; });
-var baseUrl = "https://api.iextrading.com/1.0";
 var fetchStockPortfolio = function fetchStockPortfolio() {
   return $.ajax({
     method: "GET",
@@ -2208,7 +2213,8 @@ var fetchStockPrice = function fetchStockPrice(tickerSymbol) {
     url: "/api/stocks/".concat(tickerSymbol)
   });
 }; // front end api call to fetch price
-// export const fetchStockPrice = (tickerSymbol) => {
+
+var baseUrl = "https://api.iextrading.com/1.0"; // export const fetchStockPrice = (tickerSymbol) => {
 //   return $.ajax({
 //     method: "GET",
 //     url: baseUrl + `/stock/${tickerSymbol}/price`

@@ -9,6 +9,7 @@ json.stocks do
       json.netStockValue @portfolio["net_stock_worth"][stock_ticker]
       json.numShares @portfolio["num_shares"][stock_ticker]
       json.company @portfolio["company_name"][stock_ticker]
+      json.performance @portfolio["performance"][stock_ticker]
     end
   end
 end

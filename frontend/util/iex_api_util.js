@@ -1,5 +1,3 @@
-const baseUrl = `https://api.iextrading.com/1.0`;
-
 export const fetchStockPortfolio = () => {
   return $.ajax({
     method: "GET",
@@ -15,6 +13,7 @@ export const fetchStockPrice = (tickerSymbol) => {
 }
 
 // front end api call to fetch price
+const baseUrl = `https://api.iextrading.com/1.0`;
 
 // export const fetchStockPrice = (tickerSymbol) => {
 //   return $.ajax({
