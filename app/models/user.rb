@@ -67,6 +67,17 @@ class User < ApplicationRecord
     self.transactions.where(:type == "buy")
   end
 
+  def stock_performance(open, current)
+    case open <=> current
+      when 1
+        "red"
+      when -1
+        "green"
+      else
+        "grey"
+    end
+  end
+
   def get_stock_portfolio(transactions, stock_symbols, quotes)
     value = BigDecimal(0)
     num_stocks_owned = Hash.new(0)
@@ -77,20 +88,11 @@ class User < ApplicationRecord
       quote = quotes[stock_ticker]["quote"]
       company_name = quote["companyName"]
       stock_price = quote["latestPrice"]
-      open_price = quote["open"]
 
       value += stock_price * purchase.num_shares
       num_stocks_owned[stock_ticker] += purchase.num_shares
       companies[stock_ticker] = company_name
-
-      case open_price <=> stock_price
-      when 1
-        performance[stock_ticker] = "red"
-      when -1
-        performance[stock_ticker] = "green"
-      else
-        performance[stock_ticker] = "grey"
-      end
+      performance[stock_ticker] = self.stock_performance(quote["open"], stock_price)
     end
     portfolio_value = self.get_amount(value)
     stock_value = {}

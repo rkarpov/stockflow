@@ -31,6 +31,8 @@ class Api::TransactionsController < ApplicationController
     if errors.length != 0
       render json: errors, status: 401
     elsif @transaction.save
+      open_price = RestClient.get("https://api.iextrading.com/1.0/stock/#{params[:data][:stock_symbol]}/quote/open")
+      @performance = current_user.stock_performance(open_price.to_f, params[:data][:stock_price].to_f)
       current_user.balance -= purchase_amount
       current_user.save
       render :show

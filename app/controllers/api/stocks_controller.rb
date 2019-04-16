@@ -1,7 +1,7 @@
 class Api::StocksController < ApplicationController
 
   # retreive current user's stock portfolio
-  def retreive_stock_portfolio
+  def index
     begin
       transactions = current_user.transactions
       @stock_symbols = current_user.get_stock_symbols # returns hash { :id => ticker_symbol }

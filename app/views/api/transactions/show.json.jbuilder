@@ -12,6 +12,7 @@ json.stock do
     json.company @stock.company_name
     json.netStockValue @net_stock_value
     json.numShares @net_stock_shares
+    json.performance @performance
   end
 end
 

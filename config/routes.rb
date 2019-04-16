@@ -3,9 +3,8 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: :json} do
       resources :users, only: [:create, :show]      # user sign up
       resource :session, only: [:create, :destroy]  # user login, logout
-      # resources :stocks, only: [:index]
+      resources :stocks, only: [:index]
       get 'stocks/:ticker_symbol', to: 'stocks#search_stock_price'
-      get 'stocks', to: 'stocks#retreive_stock_portfolio'
       resources :transactions, only: [:index, :create]
   end
 
