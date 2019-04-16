@@ -20,7 +20,11 @@ class Main extends React.Component {
         )
       case "/portfolio":
         return (
-          <div>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
             <StockIndexContainer />
             <CreateTransactionContainer />
           </div>
@@ -34,7 +38,7 @@ class Main extends React.Component {
     return(
       <div>
         <NavbarContainer/>
-        {this.method()}
+          {this.method()}
       </div>
     )
   }

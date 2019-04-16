@@ -1,6 +1,39 @@
 import React from 'react';
+
 import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
 import Input from '@material-ui/core/Input';
+import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
+import withStyles from '@material-ui/core/styles/withStyles';
+
+export const styles = theme => ({
+  main: {
+    width: 'auto',
+    display: 'block',
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 300,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  paper: {
+    marginTop: theme.spacing.unit * 8,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+  },
+  form: {
+    width: '100%',
+    marginTop: theme.spacing.unit,
+  },
+  submit: {
+    marginTop: theme.spacing.unit * 2,
+  },
+});
 
 class TransactionForm extends React.Component {
   constructor(props) {
@@ -50,27 +83,32 @@ class TransactionForm extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
-      <div>
-        <form onSubmit={this.handleSubmit.bind(this)} style={{ float: "right" }}>
-          <label>Make a transaction</label> <br />
-          Balance: {this.props.currentUser.balance} <br />
-          {this.props.errors.stock} <br />
-          {this.props.errors.transaction.tickerSymbol} <br />
-          <Input type="text" placeholder={"Enter stock ticker"} onChange={this.update('tickerSymbol')} value={this.state.tickerSymbol} /> <br />
-          {this.props.errors.transaction.numShares} <br />
-          <Input type="number" placeholder={"Amount of shares"} onChange={this.update('numShares')} value={this.state.numShares} /> <br />
-          {this.props.price} {this.props.company}<br />
-          {this.props.errors.transaction.balance}<br />
-          {this.calculateTotalCost()} <br />
-          <Button type="submit"
-            variant="contained" color="primary">
-            Place Order
-          </Button>
-        </form>
-      </div>
+      <main className={classes.main}>
+        <CssBaseline />
+        <Paper className={classes.paper}>
+          <Typography component="h1" variant="h5" align="center">
+            Place Transaction<br />
+            Balance ({this.props.currentUser.balance})
+          </Typography>
+          <form onSubmit={this.handleSubmit.bind(this)} >
+            <label style={{ color: "#ff5722" }}>{this.props.errors.stock}</label><br/>
+            <label style={{ color: "#ff5722" }}>{this.props.errors.transaction.tickerSymbol}</label><br/>
+            <Input type="text" placeholder={"Enter stock ticker"} onChange={this.update('tickerSymbol')} value={this.state.tickerSymbol} /> <br />
+            <label style={{ color: "#ff5722" }}>{this.props.errors.transaction.numShares}</label><br/>
+            <Input type="number" placeholder={"Amount of shares"} onChange={this.update('numShares')} value={this.state.numShares} /> <br />
+            {this.props.price} {this.props.company}<br />
+            <label style={{ color: "#ff5722" }}>{this.props.errors.transaction.balance}</label><br />
+            {this.calculateTotalCost()} <br />
+            <Button type="submit"
+              variant="contained" color="primary">
+              Place Order
+            </Button>
+          </form>
+        </Paper>
+      </main>
     )
   }
 }
-
-export default TransactionForm;
+export default withStyles(styles)(TransactionForm);

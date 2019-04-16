@@ -52,24 +52,20 @@ class Navbar extends React.Component {
     const linkToTransactions = props => <RouterLink to="/transactions" {...props} />
     const { anchorEl } = this.state;
 
-
     return (
       <div className={classes.root}>
-
-          <Menu
-            id="simple-menu"
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={this.handleClose}
-          >
-            <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
-            <MenuItem onClick={this.handleClose}>Cancel</MenuItem>
-          </Menu>
-
+        <Menu
+          id="simple-menu"
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={this.handleClose}
+        >
+          <MenuItem onClick={() => this.props.logout()}>Logout</MenuItem>
+          <MenuItem onClick={this.handleClose}>Cancel</MenuItem>
+        </Menu>
 
         <AppBar className={classes.appBar} position="static">
           <Toolbar>
-
             <IconButton className={classes.menuButton} color="inherit" aria-label="Menu"
               aria-owns={anchorEl ? 'simple-menu' : undefined}
               aria-haspopup="true"
@@ -88,16 +84,12 @@ class Navbar extends React.Component {
             <Link component={linkToTransactions} className={classes.link}>
               Transactions
             </Link>
-            
-
           </Toolbar>
         </AppBar>
-
       </div>
     );
   }
   
 }
-
 
 export default withStyles(styles)(Navbar);

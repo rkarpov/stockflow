@@ -1,6 +1,6 @@
 import React from 'react';
 import TransactionIndexItem from './transaction_index_item';
-
+import CssBaseline from '@material-ui/core/CssBaseline';
 import { withStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
@@ -16,12 +16,13 @@ const styles = theme => ({
     maxHeight: 550,
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
+    marginLeft: 50,
   },
   table: {
     minWidth: 400,
   },
   header: {
-    marginLeft: 225,
+    marginLeft: 275,
     marginTop: 25,
   }
 });
@@ -48,6 +49,7 @@ class TransactionIndex extends React.Component {
 
     return (
       <div>
+        <CssBaseline/>
         <Typography variant="h4" color="inherit" className={classes.header} align="left">
           Transactions
         </Typography>
@@ -68,7 +70,7 @@ class TransactionIndex extends React.Component {
           </Table>
         </Paper>
       </div>
-  )
-}
+    )
+  }
 }
 export default withStyles(styles)(TransactionIndex);

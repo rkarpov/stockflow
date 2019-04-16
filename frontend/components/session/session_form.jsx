@@ -34,10 +34,6 @@ export const styles = theme => ({
       alignItems: 'center',
       padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
     },
-    avatar: {
-      margin: theme.spacing.unit,
-      backgroundColor: theme.palette.secondary.main,
-    },
     form: {
       width: '100%',
       marginTop: theme.spacing.unit,
@@ -92,9 +88,6 @@ class SessionForm extends React.Component {
       <main className={classes.main}>
         <CssBaseline />
         <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
           <Typography component="h1" variant="h5">
             {this.props.formType}
           </Typography>
