@@ -1,6 +1,7 @@
 import React from 'react';
 import StockIndexItem from './stock_index_item';
-import CreateTransactionContainer from '../transaction/create_transaction_container';
+// import CreateTransactionContainer from '../transaction/create_transaction_container';
+// import NavbarContainer from '../navbar/navbar_container';
 
 import Button from '@material-ui/core/Button';
 import Input from '@material-ui/core/Input';
@@ -21,13 +22,15 @@ class StockIndex extends React.Component {
 
     return (
       <div>
-        <Button variant="contained" color="primary" onClick={() => this.props.logout()}>
+        {/* <NavbarContainer/> */}
+
+        {/* <Button variant="contained" color="primary" onClick={() => this.props.logout()}>
             Sign Out
-        </Button>
+        </Button> */}
         
         {this.props.currentUser.username}'s portfolio. Net worth: {this.props.currentUser.netAssetValue}
         { stocks }
-        <CreateTransactionContainer/>
+        {/* <CreateTransactionContainer/> */}
       </div>
     )
   }
