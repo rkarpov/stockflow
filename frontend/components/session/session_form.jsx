@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
@@ -9,7 +8,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
@@ -46,12 +44,17 @@ export const styles = theme => ({
 
 class SessionForm extends React.Component {
   constructor(props) {
+    debugger
     super(props);
     this.state = this.props.credentials;
     this.handleSubmit = this.handleSubmit.bind(this);
     this.usernameField = this.usernameField.bind(this);
   }
 
+  componentDidMount(){
+    this.props.clearErrors()
+  }
+ 
   handleSubmit(e) {
     e.preventDefault();
     this.props.processForm(this.state)
@@ -83,7 +86,6 @@ class SessionForm extends React.Component {
   }
 
   render(){
-    debugger
     const { classes } = this.props;
     return(
       <main className={classes.main}>
@@ -122,13 +124,17 @@ class SessionForm extends React.Component {
               control={<Checkbox value="remember" color="primary" />}
               label="Remember me"
             />
-
             <InputLabel style={{ float: "right", marginTop: "16px"}}>{this.props.formType === "Register" ? "Have an account? " : "Need an account? "}
             <Link
               to={this.props.formType === "Register" ? "/" : "register"}>
               {this.props.formType === "Register" ? "Sign In" : "Register"}
             </Link>
             </InputLabel>
+            <p 
+              // hidden={ this.props.match.url.includes("/register") ? "hidden" : null }
+              style={{ color: "red", height: 10, padding: 0, margin: 0 }}>
+              {this.props.errors.login}
+            </p>
             <Button
               type="submit"
               fullWidth
