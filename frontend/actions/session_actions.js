@@ -20,7 +20,6 @@ export const receiveErrors = errors => ({
 });
 
 export const removeErrors = () => {
-  debugger
   return {
     type: REMOVE_SESSION_ERRORS
   };
@@ -41,9 +40,7 @@ export const login = user => dispatch => (
 
 export const logout = () => dispatch => (
   APIUtil.logout().then(
-    user => (
-        dispatch(logoutCurrentUser())
-    ))
+    user => (dispatch(logoutCurrentUser())))
 );
 
 export const clearErrors = () => dispatch => {

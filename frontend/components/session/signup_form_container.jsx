@@ -8,10 +8,10 @@ const mapStateToProps = ({ errors }) => {
     formType: 'Register',
     credentials: {
       username: '',
-      email: '', password: '',
+      email: '',
+      password: '',
     },
     errors: errors.session,
-    // signupErrors: errors.session,
   };
 };
 

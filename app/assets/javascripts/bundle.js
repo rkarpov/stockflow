@@ -131,7 +131,6 @@ var receiveErrors = function receiveErrors(errors) {
   };
 };
 var removeErrors = function removeErrors() {
-  debugger;
   return {
     type: REMOVE_SESSION_ERRORS
   };
@@ -1086,7 +1085,6 @@ function (_React$Component) {
 
     _classCallCheck(this, SessionForm);
 
-    debugger;
     _this = _possibleConstructorReturn(this, _getPrototypeOf(SessionForm).call(this, props));
     _this.state = _this.props.credentials;
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
@@ -1251,8 +1249,7 @@ var mapStateToProps = function mapStateToProps(_ref) {
       email: '',
       password: ''
     },
-    errors: errors.session // signupErrors: errors.session,
-
+    errors: errors.session
   };
 };
 
