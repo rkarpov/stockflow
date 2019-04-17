@@ -42,6 +42,10 @@ class TransactionForm extends React.Component {
     this.currencyToNum = this.currencyToNum.bind(this)
   }
 
+  componentDidMount(){
+    this.props.clearForm();
+  }
+
   componentDidUpdate(_, prevState) {
     // fetch stock price as state changes for stock ticker field input
     if (prevState.tickerSymbol != this.state.tickerSymbol) {
@@ -70,7 +74,6 @@ class TransactionForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    debugger
     this.props.createTransaction({
       transaction_type: 'buy',
       user_id: this.props.currentUser.id,

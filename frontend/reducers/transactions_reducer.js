@@ -1,6 +1,7 @@
 import merge from 'lodash/merge';
 
 import { RECEIVE_TRANSACTION, RECEIVE_TRANSACTIONS } from '../actions/transaction_actions';
+import { RECEIVE_CURRENT_USER } from '../actions/session_actions'
 
 const transactionsReducer = (oldState = {}, action) => {
   Object.freeze(oldState);
@@ -12,6 +13,8 @@ const transactionsReducer = (oldState = {}, action) => {
     case RECEIVE_TRANSACTIONS:    
       merge(newState, action.transactions)
       return newState;
+    case RECEIVE_CURRENT_USER:
+      return {};
     default:
       return oldState;
   }

@@ -204,6 +204,7 @@ var receiveStockPrice = function receiveStockPrice(payload) {
 };
 
 var receiveErrors = function receiveErrors(errors) {
+  debugger;
   return {
     type: RECEIVE_STOCK_ERRORS,
     errors: errors
@@ -212,6 +213,7 @@ var receiveErrors = function receiveErrors(errors) {
 
 var requestStockPortfolio = function requestStockPortfolio() {
   return function (dispatch) {
+    debugger;
     return _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchStockPortfolio"]().then(function (portfolio) {
       return dispatch(receiveStocksPortfolio(portfolio));
     }, function (error) {
@@ -221,6 +223,7 @@ var requestStockPortfolio = function requestStockPortfolio() {
 };
 var requestStockPrice = function requestStockPrice(tickerSymbol) {
   return function (dispatch) {
+    debugger;
     return _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchStockPrice"](tickerSymbol).then(function (price) {
       return dispatch(receiveStockPrice(price));
     }, function (error) {
@@ -236,7 +239,7 @@ var requestStockPrice = function requestStockPrice(tickerSymbol) {
 /*!*************************************************!*\
   !*** ./frontend/actions/transaction_actions.js ***!
   \*************************************************/
-/*! exports provided: RECEIVE_TRANSACTION, RECEIVE_TRANSACTIONS, RECEIVE_TRANSACTION_ERRORS, receiveTransactions, requestTransactions, createTransaction */
+/*! exports provided: RECEIVE_TRANSACTION, RECEIVE_TRANSACTIONS, RECEIVE_TRANSACTION_ERRORS, CLEAR_TRANSACTION_FORM, receiveTransactions, requestTransactions, createTransaction, clearForm */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -244,14 +247,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_TRANSACTION", function() { return RECEIVE_TRANSACTION; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_TRANSACTIONS", function() { return RECEIVE_TRANSACTIONS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_TRANSACTION_ERRORS", function() { return RECEIVE_TRANSACTION_ERRORS; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CLEAR_TRANSACTION_FORM", function() { return CLEAR_TRANSACTION_FORM; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "receiveTransactions", function() { return receiveTransactions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestTransactions", function() { return requestTransactions; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createTransaction", function() { return createTransaction; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "clearForm", function() { return clearForm; });
 /* harmony import */ var _util_transaction_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/transaction_api_util */ "./frontend/util/transaction_api_util.js");
 
 var RECEIVE_TRANSACTION = 'RECEIVE_TRANSACTION';
 var RECEIVE_TRANSACTIONS = 'RECEIVE_TRANSACTIONS';
 var RECEIVE_TRANSACTION_ERRORS = 'RECEIVE_TRANSACTION_ERRORS';
+var CLEAR_TRANSACTION_FORM = 'CLEAR_TRANSACTION_FORM';
 var receiveTransactions = function receiveTransactions(transactions) {
   return {
     type: RECEIVE_TRANSACTIONS,
@@ -273,6 +279,13 @@ var receiveErrors = function receiveErrors(errors) {
   };
 };
 
+var removeErrorsPrice = function removeErrorsPrice(errors) {
+  return {
+    type: CLEAR_TRANSACTION_FORM,
+    errors: errors
+  };
+};
+
 var requestTransactions = function requestTransactions() {
   return function (dispatch) {
     return _util_transaction_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchTransactions"]().then(function (transactions) {
@@ -287,6 +300,11 @@ var createTransaction = function createTransaction(payload) {
     }, function (error) {
       return dispatch(receiveErrors(error.responseJSON));
     });
+  };
+};
+var clearForm = function clearForm() {
+  return function (dispatch) {
+    dispatch(removeErrorsPrice());
   };
 };
 
@@ -797,8 +815,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state) {
+  // debugger
+  var currentUser = state.entities.users[state.session.id];
+
+  if (currentUser["netAssetValue"] === undefined) {
+    currentUser["netAssetValue"] = "";
+  }
+
+  ;
   return {
-    currentUser: state.entities.users[state.session.id],
+    currentUser: currentUser,
     stocks: Object.values(state.entities.stocks),
     errors: state.errors
   };
@@ -1313,6 +1339,9 @@ var mdp = function mdp(dispatch) {
     },
     createTransaction: function createTransaction(transaction) {
       return dispatch(Object(_actions_transaction_actions__WEBPACK_IMPORTED_MODULE_4__["createTransaction"])(transaction));
+    },
+    clearForm: function clearForm() {
+      return dispatch(Object(_actions_transaction_actions__WEBPACK_IMPORTED_MODULE_4__["clearForm"])());
     }
   };
 };
@@ -1421,6 +1450,11 @@ function (_React$Component) {
   }
 
   _createClass(TransactionForm, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.props.clearForm();
+    }
+  }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(_, prevState) {
       // fetch stock price as state changes for stock ticker field input
@@ -1454,7 +1488,6 @@ function (_React$Component) {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
-      debugger;
       this.props.createTransaction({
         transaction_type: 'buy',
         user_id: this.props.currentUser.id,
@@ -2037,7 +2070,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/transaction_actions */ "./frontend/actions/transaction_actions.js");
 
 
-
+ // import { RECEIVE_CURRENT_USER } from '../actions/session_actions'
 
 var stocksReducer = function stocksReducer() {
   var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -2047,10 +2080,14 @@ var stocksReducer = function stocksReducer() {
 
   switch (action.type) {
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCKS_PORTFOLIO"]:
-      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.stocks);
+      // debugger
+      // return merge(newState, action.payload.stocks);
+      return action.payload.stocks;
 
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_TRANSACTION"]:
       return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.stock);
+    // case RECEIVE_CURRENT_USER:
+    //   return {};
 
     default:
       return oldState;
@@ -2079,6 +2116,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+
 /* harmony default export */ __webpack_exports__["default"] = (function () {
   var _newState;
 
@@ -2096,6 +2134,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TRANSACTION_ERRORS"]:
       return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.errors);
+
+    case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__["CLEAR_TRANSACTION_FORM"]:
+      return [];
 
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TRANSACTION"]:
       return [];
@@ -2119,6 +2160,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/merge */ "./node_modules/lodash/merge.js");
 /* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/transaction_actions */ "./frontend/actions/transaction_actions.js");
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+
 
 
 
@@ -2136,6 +2179,9 @@ var transactionsReducer = function transactionsReducer() {
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TRANSACTIONS"]:
       lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.transactions);
       return newState;
+
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_CURRENT_USER"]:
+      return {};
 
     default:
       return oldState;
@@ -2175,15 +2221,14 @@ var usersReducer = function usersReducer() {
 
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_CURRENT_USER"]:
-      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, _defineProperty({}, action.currentUser.id, action.currentUser));
+      // debugger
+      // return merge(newState, { [action.currentUser.id]: action.currentUser });
+      return _defineProperty({}, action.currentUser.id, action.currentUser);
 
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_TRANSACTION"]:
-      // newState[action.payload.userId].balance = action.payload.balance;
-      // newState[action.payload.userId].netAssetValue = action.payload.netAssetValue;
       return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.user);
 
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_3__["RECEIVE_STOCKS_PORTFOLIO"]:
-      // return merge(newState, { [action.payload.userId]: { ["netAssetValue"]: action.payload.netAssetValue }})
       return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.user);
 
     default:

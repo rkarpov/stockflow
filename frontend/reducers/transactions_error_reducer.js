@@ -1,7 +1,7 @@
 import merge from 'lodash/merge';
 import { RECEIVE_TRANSACTION_ERRORS, RECEIVE_TRANSACTION } from '../actions/transaction_actions';
 import { RECEIVE_STOCK_ERRORS, RECEIVE_STOCK_PRICE } from '../actions/stock_actions';
-
+import { CLEAR_TRANSACTION_FORM } from '../actions/transaction_actions';
 
 export default (oldState = [], action) => {
   Object.freeze(oldState);
@@ -13,6 +13,8 @@ export default (oldState = [], action) => {
       return [];
     case RECEIVE_TRANSACTION_ERRORS:
       return merge(newState, action.errors);
+    case CLEAR_TRANSACTION_FORM:
+      return [];
     case RECEIVE_TRANSACTION:
       return [];
     default:

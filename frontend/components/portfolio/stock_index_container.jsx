@@ -6,8 +6,13 @@ import { requestStockPrice, requestStockPortfolio } from '../../actions/stock_ac
 import { createTransaction } from '../../actions/transaction_actions';
 
 const msp = (state) => {
+  // debugger
+  let currentUser = state.entities.users[state.session.id];
+  if (currentUser["netAssetValue"] === undefined){
+    currentUser["netAssetValue"] = ""
+  };
   return {
-    currentUser: state.entities.users[state.session.id],
+    currentUser,
     stocks: Object.values(state.entities.stocks),
     errors: state.errors
   }

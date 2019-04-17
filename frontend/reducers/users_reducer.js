@@ -8,13 +8,12 @@ const usersReducer = (oldState = {}, action) => {
   let newState = merge({}, oldState);
   switch (action.type) {
     case RECEIVE_CURRENT_USER:
-      return merge(newState, { [action.currentUser.id]: action.currentUser });
+    // debugger
+      // return merge(newState, { [action.currentUser.id]: action.currentUser });
+      return { [action.currentUser.id]: action.currentUser };
     case RECEIVE_TRANSACTION:
-      // newState[action.payload.userId].balance = action.payload.balance;
-      // newState[action.payload.userId].netAssetValue = action.payload.netAssetValue;
       return merge(newState, action.payload.user);
     case RECEIVE_STOCKS_PORTFOLIO:
-      // return merge(newState, { [action.payload.userId]: { ["netAssetValue"]: action.payload.netAssetValue }})
       return merge(newState, action.payload.user);
     default:
       return oldState

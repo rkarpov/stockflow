@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import TransactionForm from './transaction_form';
 import { requestStockPrice } from '../../actions/stock_actions';
-import { createTransaction } from '../../actions/transaction_actions';
+import { createTransaction, clearForm } from '../../actions/transaction_actions';
 
 const msp = (state) => {
   const stockPrice = state.entities.ordersForm.price || "Price per share";
@@ -21,6 +21,7 @@ const mdp = dispatch => {
   return ({
     requestStockPrice: (tickerSymbol) => dispatch(requestStockPrice(tickerSymbol)),
     createTransaction: (transaction) => dispatch(createTransaction(transaction)),
+    clearForm: () => dispatch(clearForm()),
   })
 }
 

@@ -3,6 +3,7 @@ import * as transactionApiUtil from '../util/transaction_api_util';
 export const RECEIVE_TRANSACTION = 'RECEIVE_TRANSACTION';
 export const RECEIVE_TRANSACTIONS = 'RECEIVE_TRANSACTIONS';
 export const RECEIVE_TRANSACTION_ERRORS = 'RECEIVE_TRANSACTION_ERRORS';
+export const CLEAR_TRANSACTION_FORM = 'CLEAR_TRANSACTION_FORM';
 
 export const receiveTransactions = (transactions) => {
   return ({
@@ -25,6 +26,13 @@ const receiveErrors = errors => {
   });
 };
 
+const removeErrorsPrice = errors => {
+  return ({
+    type: CLEAR_TRANSACTION_FORM,
+    errors
+  })
+}
+
 export const requestTransactions = () => dispatch => {
   return (
     transactionApiUtil.fetchTransactions().then(
@@ -38,4 +46,8 @@ export const createTransaction = (payload) => dispatch => {
       transaction => (dispatch(receiveTransaction(transaction))),
       error => (dispatch(receiveErrors(error.responseJSON)))
     ));
+};
+
+export const clearForm = () => dispatch => {
+  dispatch(removeErrorsPrice());
 };

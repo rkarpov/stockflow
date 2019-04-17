@@ -2,16 +2,16 @@ class Api::StocksController < ApplicationController
 
   # retreive current user's stock portfolio
   def index
-    begin
-      transactions = current_user.transactions
-      @stock_symbols = current_user.get_stock_symbols # returns hash { :id => ticker_symbol }
+    @stock_symbols = current_user.get_stock_symbols # returns hash { :id => ticker_symbol }
+    if @stock_symbols.length > 0
       fetch_quotes = RestClient.get("https://api.iextrading.com/1.0/stock/market/batch?symbols=#{@stock_symbols.values.join(",")}&types=quote")
       quotes = JSON.parse(fetch_quotes.body)
+      transactions = current_user.transactions
       @portfolio = current_user.get_stock_portfolio(transactions, @stock_symbols, quotes)
       # portfolio => { total_portfolio_value => $X.XX, companyname => "...", num_shares_owned => X, net_stock_value => $X.XX, performance => color }
       render :index
-    rescue
-      render json: [""], status: 404
+    else
+      render json: { "stocks" => {} }
     end
   end
 
