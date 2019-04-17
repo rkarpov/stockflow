@@ -27,7 +27,7 @@ class Api::TransactionsController < ApplicationController
     errors["balance"] = 'Not enough funds' if purchase_amount > current_user.balance
     errors["numShares"] = 'Amount must be a whole number' if params[:data][:num_shares].to_f % 1 != 0
     errors["numShares"] = 'Amount cannot be blank' if params[:data][:num_shares].to_f == 0
- 
+
     if errors.length != 0
       render json: errors, status: 401
     elsif @transaction.save

@@ -12,7 +12,7 @@ class TransactionIndexItem extends React.Component {
         <TableCell align="center">{this.props.transaction.tickerSymbol}</TableCell>
         <TableCell align="center">{this.props.transaction.company}</TableCell>
         <TableCell align="center">{this.props.transaction.num_shares}</TableCell>
-        <TableCell align="center">${this.props.transaction.stock_price}</TableCell>
+        <TableCell align="center">{this.props.transaction.stock_price}</TableCell>
       </TableRow>
     )
   }

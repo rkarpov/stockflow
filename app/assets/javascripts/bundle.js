@@ -1454,6 +1454,7 @@ function (_React$Component) {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
+      debugger;
       this.props.createTransaction({
         transaction_type: 'buy',
         user_id: this.props.currentUser.id,
@@ -1765,7 +1766,7 @@ function (_React$Component) {
         align: "center"
       }, this.props.transaction.num_shares), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         align: "center"
-      }, "$", this.props.transaction.stock_price));
+      }, this.props.transaction.stock_price));
     }
   }]);
 
