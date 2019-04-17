@@ -947,9 +947,9 @@ var msp = function msp(_ref) {
     credentials: {
       email: '',
       password: ''
-    } // loginErrors: errors.session,
-    // errors: errors.session,
-
+    },
+    // loginErrors: errors.session,
+    errors: errors.session
   };
 };
 
@@ -1123,6 +1123,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      debugger;
       var classes = this.props.classes;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
         className: classes.main
@@ -1138,8 +1139,11 @@ function (_React$Component) {
         required: true,
         fullWidth: true
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputLabel__WEBPACK_IMPORTED_MODULE_9___default.a, {
-        htmlFor: "email"
-      }, "Email Address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_8___default.a, {
+        htmlFor: "email",
+        style: "email" in this.props.errors ? {
+          color: "red"
+        } : null
+      }, "email" in this.props.errors ? this.props.errors.email : "Email Address"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_8___default.a, {
         id: "email",
         name: "email",
         autoComplete: "email",
@@ -1153,8 +1157,11 @@ function (_React$Component) {
         required: true,
         fullWidth: true
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputLabel__WEBPACK_IMPORTED_MODULE_9___default.a, {
-        htmlFor: "password"
-      }, "Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_8___default.a, {
+        htmlFor: "password",
+        style: "password" in this.props.errors ? {
+          color: "red"
+        } : null
+      }, "password" in this.props.errors ? this.props.errors.password : "Password"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Input__WEBPACK_IMPORTED_MODULE_8___default.a, {
         name: "password",
         type: "password",
         id: "password",
@@ -1219,8 +1226,8 @@ var mapStateToProps = function mapStateToProps(_ref) {
       username: '',
       email: '',
       password: ''
-    } // errors: errors.session,
-    // signupErrors: errors.session,
+    },
+    errors: errors.session // signupErrors: errors.session,
 
   };
 };
@@ -1830,16 +1837,16 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
-/* harmony import */ var _stocks_error_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./stocks_error_reducer */ "./frontend/reducers/stocks_error_reducer.js");
+/* harmony import */ var _session_error_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./session_error_reducer */ "./frontend/reducers/session_error_reducer.js");
 /* harmony import */ var _transactions_error_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./transactions_error_reducer */ "./frontend/reducers/transactions_error_reducer.js");
- // import session from './session_errors_reducer';
 
+ // import stock from './stocks_error_reducer';
 
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
-  stock: _stocks_error_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
-  transaction: _transactions_error_reducer__WEBPACK_IMPORTED_MODULE_2__["default"] // session,
-
+  // stock,
+  transaction: _transactions_error_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  session: _session_error_reducer__WEBPACK_IMPORTED_MODULE_1__["default"]
 }));
 
 /***/ }),
@@ -1921,6 +1928,36 @@ var rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])(
 
 /***/ }),
 
+/***/ "./frontend/reducers/session_error_reducer.js":
+/*!****************************************************!*\
+  !*** ./frontend/reducers/session_error_reducer.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/session_actions */ "./frontend/actions/session_actions.js");
+
+/* harmony default export */ __webpack_exports__["default"] = (function () {
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(oldState);
+
+  switch (action.type) {
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_SESSION_ERRORS"]:
+      return action.errors;
+
+    case _actions_session_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_CURRENT_USER"]:
+      return [];
+
+    default:
+      return oldState;
+  }
+});
+
+/***/ }),
+
 /***/ "./frontend/reducers/session_reducer.js":
 /*!**********************************************!*\
   !*** ./frontend/reducers/session_reducer.js ***!
@@ -1956,36 +1993,6 @@ var sessionReducer = function sessionReducer() {
 };
 
 /* harmony default export */ __webpack_exports__["default"] = (sessionReducer);
-
-/***/ }),
-
-/***/ "./frontend/reducers/stocks_error_reducer.js":
-/*!***************************************************!*\
-  !*** ./frontend/reducers/stocks_error_reducer.js ***!
-  \***************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _actions_stock_actions__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../actions/stock_actions */ "./frontend/actions/stock_actions.js");
-
-/* harmony default export */ __webpack_exports__["default"] = (function () {
-  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var action = arguments.length > 1 ? arguments[1] : undefined;
-  Object.freeze(oldState);
-
-  switch (action.type) {
-    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_STOCK_ERRORS"]:
-      if (action.errors === undefined) return [];else return action.errors;
-
-    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_0__["RECEIVE_STOCK_PRICE"]:
-      return [];
-
-    default:
-      return oldState;
-  }
-});
 
 /***/ }),
 
@@ -2040,7 +2047,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/merge */ "./node_modules/lodash/merge.js");
 /* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/transaction_actions */ "./frontend/actions/transaction_actions.js");
+/* harmony import */ var _actions_stock_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/stock_actions */ "./frontend/actions/stock_actions.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -2053,6 +2062,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   var newState = (_newState = {}, _defineProperty(_newState, "tickerSymbol", []), _defineProperty(_newState, "balance", []), _defineProperty(_newState, "numShares", []), _newState);
 
   switch (action.type) {
+    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_STOCK_ERRORS"]:
+      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.errors);
+
+    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_STOCK_PRICE"]:
+      return [];
+
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_TRANSACTION_ERRORS"]:
       return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.errors);
 

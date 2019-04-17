@@ -8,7 +8,7 @@ const msp = ({ errors }) => {
         formType: "Sign In",
         credentials: { email: '', password: '' },
         // loginErrors: errors.session,
-        // errors: errors.session,
+        errors: errors.session,
     }
 }
 

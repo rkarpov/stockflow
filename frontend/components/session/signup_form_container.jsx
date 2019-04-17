@@ -4,14 +4,13 @@ import { signup } from '../../actions/session_actions';
 import SessionForm from './session_form';
 
 const mapStateToProps = ({ errors }) => {
-
   return {
     formType: 'Register',
     credentials: {
       username: '',
       email: '', password: '',
     },
-    // errors: errors.session,
+    errors: errors.session,
     // signupErrors: errors.session,
   };
 };

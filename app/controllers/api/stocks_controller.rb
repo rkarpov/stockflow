@@ -23,7 +23,8 @@ class Api::StocksController < ApplicationController
       @stock = Stock.find_by(ticker_symbol: params[:ticker_symbol].upcase)
       render :show
     rescue
-      render json: ["Stock not found"], status: 404
+      # render json: ["Stock not found"], status: 404
+      render json: { "tickerSymbol" => "Stock not found" }, status: 404
     end
   end
 

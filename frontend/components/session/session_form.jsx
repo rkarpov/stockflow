@@ -83,6 +83,7 @@ class SessionForm extends React.Component {
   }
 
   render(){
+    debugger
     const { classes } = this.props;
     return(
       <main className={classes.main}>
@@ -94,7 +95,9 @@ class SessionForm extends React.Component {
           <form onSubmit={this.handleSubmit}>
             {this.usernameField()}
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="email">Email Address</InputLabel>
+              <InputLabel htmlFor="email" style={"email" in this.props.errors ? { color: "red" } : null}>
+                { "email" in this.props.errors ? this.props.errors.email : "Email Address"}
+              </InputLabel>
               <Input
                 id="email" name="email" 
                 autoComplete="email" autoFocus
@@ -104,7 +107,9 @@ class SessionForm extends React.Component {
               />
             </FormControl>
             <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="password">Password</InputLabel>
+              <InputLabel htmlFor="password" style={ "password" in this.props.errors ? { color: "red" } : null }>
+                { "password" in this.props.errors ? this.props.errors.password : "Password" }
+              </InputLabel>
               <Input 
                 name="password" type="password"
                 id="password" autoComplete="current-password"
