@@ -815,7 +815,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state) {
-  // debugger
   var currentUser = state.entities.users[state.session.id];
 
   if (currentUser["netAssetValue"] === undefined) {
@@ -1919,13 +1918,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/merge */ "./node_modules/lodash/merge.js");
 /* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/stock_actions */ "./frontend/actions/stock_actions.js");
+/* harmony import */ var _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/transaction_actions */ "./frontend/actions/transaction_actions.js");
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 
 
 
+
 var ordersFormReducer = function ordersFormReducer() {
-  var _merge2;
+  var _merge2, _ref;
 
   var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
@@ -1948,6 +1949,9 @@ var ordersFormReducer = function ordersFormReducer() {
 
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_ERRORS"]:
       return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, (_merge2 = {}, _defineProperty(_merge2, "price", "Price per share"), _defineProperty(_merge2, "company", ""), _merge2));
+
+    case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__["CLEAR_TRANSACTION_FORM"]:
+      return _ref = {}, _defineProperty(_ref, "price", ""), _defineProperty(_ref, "company", ""), _ref;
 
     default:
       return oldState;
@@ -2080,8 +2084,6 @@ var stocksReducer = function stocksReducer() {
 
   switch (action.type) {
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCKS_PORTFOLIO"]:
-      // debugger
-      // return merge(newState, action.payload.stocks);
       return action.payload.stocks;
 
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_TRANSACTION"]:
@@ -2221,8 +2223,6 @@ var usersReducer = function usersReducer() {
 
   switch (action.type) {
     case _actions_session_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_CURRENT_USER"]:
-      // debugger
-      // return merge(newState, { [action.currentUser.id]: action.currentUser });
       return _defineProperty({}, action.currentUser.id, action.currentUser);
 
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_TRANSACTION"]:

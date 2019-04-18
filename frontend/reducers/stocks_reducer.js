@@ -9,8 +9,6 @@ const stocksReducer = (oldState = {}, action) => {
   let newState = merge({}, oldState);
   switch (action.type) {
     case RECEIVE_STOCKS_PORTFOLIO:
-    // debugger
-      // return merge(newState, action.payload.stocks);
       return action.payload.stocks;
     case RECEIVE_TRANSACTION:
       return merge(newState, action.payload.stock)

@@ -1,5 +1,6 @@
 import merge from 'lodash/merge';
 import { RECEIVE_STOCK_ERRORS, RECEIVE_STOCK_PRICE } from '../actions/stock_actions';
+import { CLEAR_TRANSACTION_FORM } from '../actions/transaction_actions';
 
 const ordersFormReducer = (oldState = {}, action) => {
   Object.freeze(oldState);
@@ -15,6 +16,8 @@ const ordersFormReducer = (oldState = {}, action) => {
       return newState;
     case RECEIVE_STOCK_ERRORS:
       return merge(newState, { ["price"]: "Price per share", ["company"]: "" });
+    case CLEAR_TRANSACTION_FORM:
+      return { ["price"]: "", ["company"]: "" };
     default:
       return oldState;
   }
