@@ -1,24 +1,15 @@
-# README
+# Stock Overflow
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Overview
+A single-page stock trading app built for users to simulate buying and selling stocks. A newly instantiated user holds a default balance of $5,000.00 USD. The user can increase their funds only by means of trading stocks. Stock Overflow is perfect for anyone who wants to practice trading stocks online before moving on to trading in crypto currency apps. Moreover, Stock Overflow was inspired by Robinhood.
 
-Things you may want to cover:
+## Technologies
+Stock Overflow is built using Ruby on Rails as backend, React and Redux as frontend, PostgreSQL database, and MaterialUI with CSS for styling components. IEX API (https://iextrading.com) fetches external real time stock data with the help of Ruby's 'rest-client' gem. Stock Overflow is deployed to Heroku. 
 
-* Ruby version
+## Setup
+To run the app locally Git Clone the repository, bundle install ruby gems, install webpack dependencies, and run both rails server + webpack. The exact cammands are...
+  - bundle install
+  - npm install
+  - rails s
+  - npm run webpack
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
