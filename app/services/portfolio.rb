@@ -5,8 +5,8 @@ module Portfolio
       num_stocks_owned = Hash.new(0)
       companies = {}
       performance = {}
-      
-      quotes = IEX::API.fetch_quotes(stock_symbols.values.join(','))
+      debugger
+      quotes = IEX::API.fetch_quotes(stock_symbols)
 
       current_user.transactions.each do |transaction|
         stock_ticker = stock_symbols[transaction.stock_id]
@@ -21,7 +21,7 @@ module Portfolio
       end
 
       portfolio_value = Currency.get_amount(value)
-      
+
       stock_value = {}
       stock_symbols.each do |stock| # [stock_id, ticker_symbol]
         stock_value[stock[1]] = 
@@ -59,11 +59,7 @@ end
     #   #   performance[stock_ticker] = quote["open"] <=> quote["latestPrice"]
     #   # end
     #   current_user.stock_purchases.each do |purchase|
-    #     debugger
-    #     debugger
-    #     debugger
-    #     debugger
-    #     debugger
+
     #   stock_ticker = stock_symbols[purchase.stock_id.to_f]
     #   quote = quotes[stock_ticker]["quote"]
     #   company_name = quote["companyName"]

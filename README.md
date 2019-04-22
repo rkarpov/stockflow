@@ -15,8 +15,41 @@ To run the app locally Git Clone the repository, bundle install ruby gems, insta
 
 ## Core Features
 
+## Rails Services
+Backend code is kept both modular and dry with the help of Rails Services. Service modules take away the burden of oversaturating rails models, controllers, and views with overly complex convoluted code. Service objects are congruent with object oriented programming, thereby enabling scalability as the app grows in size.
+
+## IEX API
+External HTTP requests are made utilizing methods inside the IEX::API module. The base url is concatonated to the rest of the url string with interpolated stock symbols required for fetching data. Again, more information can be found at https://iextrading.com
+
+``` js
+app/services/iex.rb
+module IEX
+  module API
+    def self.base_url
+      return "https://api.iextrading.com"
+    end
+
+    def self.fetch_quotes(stock_symbols)
+      fetch_quotes = RestClient.get(self.base_url + "/1.0/stock/market/batch?symbols=#{stock_symbols}&types=quote")
+      quotes = JSON.parse(fetch_quotes.body)
+    end
+
+    def self.fetch_price(stock_symbol)
+      fetch_stock_price = RestClient.get(self.base_url + "/1.0/stock/#{stock_symbol}/price")
+      fetch_result = JSON.parse(fetch_stock_price.body)
+      price = Currency.get_amount(fetch_result) || fetch_result
+    end
+
+    def self.fetch_open_price(stock_symbol)
+      open_price = RestClient.get(self.base_url + "/1.0/stock/#{stock_symbol}/quote/open")
+      open_price.to_f
+    end
+  end
+end
+```
+
 ## Stock Portfolio
-The user stock portfolio code is kept both modular and dry with the help of Rails Services. Service classes and modules take away the burden of oversaturating rails models, controllers, and views with overly complex convoluted code. Service objects are congruent with object oriented programming, thereby enabling scalability as the app grows in size.
+
 
 ## Buy/Sell Stocks
 
