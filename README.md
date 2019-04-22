@@ -13,3 +13,11 @@ To run the app locally Git Clone the repository, bundle install ruby gems, insta
   - rails s
   - npm run webpack
 
+## Core Features
+
+## Stock Portfolio
+The user stock portfolio code is kept both modular and dry with the help of Rails Services. Service classes and modules take away the burden of oversaturating rails models, controllers, and views with overly complex convoluted code. Service objects are congruent with object oriented programming, thereby enabling scalability as the app grows in size.
+
+## Buy/Sell Stocks
+
+## Listed Transactions
