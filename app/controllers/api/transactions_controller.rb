@@ -17,8 +17,8 @@ class Api::TransactionsController < ApplicationController
     purchase_amount = ActiveSupport::NumberHelper.number_to_rounded(purchase_amount, precision: 2).to_f
     net_asset_value = params[:data][:net_asset_value].to_f + purchase_amount
     net_stock_value = params[:data][:net_stock_value].to_f + purchase_amount
-    @net_asset_value = current_user.get_amount(net_asset_value)
-    @net_stock_value = current_user.get_amount(net_stock_value)
+    @net_asset_value = Currency.get_amount(net_asset_value)
+    @net_stock_value = Currency.get_amount(net_stock_value)
     @net_stock_shares = params[:data][:num_shares].to_i + params[:data][:net_stock_shares].to_i
 
     errors = {}
@@ -27,12 +27,12 @@ class Api::TransactionsController < ApplicationController
     errors["balance"] = 'Not enough funds' if purchase_amount > current_user.balance
     errors["numShares"] = 'Amount must be a whole number' if params[:data][:num_shares].to_f % 1 != 0
     errors["numShares"] = 'Amount cannot be blank' if params[:data][:num_shares].to_f == 0
-
+    debugger
     if errors.length != 0
       render json: errors, status: 401
     elsif @transaction.save
       open_price = RestClient.get("https://api.iextrading.com/1.0/stock/#{params[:data][:stock_symbol]}/quote/open")
-      @performance = current_user.stock_performance(open_price.to_f, params[:data][:stock_price].to_f)
+      @performance = open_price.to_f <=> params[:data][:stock_price].to_f
       current_user.balance -= purchase_amount
       current_user.save
       render :show

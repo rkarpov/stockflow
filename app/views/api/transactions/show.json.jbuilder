@@ -3,7 +3,7 @@ json.transaction do
     json.partial! "api/transactions/transaction", transaction: @transaction
     json.tickerSymbol @stock.ticker_symbol
     json.company @stock.company_name
-    json.stock_price current_user.get_amount(@transaction.stock_price)
+    json.stock_price Currency.get_amount(@transaction.stock_price)
   end
 end
 
@@ -19,7 +19,7 @@ end
 
 json.user do
   json.set! current_user.id do
-    json.balance current_user.get_amount(current_user.balance)
+    json.balance Currency.get_amount(current_user.balance)
     json.netAssetValue @net_asset_value
   end
 end
