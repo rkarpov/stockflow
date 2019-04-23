@@ -898,11 +898,28 @@ function (_React$Component) {
   }
 
   _createClass(StockIndexItem, [{
+    key: "performance",
+    value: function performance(val) {
+      // open price <=> current price
+      switch (val) {
+        case -1:
+          return "green";
+
+        case 0:
+          return "grey";
+
+        case 1:
+          return "red";
+      }
+    }
+  }, {
     key: "render",
     value: function render() {
+      var val = this.performance(this.props.stock.performance);
+      debugger;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableRow__WEBPACK_IMPORTED_MODULE_3___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         style: {
-          color: "".concat(this.props.stock.performance)
+          color: val
         },
         align: "center"
       }, this.props.stock.ticker_symbol), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
@@ -911,7 +928,7 @@ function (_React$Component) {
         align: "center"
       }, this.props.stock.numShares), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         style: {
-          color: "".concat(this.props.stock.performance)
+          color: val
         },
         align: "center"
       }, this.props.stock.netStockValue));
