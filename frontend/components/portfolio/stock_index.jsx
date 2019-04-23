@@ -46,15 +46,18 @@ class StockIndex extends React.Component {
 
   render() {
     const stocks = this.props.stocks.map(stock => {
-      return <StockIndexItem
-        key={`stock-${stock.id}`}
-        stock={stock}
-        currentUser={this.props.currentUser}
-      />
+      if (stock.numShares === 0) {
+        return // skip stock if user owns no shares
+      } else {
+        return <StockIndexItem
+          key={`stock-${stock.id}`}
+          stock={stock}
+          currentUser={this.props.currentUser}
+        />
+      }
     });
 
     const { classes } = this.props
-debugger
     return (
       <div>
         <Typography variant="h4" color="inherit" className={classes.header} align="left">

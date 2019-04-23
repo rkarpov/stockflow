@@ -772,14 +772,17 @@ function (_React$Component) {
       var _this3 = this;
 
       var stocks = this.props.stocks.map(function (stock) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stock_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
-          key: "stock-".concat(stock.id),
-          stock: stock,
-          currentUser: _this3.props.currentUser
-        });
+        if (stock.numShares === 0) {
+          return; // skip stock if user owns no shares
+        } else {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stock_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            key: "stock-".concat(stock.id),
+            stock: stock,
+            currentUser: _this3.props.currentUser
+          });
+        }
       });
       var classes = this.props.classes;
-      debugger;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_4___default.a, {
         variant: "h4",
         color: "inherit",
@@ -1871,7 +1874,7 @@ function (_React$Component) {
         align: "center"
       }, this.props.transaction.company), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         align: "center"
-      }, this.props.transaction.num_shares), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }, Math.abs(this.props.transaction.num_shares)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         align: "center"
       }, this.props.transaction.stock_price));
     }

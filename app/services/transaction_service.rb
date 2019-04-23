@@ -22,8 +22,11 @@ module TransactionService
       errors["tickerSymbol"] = 'Invalid stock symbol' if !stock
       errors["tickerSymbol"] = 'Symbol cannot be blank' if params[:stock_symbol] == ""
       errors["balance"] = 'Not enough funds' if purchase_amt > balance
-      errors["numShares"] = 'Amount must be a whole number' if params[:num_shares].to_f % 1 != 0
       errors["numShares"] = 'Amount cannot be blank' if params[:num_shares].to_f == 0
+      errors["numShares"] = 'Amount must be a whole number' if params[:num_shares].to_f % 1 != 0
+      if params[:transaction_type] == "sell" && params[:num_shares].to_f.abs > params[:net_stock_shares].to_f
+         errors["numShares"] = "You've not enough shares"
+      end
       return errors
     end
 
