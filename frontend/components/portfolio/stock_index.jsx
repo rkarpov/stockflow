@@ -2,6 +2,7 @@ import React from 'react';
 import StockIndexItem from './stock_index_item';
 
 import { withStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -24,16 +25,23 @@ const styles = theme => ({
   header: {
     marginLeft: 105,
     marginTop: 25,
-  }
+  },
+  progress: {
+    margin: theme.spacing.unit * 15,
+  },
 });
 
 class StockIndex extends React.Component {
   constructor(props) {
     super(props)
+    this.state = { loading: true }
   }
 
   componentDidMount(){
     this.props.requestStockPortfolio();
+    setTimeout(() => {
+      this.setState({ loading: false })
+    }, 1000)  
   }
 
   render() {
@@ -46,13 +54,17 @@ class StockIndex extends React.Component {
     });
 
     const { classes } = this.props
-
+debugger
     return (
       <div>
         <Typography variant="h4" color="inherit" className={classes.header} align="left">
           Portfolio ({this.props.currentUser.netAssetValue})
         </Typography>
         <Paper className={classes.root}>
+          <div hidden={this.state.loading === true ? null : "hidden"}>
+            <CircularProgress className={classes.progress} />
+          </div>
+          <div hidden={this.state.loading === true ? "hidden" : null} >
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
@@ -66,6 +78,7 @@ class StockIndex extends React.Component {
               {stocks}
             </TableBody>
           </Table>
+          </div>
         </Paper>
       </div>
     )
