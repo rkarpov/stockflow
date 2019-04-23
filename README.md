@@ -50,7 +50,8 @@ end
 
 ## Transactions
 The transactions of buying and selling stock are stored within a joins table. Each transaction joins the user and stock by id, while storing additional information in the table. Some difficulties with capturing transactions involve handling floats and precision. For this reason, the user's balance and transaction's stock price columns are both stored as decimal data types.
-Moreover, a currecny module is used as a helper method to convert a Decimal data type to currency as a String.
+
+A currency module is used as a helper method to convert a Decimal data type to currency as a String.
 ``` js
 module Currency
   def self.get_amount(amount)
@@ -58,4 +59,19 @@ module Currency
   end
 end
 ```
-Additionally, on the frontend, 
+Another helpful method used to handle floats is the following...
+```js
+ActiveSupport::NumberHelper.number_to_rounded(amt, precision: 2).to_f
+```
+Frontend javascript methods used to handle float numbers and currency strings include parseFloat(amt), toFixed(2), replace(/[^0-9.-]+-/g, "")
+```js
+currencyToNum(amt) {
+  return Number((amt).replace(/[^0-9.-]+/g, ""));
+}
+
+calculateTotalCost() {
+  const stockPrice = this.currencyToNum(price)
+  let total = stockPrice * Math.abs(numShares);
+  return `Total $${Number.parseFloat(total).toFixed(2)}`.replace(/[^0-9.-]+-/g, "");
+}
+```
