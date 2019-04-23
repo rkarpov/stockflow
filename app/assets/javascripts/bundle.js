@@ -945,7 +945,6 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       var val = this.performance(this.props.stock.performance);
-      debugger;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableRow__WEBPACK_IMPORTED_MODULE_3___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         style: {
           color: val
@@ -1548,7 +1547,6 @@ function (_React$Component) {
         numShares = Math.abs(numShares);
       }
 
-      debugger;
       this.props.createTransaction({
         transaction_type: this.state.selectedValue,
         user_id: this.props.currentUser.id,

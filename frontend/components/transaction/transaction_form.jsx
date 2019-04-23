@@ -89,7 +89,6 @@ class TransactionForm extends React.Component {
     } else { 
       numShares = Math.abs(numShares)
     }
-    debugger
     this.props.createTransaction({
       transaction_type: this.state.selectedValue,
       user_id: this.props.currentUser.id,

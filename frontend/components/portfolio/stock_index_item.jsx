@@ -18,7 +18,6 @@ class StockIndexItem extends React.Component {
 
   render() {
     const val = this.performance(this.props.stock.performance)
-    debugger
     return (
       <TableRow>
         <TableCell style={{ color: val }} align="center">{this.props.stock.ticker_symbol}</TableCell>
