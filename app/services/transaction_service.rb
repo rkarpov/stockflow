@@ -1,4 +1,4 @@
-# require 'byebug' # debugger usable only if no other debuggers in controller
+require 'byebug' # debugger usable only if no other debuggers in controller
 module TransactionService
   module Builder
     def self.call(stock, params, balance)
@@ -13,8 +13,7 @@ module TransactionService
       transaction["net_stock_value"] = Currency.get_amount(net_stock_value)
       transaction["net_stock_shares"] = params[:num_shares].to_i + params[:net_stock_shares].to_i
       transaction["errors"] = self.errors(stock, params, purchase_amt, balance)
-      transaction["performance"] = self.stock_performance(params)
-      transaction
+      return transaction
     end
 
     # helper method for building error msgs
@@ -25,12 +24,13 @@ module TransactionService
       errors["balance"] = 'Not enough funds' if purchase_amt > balance
       errors["numShares"] = 'Amount must be a whole number' if params[:num_shares].to_f % 1 != 0
       errors["numShares"] = 'Amount cannot be blank' if params[:num_shares].to_f == 0
-      errors
+      return errors
     end
 
-    def self.stock_performance(params)
+    def self.stock_performance(transaction, params)
       open_price = IEX::API.fetch_open_price(params[:stock_symbol])
       performance = open_price <=> params[:stock_price].to_f
+      return performance
     end
   end
 end

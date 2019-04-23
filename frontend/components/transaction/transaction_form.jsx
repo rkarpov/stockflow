@@ -2,15 +2,7 @@ import React from 'react';
 import { debounce } from "throttle-debounce";
 
 import Button from '@material-ui/core/Button';
-
-
-import green from '@material-ui/core/colors/green';
-import Radio from '@material-ui/core/Radio';
-import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
-import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
 import Checkbox from '@material-ui/core/Checkbox';
-
-
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
@@ -89,12 +81,20 @@ class TransactionForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
+    // this.setState({ numShares: Math.abs(this.state.numShares) })
+    let numShares = this.state.numShares
+    if (this.state.selectedValue === "sell") {
+      // this.setState({ numShares: this.state.numShares *= -1 });
+      numShares = numShares * -1
+    } else { 
+      numShares = Math.abs(numShares)
+    }
+    debugger
     this.props.createTransaction({
-      // transaction_type: 'buy',
       transaction_type: this.state.selectedValue,
       user_id: this.props.currentUser.id,
       stock_symbol: this.state.tickerSymbol,
-      num_shares: Math.abs(this.state.numShares),
+      num_shares: numShares,
       net_stock_shares: this.props.netStockShares,
       stock_price: this.currencyToNum(this.props.price),
       net_stock_value: this.currencyToNum(this.props.netStockValue),
@@ -112,8 +112,6 @@ class TransactionForm extends React.Component {
     return (
       <main className={classes.main}>
         <CssBaseline />
-
-
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h5" align="center">
             Place Transaction<br />
