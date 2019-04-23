@@ -20,7 +20,6 @@ const receiveStockPrice = (payload) => {
 };
 
 const receiveErrors = errors => {
-  debugger
   return ({
     type: RECEIVE_STOCK_ERRORS,
     errors
@@ -28,7 +27,6 @@ const receiveErrors = errors => {
 };
 
 export const requestStockPortfolio = () => dispatch => {
-  debugger
   return (
     iexApiUtil.fetchStockPortfolio().then(
       portfolio => dispatch(receiveStocksPortfolio(portfolio)),
@@ -37,7 +35,6 @@ export const requestStockPortfolio = () => dispatch => {
 };
 
 export const requestStockPrice = (tickerSymbol) => dispatch => {
-  debugger
   return (
     iexApiUtil.fetchStockPrice(tickerSymbol).then(
       price => dispatch(receiveStockPrice(price)),

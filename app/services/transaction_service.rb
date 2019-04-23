@@ -1,4 +1,4 @@
-require 'byebug' # debugger usable only if no other debuggers in controller
+# require 'byebug' # debugger usable only if no other debuggers in controller
 module TransactionService
   module Builder
     def self.call(stock, params, balance)

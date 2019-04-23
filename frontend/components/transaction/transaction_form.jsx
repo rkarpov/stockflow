@@ -67,8 +67,8 @@ class TransactionForm extends React.Component {
   calculateTotalCost() {
     // BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
     const stockPrice = this.currencyToNum(this.props.price)
-    let total = stockPrice * this.state.numShares;
-    if (total) return `Total $${Number.parseFloat(total).toFixed(2)}`;
+    let total = stockPrice * Math.abs(this.state.numShares);
+    if (total) return `Total $${Number.parseFloat(total).toFixed(2)}`.replace(/[^0-9.-]+-/g, "");
     else return null;
   }
 
@@ -101,7 +101,8 @@ class TransactionForm extends React.Component {
             <label style={{ color: "#ff5722" }}>{this.props.errors.transaction.tickerSymbol}</label><br/>
             <Input type="text" placeholder={"Enter stock ticker"} onChange={this.update('tickerSymbol')} value={this.state.tickerSymbol} /> <br />
             <label style={{ color: "#ff5722" }}>{this.props.errors.transaction.numShares}</label><br/>
-            <Input type="number" placeholder={"Amount of shares"} onChange={this.update('numShares')} value={this.state.numShares} /> <br />
+            <Input type="number" placeholder={"Amount of shares"} onChange={this.update('numShares')}
+                   value={this.state.numShares.includes('-') ? Math.abs(this.state.numShares) : this.state.numShares} /> <br />
             {this.props.price} {this.props.company}<br />
             <label style={{ color: "#ff5722" }}>{this.props.errors.transaction.balance}</label><br />
             {this.calculateTotalCost()} <br />

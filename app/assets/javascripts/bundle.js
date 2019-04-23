@@ -204,7 +204,6 @@ var receiveStockPrice = function receiveStockPrice(payload) {
 };
 
 var receiveErrors = function receiveErrors(errors) {
-  debugger;
   return {
     type: RECEIVE_STOCK_ERRORS,
     errors: errors
@@ -213,7 +212,6 @@ var receiveErrors = function receiveErrors(errors) {
 
 var requestStockPortfolio = function requestStockPortfolio() {
   return function (dispatch) {
-    debugger;
     return _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchStockPortfolio"]().then(function (portfolio) {
       return dispatch(receiveStocksPortfolio(portfolio));
     }, function (error) {
@@ -223,7 +221,6 @@ var requestStockPortfolio = function requestStockPortfolio() {
 };
 var requestStockPrice = function requestStockPrice(tickerSymbol) {
   return function (dispatch) {
-    debugger;
     return _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchStockPrice"](tickerSymbol).then(function (price) {
       return dispatch(receiveStockPrice(price));
     }, function (error) {
@@ -1480,8 +1477,8 @@ function (_React$Component) {
     value: function calculateTotalCost() {
       // BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
       var stockPrice = this.currencyToNum(this.props.price);
-      var total = stockPrice * this.state.numShares;
-      if (total) return "Total $".concat(Number.parseFloat(total).toFixed(2));else return null;
+      var total = stockPrice * Math.abs(this.state.numShares);
+      if (total) return "Total $".concat(Number.parseFloat(total).toFixed(2)).replace(/[^0-9.-]+-/g, "");else return null;
     }
   }, {
     key: "handleSubmit",
@@ -1533,7 +1530,7 @@ function (_React$Component) {
         type: "number",
         placeholder: "Amount of shares",
         onChange: this.update('numShares'),
-        value: this.state.numShares
+        value: this.state.numShares.includes('-') ? Math.abs(this.state.numShares) : this.state.numShares
       }), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.props.price, " ", this.props.company, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         style: {
           color: "#ff5722"
