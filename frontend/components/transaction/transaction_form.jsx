@@ -2,6 +2,15 @@ import React from 'react';
 import { debounce } from "throttle-debounce";
 
 import Button from '@material-ui/core/Button';
+
+
+import green from '@material-ui/core/colors/green';
+import Radio from '@material-ui/core/Radio';
+import RadioButtonUncheckedIcon from '@material-ui/icons/RadioButtonUnchecked';
+import RadioButtonCheckedIcon from '@material-ui/icons/RadioButtonChecked';
+import Checkbox from '@material-ui/core/Checkbox';
+
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
@@ -39,8 +48,12 @@ export const styles = theme => ({
 class TransactionForm extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { tickerSymbol: '', numShares: '' };
+    this.state = { 
+      tickerSymbol: '', numShares: '',
+      selectedValue: 'buy'
+    };
     this.currencyToNum = this.currencyToNum.bind(this)
+    this.handleChange = this.handleChange.bind(this)
     this.debouncedStockPriceSearch = debounce(500, this.props.requestStockPrice)
   }
 
@@ -77,7 +90,8 @@ class TransactionForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     this.props.createTransaction({
-      transaction_type: 'buy',
+      // transaction_type: 'buy',
+      transaction_type: this.state.selectedValue,
       user_id: this.props.currentUser.id,
       stock_symbol: this.state.tickerSymbol,
       num_shares: Math.abs(this.state.numShares),
@@ -88,23 +102,34 @@ class TransactionForm extends React.Component {
     })
   }
 
+  handleChange(e) {
+    e.preventDefault();
+    this.setState({ selectedValue: e.target.value });
+  };
+
   render() {
     const { classes } = this.props;
     return (
       <main className={classes.main}>
         <CssBaseline />
+
+
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h5" align="center">
             Place Transaction<br />
             Balance ({this.props.currentUser.balance})
           </Typography>
           <form onSubmit={this.handleSubmit.bind(this)} >
+            <label>Buy:</label>
+            <Checkbox checked={this.state.selectedValue === 'buy'} onChange={this.handleChange} value="buy"/>
+            <label>Sell:</label>
+            <Checkbox checked={this.state.selectedValue === 'sell'} onChange={this.handleChange} value="sell"/>
             <label style={{ color: "#ff5722" }}>{this.props.errors.stock}</label><br/>
             <label style={{ color: "#ff5722" }}>{this.props.errors.transaction.tickerSymbol}</label><br/>
             <Input type="text" placeholder={"Enter stock ticker"} onChange={this.update('tickerSymbol')} value={this.state.tickerSymbol} /> <br />
             <label style={{ color: "#ff5722" }}>{this.props.errors.transaction.numShares}</label><br/>
             <Input type="number" placeholder={"Amount of shares"} onChange={this.update('numShares')}
-                   value={this.state.numShares.includes('-') ? Math.abs(this.state.numShares) : this.state.numShares} /> <br />
+                   value={this.state.numShares.includes('-') ? Math.abs(this.state.numShares) : this.state.numShares}/><br />
             {this.props.price} {this.props.company}<br />
             <label style={{ color: "#ff5722" }}>{this.props.errors.transaction.balance}</label><br />
             {this.calculateTotalCost()} <br />
