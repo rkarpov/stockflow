@@ -20,6 +20,6 @@ end
 json.user do
   json.set! current_user.id do
     json.balance Currency.get_amount(current_user.balance)
-    json.netAssetValue @net_asset_value
+    json.netAssetValue @transaction_data["net_asset_value"]
   end
 end

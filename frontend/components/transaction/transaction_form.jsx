@@ -80,7 +80,7 @@ class TransactionForm extends React.Component {
       transaction_type: 'buy',
       user_id: this.props.currentUser.id,
       stock_symbol: this.state.tickerSymbol,
-      num_shares: this.state.numShares,
+      num_shares: Math.abs(this.state.numShares),
       net_stock_shares: this.props.netStockShares,
       stock_price: this.currencyToNum(this.props.price),
       net_stock_value: this.currencyToNum(this.props.netStockValue),
