@@ -75,7 +75,7 @@ class Navbar extends React.Component {
             </IconButton>
 
             <Typography variant="h6" color="inherit" className={classes.grow} style={{ marginLeft: 25 }}>
-              TTP-FS
+              Stockflow
             </Typography>
 
             <Link component={linkToPortfolio} className={classes.link}>
