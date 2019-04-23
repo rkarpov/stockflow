@@ -5,6 +5,7 @@ module TransactionService
       purchase_amt = params[:stock_price].to_f * params[:num_shares].to_i
       purchase_amt = ActiveSupport::NumberHelper.number_to_rounded(purchase_amt, precision: 2).to_f
       net_asset_value = params[:net_asset_value].to_f + purchase_amt
+      net_asset_value = 0 if net_asset_value < 0
       net_stock_value = params[:net_stock_value].to_f + purchase_amt
       
       transaction = {}
