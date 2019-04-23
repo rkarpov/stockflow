@@ -19,26 +19,15 @@
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3"
   },
-  "description": "This README would normally document whatever steps are necessary to get the application up and running.",
-  "version": "1.0.0",
-  "main": "webpack.config.js",
-  "directories": {
-    "lib": "lib",
-    "test": "test"
-  },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.4.0"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "webpack": "webpack --mode=development --watch",
     "postinstall": "webpack"
   },
   "engines": {
     "node": "8.4.0",
     "npm": "6.1.0"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
+  }
 }
