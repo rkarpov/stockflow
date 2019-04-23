@@ -1,4 +1,5 @@
 import React from 'react';
+import { debounce } from "throttle-debounce";
 
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -40,6 +41,7 @@ class TransactionForm extends React.Component {
     super(props);
     this.state = { tickerSymbol: '', numShares: '' };
     this.currencyToNum = this.currencyToNum.bind(this)
+    this.debouncedStockPriceSearch = debounce(500, this.props.requestStockPrice)
   }
 
   componentDidMount(){
@@ -49,7 +51,7 @@ class TransactionForm extends React.Component {
   componentDidUpdate(_, prevState) {
     // fetch stock price as state changes for stock ticker field input
     if (prevState.tickerSymbol != this.state.tickerSymbol) {
-      this.props.requestStockPrice(this.state.tickerSymbol)
+      this.debouncedStockPriceSearch(this.state.tickerSymbol)
     }
   }
 
