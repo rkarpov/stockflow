@@ -1,10 +1,10 @@
-# Stock Overflow
+# Stockflow
 
 ## Overview
-A single-page stock trading app built for users to simulate buying and selling stocks. A newly instantiated user holds a default balance of $5,000.00 USD. The user can increase their funds only by means of trading stocks. Stock Overflow is perfect for anyone who wants to practice trading stocks online before moving on to trading in crypto currency apps. Moreover, Stock Overflow was inspired by Robinhood.
+A single-page stock trading app built for users to simulate buying and selling stocks. A newly instantiated user holds a default balance of $5,000.00 USD. The user can increase their funds only by means of trading stocks. Stockflow is perfect for anyone who wants to practice trading stocks online before moving on to trading in crypto currency apps. Moreover, Stockflow was inspired by Robinhood.
 
 ## Technologies
-Stock Overflow is built using Ruby on Rails as backend, React and Redux as frontend, PostgreSQL database, and MaterialUI with CSS for styling components. IEX API (https://iextrading.com) fetches external real time stock data with the help of Ruby's 'rest-client' gem. Stock Overflow is deployed to Heroku. 
+Stockflow is built using Ruby on Rails as backend, React and Redux as frontend, PostgreSQL database, and MaterialUI with CSS for styling components. IEX API (https://iextrading.com) fetches external real time stock data with the help of Ruby's 'rest-client' gem. Stockflow is deployed to Heroku. 
 
 ## Setup
 To run the app locally Git Clone the repository, bundle install ruby gems, install webpack dependencies, and run both rails server + webpack. The exact cammands are...
@@ -48,9 +48,14 @@ module IEX
 end
 ```
 
-## Stock Portfolio
-
-
-## Buy/Sell Stocks
-
-## Listed Transactions
+## Transactions
+The transactions of buying and selling stock are stored within a joins table. Each transaction joins the user and stock by id, while storing additional information in the table. Some difficulties with capturing transactions involve handling floats and precision. For this reason, the user's balance and transaction's stock price columns are both stored as decimal data types.
+Moreover, a currecny module is used as a helper method to convert a Decimal data type to currency as a String.
+``` js
+module Currency
+  def self.get_amount(amount)
+    ActionController::Base.helpers.number_to_currency(amount)
+  end
+end
+```
+Additionally, on the frontend, 
