@@ -11,9 +11,9 @@ json.stock do
   json.set! @stock.id do
     json.partial! "api/stocks/stock", stock: @stock
     json.company @stock.company_name
-    json.netStockValue @net_stock_value
-    json.numShares @net_stock_shares
-    json.performance @performance
+    json.netStockValue @transaction_data["net_stock_value"]
+    json.numShares @transaction_data["net_stock_shares"]
+    json.performance @transaction_data["performance"]
   end
 end
 

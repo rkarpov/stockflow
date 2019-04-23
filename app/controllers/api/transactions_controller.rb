@@ -1,5 +1,3 @@
-require 'rest-client'
-
 class Api::TransactionsController < ApplicationController
   before_action :require_login
 
@@ -11,29 +9,15 @@ class Api::TransactionsController < ApplicationController
   end
 
   def create
-    @transaction = Transaction.new(transaction_params)
-    
-    purchase_amount = params[:data][:stock_price].to_f * params[:data][:num_shares].to_i
-    purchase_amount = ActiveSupport::NumberHelper.number_to_rounded(purchase_amount, precision: 2).to_f
-    net_asset_value = params[:data][:net_asset_value].to_f + purchase_amount
-    net_stock_value = params[:data][:net_stock_value].to_f + purchase_amount
-    @net_asset_value = Currency.get_amount(net_asset_value)
-    @net_stock_value = Currency.get_amount(net_stock_value)
-    @net_stock_shares = params[:data][:num_shares].to_i + params[:data][:net_stock_shares].to_i
-
-    errors = {}
-    errors["tickerSymbol"] = 'Invalid stock symbol' if !@stock
-    errors["tickerSymbol"] = 'Symbol cannot be blank' if params[:data][:stock_symbol] == ""
-    errors["balance"] = 'Not enough funds' if purchase_amount > current_user.balance
-    errors["numShares"] = 'Amount must be a whole number' if params[:data][:num_shares].to_f % 1 != 0
-    errors["numShares"] = 'Amount cannot be blank' if params[:data][:num_shares].to_f == 0
-
-    if errors.length != 0
-      render json: errors, status: 401
+    @transaction = Transaction.new(transaction_params) # @stock method is available from call to transaction_params
+    @transaction_data = TransactionService::Builder.call(@stock, params[:data], current_user.balance)
+    # @transaction_data => { net_stock_shares => X, net_asset_value => "$X.XX", net_stock_value => "$X.XX",
+    #                        purchase_amt => X.XX, performance => X,
+    #                        errors => { tickerSymbol => "...", balance => "...", numShares => "..." }}
+    if @transaction_data["errors"].length != 0
+      render json: @transaction_data["errors"], status: 401
     elsif @transaction.save
-      open_price = IEX::API.fetch_open_price(params[:data][:stock_symbol])
-      @performance = open_price <=> params[:data][:stock_price].to_f
-      current_user.balance -= purchase_amount
+      current_user.balance -= @transaction_data["purchase_amt"]
       current_user.save
       render :show
     else
