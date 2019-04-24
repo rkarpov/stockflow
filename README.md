@@ -2,6 +2,7 @@
 
 <a href="https://stockflow-app.herokuapp.com/#/portfolio"> Stockflow live site</a>
 
+![Stockflow](https://github.com/rkarpov/stockflow/blob/master/app/assets/images/screenshot.png)
 
 ## Overview
 A single-page stock trading app built for users to simulate buying and selling stocks. A newly instantiated user holds a default balance of $5,000.00 USD. The user can increase their funds only by means of trading stocks. Stockflow is perfect for anyone who wants to practice trading stocks online before moving on to trading in crypto currency apps. Moreover, Stockflow was inspired by Robinhood.
