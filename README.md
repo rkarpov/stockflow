@@ -59,5 +59,7 @@ Here are some helpful methods used for monetary calculations and floats in gener
     ActionController::Base.helpers.number_to_currency(amount)
 
     ActiveSupport::NumberHelper.number_to_rounded(amt, precision: 2).to_f
+
+    BigDecimal
 ```
 Frontend javascript methods use more general methods to handle float numbers and currency strings such as parseFloat(amt), toFixed(2), and replace(/[^0-9.-]+-/g, "").
