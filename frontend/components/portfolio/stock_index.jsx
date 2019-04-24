@@ -22,6 +22,11 @@ const styles = theme => ({
   table: {
     minWidth: 400,
   },
+  head: {
+    backgroundColor: "#fff",
+    position: "sticky",
+    top: 0
+  },
   header: {
     marginLeft: 105,
     marginTop: 25,
@@ -71,10 +76,10 @@ class StockIndex extends React.Component {
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell align="center">Ticker</TableCell>
-                <TableCell align="center">Company</TableCell>
-                <TableCell align="center">Total Shares</TableCell>
-                <TableCell align="center">Net Share Value</TableCell>
+                <TableCell className={classes.head} align="center">Ticker</TableCell>
+                <TableCell className={classes.head} align="center">Company</TableCell>
+                <TableCell className={classes.head} align="center">Total Shares</TableCell>
+                <TableCell className={classes.head} align="center">Net Share Value</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>

@@ -24,6 +24,11 @@ const styles = theme => ({
   header: {
     marginLeft: 275,
     marginTop: 25,
+  },
+  head: {
+    backgroundColor: "#fff",
+    position: "sticky",
+    top: 0
   }
 });
 
@@ -57,11 +62,11 @@ class TransactionIndex extends React.Component {
           <Table className={classes.table}>
             <TableHead>
               <TableRow>
-                <TableCell align="center">Type</TableCell>
-                <TableCell align="center">Ticker</TableCell>
-                <TableCell align="center">Company</TableCell>
-                <TableCell align="center">Shares</TableCell>
-                <TableCell align="center">Price Per Share</TableCell>
+                <TableCell className={classes.head} align="center">Type</TableCell>
+                <TableCell className={classes.head} align="center">Ticker</TableCell>
+                <TableCell className={classes.head} align="center">Company</TableCell>
+                <TableCell className={classes.head} align="center">Shares</TableCell>
+                <TableCell className={classes.head} align="center">Price Per Share</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
