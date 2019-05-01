@@ -6,6 +6,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Input from '@material-ui/core/Input';
 import Paper from '@material-ui/core/Paper';
+import Modal from '@material-ui/core/Modal';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
@@ -35,6 +36,14 @@ export const styles = theme => ({
   submit: {
     marginTop: theme.spacing.unit * 2,
   },
+  modal: {
+    position: 'absolute',
+    width: theme.spacing.unit * 50,
+    backgroundColor: theme.palette.background.paper,
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing.unit * 4,
+    outline: 'none',
+  },
 });
 
 class TransactionForm extends React.Component {
@@ -42,21 +51,26 @@ class TransactionForm extends React.Component {
     super(props);
     this.state = { 
       tickerSymbol: '', numShares: '',
-      selectedValue: 'buy'
+      selectedValue: 'buy', open: false,
     };
     this.currencyToNum = this.currencyToNum.bind(this)
     this.handleChange = this.handleChange.bind(this)
     this.debouncedStockPriceSearch = debounce(500, this.props.requestStockPrice)
+    this.handleOpen = this.handleOpen.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   componentDidMount(){
     this.props.clearForm();
   }
 
-  componentDidUpdate(_, prevState) {
-    // fetch stock price as state changes for stock ticker field input
+  componentDidUpdate(prevProps, prevState) {
     if (prevState.tickerSymbol != this.state.tickerSymbol) {
+      // fetch stock price as state changes for stock ticker field input
       this.debouncedStockPriceSearch(this.state.tickerSymbol)
+    } else if (prevProps.currentUser.balance != this.props.currentUser.balance) {
+      // render modal with confirmation of successful transaction
+      this.handleOpen();
     }
   }
 
@@ -106,11 +120,44 @@ class TransactionForm extends React.Component {
     this.setState({ selectedValue: e.target.value });
   };
 
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  renderModal(){
+    const { classes } = this.props;
+    return (
+      <div>
+        <Modal
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+          open={this.state.open}
+          onClose={this.handleClose}
+        >
+          <div style={{ top: '30%', left: '35%' }} className={classes.modal}>
+            <Typography variant="h6" id="modal-title">
+              Text in a modal
+            </Typography>
+            <Typography variant="subtitle1" id="simple-modal-description">
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            </Typography>
+            <Button variant="contained" color="primary" onClick={this.handleClose}>OK</Button>
+          </div>
+        </Modal>
+      </div>
+    );  
+  }
+
   render() {
     const { classes } = this.props;
     return (
       <main className={classes.main}>
         <CssBaseline />
+        {this.state.open ? this.renderModal() : null}
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h5" align="center">
             Place Transaction<br />
