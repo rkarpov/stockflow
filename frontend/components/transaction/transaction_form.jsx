@@ -41,8 +41,11 @@ export const styles = theme => ({
     width: theme.spacing.unit * 50,
     backgroundColor: theme.palette.background.paper,
     boxShadow: theme.shadows[5],
-    padding: theme.spacing.unit * 4,
+    padding: theme.spacing.unit * 5,
     outline: 'none',
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
 });
 
@@ -89,7 +92,7 @@ class TransactionForm extends React.Component {
     // BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
     const stockPrice = this.currencyToNum(this.props.price)
     let total = stockPrice * Math.abs(this.state.numShares);
-    if (total) return `Total $${Number.parseFloat(total).toFixed(2)}`.replace(/[^0-9.-]+-/g, "");
+    if (total) return `$${Number.parseFloat(total).toFixed(2)}`.replace(/[^0-9.-]+-/g, "");
     else return null;
   }
 
@@ -133,19 +136,20 @@ class TransactionForm extends React.Component {
     return (
       <div>
         <Modal
-          aria-labelledby="simple-modal-title"
-          aria-describedby="simple-modal-description"
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
           open={this.state.open}
           onClose={this.handleClose}
         >
           <div style={{ top: '30%', left: '35%' }} className={classes.modal}>
-            <Typography variant="h6" id="modal-title">
-              Text in a modal
+            <Typography style={{ margin: 10 }} variant="h5" id="modal-title">
+              Thank you for your order!
             </Typography>
-            <Typography variant="subtitle1" id="simple-modal-description">
-              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            <Typography style={{ margin: 10 }} variant="subtitle1" id="modal-description">
+              We received your transaction of {this.calculateTotalCost()} <br/>
+              for {this.state.numShares} share(s) of {this.props.company}.
             </Typography>
-            <Button variant="contained" color="primary" onClick={this.handleClose}>OK</Button>
+            <Button style={{ margin: 10 }} variant="contained" color="primary" onClick={this.handleClose}>OK</Button>
           </div>
         </Modal>
       </div>
@@ -176,7 +180,7 @@ class TransactionForm extends React.Component {
                    value={this.state.numShares.includes('-') ? Math.abs(this.state.numShares) : this.state.numShares}/><br />
             {this.props.price} {this.props.company}<br />
             <label style={{ color: "#ff5722" }}>{this.props.errors.transaction.balance}</label><br />
-            {this.calculateTotalCost()} <br />
+            Total {this.calculateTotalCost()} <br />
             <Button type="submit"
               variant="contained" color="primary">
               Place Order

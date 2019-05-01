@@ -1490,8 +1490,11 @@ var styles = function styles(theme) {
       width: theme.spacing.unit * 50,
       backgroundColor: theme.palette.background.paper,
       boxShadow: theme.shadows[5],
-      padding: theme.spacing.unit * 4,
-      outline: 'none'
+      padding: theme.spacing.unit * 5,
+      outline: 'none',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center'
     }
   };
 };
@@ -1570,7 +1573,7 @@ function (_React$Component) {
       // BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_HALF_UP })
       var stockPrice = this.currencyToNum(this.props.price);
       var total = stockPrice * Math.abs(this.state.numShares);
-      if (total) return "Total $".concat(Number.parseFloat(total).toFixed(2)).replace(/[^0-9.-]+-/g, "");else return null;
+      if (total) return "$".concat(Number.parseFloat(total).toFixed(2)).replace(/[^0-9.-]+-/g, "");else return null;
     }
   }, {
     key: "handleSubmit",
@@ -1610,8 +1613,8 @@ function (_React$Component) {
     value: function renderModal() {
       var classes = this.props.classes;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Modal__WEBPACK_IMPORTED_MODULE_7___default.a, {
-        "aria-labelledby": "simple-modal-title",
-        "aria-describedby": "simple-modal-description",
+        "aria-labelledby": "modal-title",
+        "aria-describedby": "modal-description",
         open: this.state.open,
         onClose: this.handleClose
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -1621,12 +1624,21 @@ function (_React$Component) {
         },
         className: classes.modal
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_8___default.a, {
-        variant: "h6",
+        style: {
+          margin: 10
+        },
+        variant: "h5",
         id: "modal-title"
-      }, "Text in a modal"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_8___default.a, {
+      }, "Thank you for your order!"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_8___default.a, {
+        style: {
+          margin: 10
+        },
         variant: "subtitle1",
-        id: "simple-modal-description"
-      }, "Duis mollis, est non commodo luctus, nisi erat porttitor ligula."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        id: "modal-description"
+      }, "We received your transaction of ", this.calculateTotalCost(), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "for ", this.state.numShares, " share(s) of ", this.props.company, "."), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        style: {
+          margin: 10
+        },
         variant: "contained",
         color: "primary",
         onClick: this.handleClose
@@ -1680,7 +1692,7 @@ function (_React$Component) {
         style: {
           color: "#ff5722"
         }
-      }, this.props.errors.transaction.balance), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), this.calculateTotalCost(), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }, this.props.errors.transaction.balance), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), "Total ", this.calculateTotalCost(), " ", react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_2___default.a, {
         type: "submit",
         variant: "contained",
         color: "primary"
