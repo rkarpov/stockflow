@@ -32,7 +32,14 @@ class Main extends React.Component {
         )
       case "/chart":
         return (
-          <StockShowContainer/>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row',
+            alignItems: 'center',
+          }}>
+            <StockShowContainer />
+            <CreateTransactionContainer />
+          </div>
         )
       default:
         return "Page not found";
