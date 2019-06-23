@@ -1,5 +1,41 @@
 import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+import Input from '@material-ui/core/Input';
+import withStyles from '@material-ui/core/styles/withStyles';
+import Typography from '@material-ui/core/Typography';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
+
+export const styles = theme => ({
+  main: {
+    width: 'auto',
+    display: 'block',
+    marginLeft: theme.spacing.unit * 3,
+    marginRight: theme.spacing.unit * 3,
+    [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
+      width: 300,
+      marginLeft: 'auto',
+      marginRight: 'auto',
+    },
+  },
+  paper: {
+    marginTop: theme.spacing.unit * 8,
+    marginLeft: theme.spacing.unit * 8,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+  },
+  form: {
+    width: '100%',
+    marginTop: theme.spacing.unit,
+  },
+  submit: {
+    marginTop: theme.spacing.unit * 2,
+  },
+});
 
 class Chart extends React.Component {
   constructor(props){
@@ -22,60 +58,58 @@ class Chart extends React.Component {
   }
 
   render() {
-    // let data = []
-    // this.props.chart.forEach(datum => {
-    //   data.push(
-    //     { name: datum.label, close: datum.close }
-    //   )
-    // })
     const data = this.props.chart.map(datum => {
       return (
         { date: datum.label, Price: datum.close }
       )
     })
+    const { classes } = this.props;
 
     return (
-      <div>
-        <LineChart
-          width={500}
-          height={300}
-          data={data}
-          margin={{
-            top: 5, right: 30, left: 20, bottom: 5,
-          }}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" />
-          <YAxis dataKey="Price" />
-          {/* <Tooltip /> */}
-          <Tooltip
-            // contentStyle={{ backgroundColor: 'transparent', border: '0' }}
-
-            formatter={(value) => {
-              let returnVal = new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD'
-              }).format(value);
-              
-              return <span className="chart-time" >{returnVal}</span>
+      <main>
+        <CssBaseline />
+        <Paper className={classes.paper}>
+          <Typography variant="h4" color="inherit" className={classes.header} align="left">
+            {this.props.company.companyName}
+          </Typography>
+          <LineChart
+            width={500}
+            height={300}
+            data={data}
+            margin={{
+              top: 5, right: 30, left: 20, bottom: 5,
             }}
-           
-            // isAnimationActive={false} position={{ y: 270 }} offset={-60}
-          />
-          <Legend />
-          <Line type="monotone" dataKey="Price" stroke="#8884d8" activeDot={{ r: 8 }} />
-        </LineChart>
-        <div style={{ marginLeft: 100 }}>
-          <label>Search Stock</label>
-          <form onSubmit={this.handleSubmit}>
-            <input onChange={this.update('tickerSymbol')}></input>
-            <button type="submit">Submit</button>
-          </form>
-        </div>
-
-      </div>
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey="date" />
+            <YAxis dataKey="Price" domain={['dataMin', 'dataMax']} />
+            <Tooltip
+              formatter={(value) => {
+                let returnVal = new Intl.NumberFormat('en-US', {
+                  style: 'currency',
+                  currency: 'USD'
+                }).format(value);
+                
+                return <span>{returnVal}</span>
+              }}
+            
+              isAnimationActive={false}
+              position={{ y: -120, x: 50 }}
+            />
+            <Legend />
+            <Line type="monotone" dataKey="Price" stroke="#8884d8" dot={false} strokeWidth={2} />
+          </LineChart>
+          <div style={{ marginLeft: 100 }}>
+            <label>Search Stock</label>
+            <form onSubmit={this.handleSubmit}>
+              <input onChange={this.update('tickerSymbol')} />
+              <Button type="submit" variant="contained" color="primary">Submit</Button>
+            </form>
+          </div>
+        </Paper>
+      </main>
     );
   }
 }
 
-export default Chart;
+export default withStyles(styles)(Chart);

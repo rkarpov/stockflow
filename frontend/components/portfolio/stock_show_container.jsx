@@ -5,8 +5,10 @@ import { requestStockChart } from '../../actions/stock_actions';
 
 const msp = (state) => {
   const chart = state.entities.charts.chart || [{ label: "name", close: "price" }]
+  const company = state.entities.charts.quote || { companyName: "Company" }
   return {
-    chart: chart
+    chart: chart,
+    company: company
   }
 }
 
