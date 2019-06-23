@@ -4,8 +4,9 @@ import Chart from './stock_show';
 import { requestStockChart } from '../../actions/stock_actions';
 
 const msp = (state) => {
+  const chart = state.entities.charts.chart || [{ label: "name", close: "price" }]
   return {
-    state: state
+    chart: chart
   }
 }
 

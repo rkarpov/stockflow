@@ -1034,43 +1034,29 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 
-
-var data = [{
-  name: 'Page A',
-  uv: 4000,
-  pv: 2400,
-  amt: 2400
-}, {
-  name: 'Page B',
-  uv: 3000,
-  pv: 1398,
-  amt: 2210
-}, {
-  name: 'Page C',
-  uv: 2000,
-  pv: 9800,
-  amt: 2290
-}, {
-  name: 'Page D',
-  uv: 2780,
-  pv: 3908,
-  amt: 2000
-}, {
-  name: 'Page E',
-  uv: 1890,
-  pv: 4800,
-  amt: 2181
-}, {
-  name: 'Page F',
-  uv: 2390,
-  pv: 3800,
-  amt: 2500
-}, {
-  name: 'Page G',
-  uv: 3490,
-  pv: 4300,
-  amt: 2100
-}];
+ // const data = [
+//   {
+//     name: 'Page A', uv: 4000, pv: 2400, amt: 2400,
+//   },
+//   {
+//     name: 'Page B', uv: 3000, pv: 1398, amt: 2210,
+//   },
+//   {
+//     name: 'Page C', uv: 2000, pv: 9800, amt: 2290,
+//   },
+//   {
+//     name: 'Page D', uv: 2780, pv: 3908, amt: 2000,
+//   },
+//   {
+//     name: 'Page E', uv: 1890, pv: 4800, amt: 2181,
+//   },
+//   {
+//     name: 'Page F', uv: 2390, pv: 3800, amt: 2500,
+//   },
+//   {
+//     name: 'Page G', uv: 3490, pv: 4300, amt: 2100,
+//   },
+// ];
 
 var Chart =
 /*#__PURE__*/
@@ -1091,9 +1077,6 @@ function (_React$Component) {
   }
 
   _createClass(Chart, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {}
-  }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
@@ -1111,6 +1094,14 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
+      var data = [];
+      this.props.chart.forEach(function (datum) {
+        data.push({
+          name: datum.label,
+          close: datum.close
+        });
+      });
+      debugger;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Search Stock"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: this.handleSubmit
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -1120,7 +1111,8 @@ function (_React$Component) {
       }, "Submit")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["LineChart"], {
         width: 500,
         height: 300,
-        data: data,
+        data: data // data={data}
+        ,
         margin: {
           top: 5,
           right: 30,
@@ -1131,17 +1123,15 @@ function (_React$Component) {
         strokeDasharray: "3 3"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["XAxis"], {
         dataKey: "name"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["YAxis"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Tooltip"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Legend"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Line"], {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["YAxis"], {
+        dataKey: "close"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Tooltip"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Legend"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Line"], {
         type: "monotone",
-        dataKey: "pv",
+        dataKey: "close",
         stroke: "#8884d8",
         activeDot: {
           r: 8
         }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Line"], {
-        type: "monotone",
-        dataKey: "uv",
-        stroke: "#82ca9d"
       })));
     }
   }]);
@@ -1173,8 +1163,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state) {
+  var chart = state.entities.charts.chart || [{
+    label: "name",
+    close: "price"
+  }];
   return {
-    state: state
+    chart: chart
   };
 };
 
@@ -2231,6 +2225,40 @@ document.addEventListener('DOMContentLoaded', function () {
 
 /***/ }),
 
+/***/ "./frontend/reducers/charts_reducer.js":
+/*!*********************************************!*\
+  !*** ./frontend/reducers/charts_reducer.js ***!
+  \*********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/merge */ "./node_modules/lodash/merge.js");
+/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/stock_actions */ "./frontend/actions/stock_actions.js");
+
+
+
+var chartsNewsReducer = function chartsNewsReducer() {
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(oldState);
+  var newState = lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()({}, oldState);
+
+  switch (action.type) {
+    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_CHART"]:
+      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.chartData);
+
+    default:
+      return oldState;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (chartsNewsReducer);
+
+/***/ }),
+
 /***/ "./frontend/reducers/entities_reducer.js":
 /*!***********************************************!*\
   !*** ./frontend/reducers/entities_reducer.js ***!
@@ -2245,6 +2273,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _stocks_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stocks_reducer */ "./frontend/reducers/stocks_reducer.js");
 /* harmony import */ var _transactions_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./transactions_reducer */ "./frontend/reducers/transactions_reducer.js");
 /* harmony import */ var _orders_form_reducer__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./orders_form_reducer */ "./frontend/reducers/orders_form_reducer.js");
+/* harmony import */ var _charts_reducer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./charts_reducer */ "./frontend/reducers/charts_reducer.js");
+
 
 
 
@@ -2253,6 +2283,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   users: _users_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
   stocks: _stocks_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  charts: _charts_reducer__WEBPACK_IMPORTED_MODULE_5__["default"],
   transactions: _transactions_reducer__WEBPACK_IMPORTED_MODULE_3__["default"],
   ordersForm: _orders_form_reducer__WEBPACK_IMPORTED_MODULE_4__["default"]
 }));
