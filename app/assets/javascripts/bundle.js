@@ -172,7 +172,7 @@ var clearErrors = function clearErrors() {
 /*!*******************************************!*\
   !*** ./frontend/actions/stock_actions.js ***!
   \*******************************************/
-/*! exports provided: RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS, RECEIVE_STOCKS_PORTFOLIO, requestStockPortfolio, requestStockPrice */
+/*! exports provided: RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS, RECEIVE_STOCKS_PORTFOLIO, RECEIVE_STOCK_CHART, requestStockPortfolio, requestStockPrice, requestStockChart */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -180,13 +180,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCK_PRICE", function() { return RECEIVE_STOCK_PRICE; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCK_ERRORS", function() { return RECEIVE_STOCK_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCKS_PORTFOLIO", function() { return RECEIVE_STOCKS_PORTFOLIO; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCK_CHART", function() { return RECEIVE_STOCK_CHART; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStockPortfolio", function() { return requestStockPortfolio; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStockPrice", function() { return requestStockPrice; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStockChart", function() { return requestStockChart; });
 /* harmony import */ var _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/iex_api_util */ "./frontend/util/iex_api_util.js");
 
 var RECEIVE_STOCK_PRICE = 'RECEIVE_STOCK_PRICE';
 var RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
 var RECEIVE_STOCKS_PORTFOLIO = 'RECEIVE_STOCKS_PORTFOLIO';
+var RECEIVE_STOCK_CHART = 'RECEIVE_STOCK_CHART';
 
 var receiveStocksPortfolio = function receiveStocksPortfolio(payload) {
   return {
@@ -200,6 +203,13 @@ var receiveStockPrice = function receiveStockPrice(payload) {
     type: RECEIVE_STOCK_PRICE,
     payload: payload // price: Number.parseFloat(price).toFixed(2)
 
+  };
+};
+
+var receiveStockChart = function receiveStockChart(payload) {
+  return {
+    type: RECEIVE_STOCK_CHART,
+    payload: payload
   };
 };
 
@@ -227,6 +237,13 @@ var requestStockPrice = function requestStockPrice(tickerSymbol) {
       return dispatch(receiveErrors(error.responseJSON));
     } // error => dispatch(receiveErrors(error["responseText"])) // for front end calls
     );
+  };
+};
+var requestStockChart = function requestStockChart(tickerSymbol) {
+  return function (dispatch) {
+    return _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchStockChart"](tickerSymbol).then(function (chart) {
+      return dispatch(receiveStockChart(chart));
+    });
   };
 };
 
@@ -993,7 +1010,7 @@ function (_React$Component) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Example; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Chart; });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var recharts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! recharts */ "./node_modules/recharts/es6/index.js");
@@ -1015,7 +1032,6 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
-// dummy chart
 
 
 var data = [{
@@ -1055,22 +1071,36 @@ var data = [{
   amt: 2100
 }];
 
-var Example =
+var Chart =
 /*#__PURE__*/
-function (_PureComponent) {
-  _inherits(Example, _PureComponent);
+function (_React$Component) {
+  _inherits(Chart, _React$Component);
 
-  function Example() {
-    _classCallCheck(this, Example);
+  function Chart(props) {
+    var _this;
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Example).apply(this, arguments));
+    _classCallCheck(this, Chart);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Chart).call(this, props));
+    _this.state = {
+      tickerSymbol: ''
+    };
+    return _this;
   }
 
-  _createClass(Example, [{
+  _createClass(Chart, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {}
+  }, {
+    key: "handleSubmit",
+    value: function handleSubmit(e) {
+      e.preventDefault();
+      e.target.value;
+    }
+  }, {
     key: "render",
-    // static jsfiddleUrl = 'https://jsfiddle.net/alidingling/xqjtetw0/';
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["LineChart"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["LineChart"], {
         width: 500,
         height: 300,
         data: data,
@@ -1095,12 +1125,12 @@ function (_PureComponent) {
         type: "monotone",
         dataKey: "uv",
         stroke: "#82ca9d"
-      }));
+      })));
     }
   }]);
 
-  return Example;
-}(react__WEBPACK_IMPORTED_MODULE_0__["PureComponent"]);
+  return Chart;
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 
 
@@ -2568,13 +2598,14 @@ var configureStore = function configureStore() {
 /*!***************************************!*\
   !*** ./frontend/util/iex_api_util.js ***!
   \***************************************/
-/*! exports provided: fetchStockPortfolio, fetchStockPrice, fetchStocks, fetchStockQuote, fetchStockCompany */
+/*! exports provided: fetchStockPortfolio, fetchStockPrice, fetchStockChart, fetchStocks, fetchStockQuote, fetchStockCompany */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockPortfolio", function() { return fetchStockPortfolio; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockPrice", function() { return fetchStockPrice; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockChart", function() { return fetchStockChart; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStocks", function() { return fetchStocks; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockQuote", function() { return fetchStockQuote; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockCompany", function() { return fetchStockCompany; });
@@ -2585,6 +2616,12 @@ var fetchStockPortfolio = function fetchStockPortfolio() {
   });
 };
 var fetchStockPrice = function fetchStockPrice(tickerSymbol) {
+  return $.ajax({
+    method: "GET",
+    url: "/api/stocks/".concat(tickerSymbol)
+  });
+};
+var fetchStockChart = function fetchStockChart(tickerSymbol) {
   return $.ajax({
     method: "GET",
     url: "/api/stocks/".concat(tickerSymbol)

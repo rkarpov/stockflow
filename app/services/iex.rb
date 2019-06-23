@@ -27,6 +27,7 @@ module IEX
 
     def self.fetch_chart_data(stock_symbol)
       fetch_chart = RestClient.get(self.base_url + "/stable/stock/#{stock_symbol}/batch?types=quote,chart&range=1m&last=10&" + self.token)
+      chart_data = JSON.parse(fetch_chart.body)
     end
   end
 end

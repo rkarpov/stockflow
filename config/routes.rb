@@ -5,6 +5,7 @@ Rails.application.routes.draw do
       resource :session, only: [:create, :destroy]  # user login, logout
       resources :stocks, only: [:index]
       get 'stocks/:ticker_symbol', to: 'stocks#search_stock_price'
+      get 'stocks/:ticker_symbol/chart', to: 'stocks#show_chart'
       resources :transactions, only: [:index, :create]
   end
 

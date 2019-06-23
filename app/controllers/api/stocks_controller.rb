@@ -16,10 +16,15 @@ class Api::StocksController < ApplicationController
     begin
       @price = IEX::API.fetch_price(params[:ticker_symbol])
       @stock = Stock.find_by(ticker_symbol: params[:ticker_symbol].upcase)
-      render :show
+      render :show_stock
     rescue
       render json: { "tickerSymbol" => "Stock not found" }, status: 404
     end
+  end
+
+  def show_chart
+    @chart_data = IEX::API.fetch_chart_data(params[:tickerSymbol])
+    render :show_chart
   end
 
   def stock_params

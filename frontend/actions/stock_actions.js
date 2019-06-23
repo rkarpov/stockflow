@@ -3,6 +3,7 @@ import * as iexApiUtil from '../util/iex_api_util';
 export const RECEIVE_STOCK_PRICE = 'RECEIVE_STOCK_PRICE';
 export const RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
 export const RECEIVE_STOCKS_PORTFOLIO = 'RECEIVE_STOCKS_PORTFOLIO';
+export const RECEIVE_STOCK_CHART = 'RECEIVE_STOCK_CHART';
 
 const receiveStocksPortfolio = (payload) => {
   return ({
@@ -18,6 +19,13 @@ const receiveStockPrice = (payload) => {
     // price: Number.parseFloat(price).toFixed(2)
   });
 };
+
+const receiveStockChart = (payload) => {
+  return ({
+    type: RECEIVE_STOCK_CHART,
+    payload
+  })
+}
 
 const receiveErrors = errors => {
   return ({
@@ -42,4 +50,12 @@ export const requestStockPrice = (tickerSymbol) => dispatch => {
       // error => dispatch(receiveErrors(error["responseText"])) // for front end calls
     )
   );
+};
+
+export const requestStockChart = (tickerSymbol) => dispatch => {
+   return (
+    iexApiUtil.fetchStockChart(tickerSymbol).then(
+      chart => dispatch(receiveStockChart(chart))
+    )
+   )
 };

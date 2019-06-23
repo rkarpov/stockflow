@@ -1,9 +1,5 @@
-// dummy chart
-
 import React, { PureComponent } from 'react';
-import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
-} from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 
 const data = [
   {
@@ -29,27 +25,45 @@ const data = [
   },
 ];
 
-export default class Example extends PureComponent {
-  // static jsfiddleUrl = 'https://jsfiddle.net/alidingling/xqjtetw0/';
+export default class Chart extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      tickerSymbol: ''
+    }
+  }
+
+  componentDidMount(){
+
+  }
+
+  handleSubmit(e){
+    e.preventDefault();
+    e.target.value
+  }
 
   render() {
     return (
-      <LineChart
-        width={500}
-        height={300}
-        data={data}
-        margin={{
-          top: 5, right: 30, left: 20, bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="name" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
-        <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
-      </LineChart>
+      <div>
+       
+
+        <LineChart
+          width={500}
+          height={300}
+          data={data}
+          margin={{
+            top: 5, right: 30, left: 20, bottom: 5,
+          }}
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Line type="monotone" dataKey="pv" stroke="#8884d8" activeDot={{ r: 8 }} />
+          <Line type="monotone" dataKey="uv" stroke="#82ca9d" />
+        </LineChart>
+      </div>
     );
   }
 }

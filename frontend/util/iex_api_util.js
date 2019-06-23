@@ -12,6 +12,13 @@ export const fetchStockPrice = (tickerSymbol) => {
   })
 }
 
+export const fetchStockChart = (tickerSymbol) => {
+  return $.ajax({
+    method: "GET",
+    url: `/api/stocks/${tickerSymbol}`
+  })
+}
+
 // front end api call to fetch price
 const baseUrl = `https://api.iextrading.com/1.0`;
 
