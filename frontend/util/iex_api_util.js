@@ -15,7 +15,7 @@ export const fetchStockPrice = (tickerSymbol) => {
 export const fetchStockChart = (tickerSymbol) => {
   return $.ajax({
     method: "GET",
-    url: `/api/stocks/${tickerSymbol}`
+    url: `/api/stocks/${tickerSymbol}/show_chart`
   })
 }
 

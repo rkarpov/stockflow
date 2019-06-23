@@ -25,12 +25,13 @@ const data = [
   },
 ];
 
-export default class Chart extends React.Component {
+class Chart extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       tickerSymbol: ''
     }
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentDidMount(){
@@ -39,13 +40,23 @@ export default class Chart extends React.Component {
 
   handleSubmit(e){
     e.preventDefault();
-    e.target.value
+    this.props.requestStockChart(this.state.tickerSymbol)
+  }
+
+  update(field) {
+    return (e) => {
+      this.setState({ [field]: e.target.value });
+    }
   }
 
   render() {
     return (
       <div>
-       
+        <label>Search Stock</label>
+        <form onSubmit={this.handleSubmit}>
+          <input onChange={this.update('tickerSymbol')}></input>
+          <button type="submit">Submit</button>
+        </form>
 
         <LineChart
           width={500}
@@ -67,3 +78,5 @@ export default class Chart extends React.Component {
     );
   }
 }
+
+export default Chart;

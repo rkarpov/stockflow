@@ -1,15 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Chart from './stock_show';
-import { fetchChartData } from '../../actions/stock_actions';
+import { requestStockChart } from '../../actions/stock_actions';
 
 const msp = (state) => {
-  
+  return {
+    state: state
+  }
 }
 
 const mdp = dispatch => {
   return ({
-    fetchChartData = () => dispatch(fetchChartData(stockTicker))
+    requestStockChart: (stockTicker) => dispatch(requestStockChart(stockTicker))
   })
 }
 
