@@ -6,7 +6,7 @@ const chartsReducer = (oldState = {}, action) => {
   let newState = merge({}, oldState);
   switch (action.type) {
     case RECEIVE_STOCK_CHART:
-      return merge(newState, action.payload.chartData.chart);
+      return newState = action.payload.chartData.chart;
     default:
       return oldState;
   }

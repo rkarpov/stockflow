@@ -1063,16 +1063,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var styles = function styles(theme) {
   return {
-    main: _defineProperty({
-      width: 'auto',
-      display: 'block',
-      marginLeft: theme.spacing.unit * 3,
-      marginRight: theme.spacing.unit * 3
-    }, theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2), {
-      width: 300,
-      marginLeft: 'auto',
-      marginRight: 'auto'
-    }),
     paper: {
       marginTop: theme.spacing.unit * 8,
       marginLeft: theme.spacing.unit * 8,
@@ -1102,14 +1092,36 @@ function (_React$Component) {
     _classCallCheck(this, Chart);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Chart).call(this, props));
+
+    _defineProperty(_assertThisInitialized(_this), "updateSelected", function (range) {
+      return function () {
+        return _this.setState({
+          selected: range
+        });
+      };
+    });
+
     _this.state = {
-      tickerSymbol: ''
+      tickerSymbol: '',
+      selected: '1d'
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    _this.selected = _this.selected.bind(_assertThisInitialized(_this));
+    _this.updateSelected = _this.updateSelected.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Chart, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(_, prevState) {
+      if (prevState.selected !== this.state.selected) {
+        return this.props.requestStockChart({
+          tickerSymbol: this.state.tickerSymbol,
+          dateRange: this.state.selected
+        });
+      }
+    }
+  }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
@@ -1128,6 +1140,14 @@ function (_React$Component) {
       };
     }
   }, {
+    key: "selected",
+    value: function selected(range) {
+      return this.state.selected === range ? {
+        background: '#3f51b5',
+        color: '#fff'
+      } : null;
+    }
+  }, {
     key: "render",
     value: function render() {
       var data = this.props.chart.map(function (datum) {
@@ -1137,7 +1157,7 @@ function (_React$Component) {
         };
       });
       var classes = this.props.classes;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_7___default.a, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Paper__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_7___default.a, null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Paper__WEBPACK_IMPORTED_MODULE_2___default.a, {
         className: classes.paper
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_6___default.a, {
         variant: "h4",
@@ -1145,8 +1165,8 @@ function (_React$Component) {
         className: classes.header,
         align: "left"
       }, this.props.company), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["LineChart"], {
-        width: 700,
-        height: 400,
+        width: 600,
+        height: 350,
         data: data,
         margin: {
           top: 5,
@@ -1171,10 +1191,10 @@ function (_React$Component) {
         },
         isAnimationActive: false,
         position: {
-          y: -120,
-          x: 50
+          y: 395,
+          x: 80
         }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Legend"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Line"], {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Line"], {
         type: "monotone",
         dataKey: "Price",
         stroke: "#8884d8",
@@ -1182,12 +1202,32 @@ function (_React$Component) {
         strokeWidth: 2
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
+          marginBottom: 5
+        }
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3___default.a, {
+        style: this.selected('1y'),
+        onClick: this.updateSelected('1y')
+      }, "1 Y"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3___default.a, {
+        style: this.selected('3m'),
+        onClick: this.updateSelected('3m')
+      }, "3 M"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3___default.a, {
+        style: this.selected('1m'),
+        onClick: this.updateSelected('1m')
+      }, "1 M"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3___default.a, {
+        style: this.selected('7d'),
+        onClick: this.updateSelected('7d')
+      }, "1 W"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3___default.a, {
+        style: this.selected('1d'),
+        onClick: this.updateSelected('1d')
+      }, "1 D")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        style: {
           marginLeft: 100
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Search Stock"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: this.handleSubmit
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        onChange: this.update('tickerSymbol')
+        onChange: this.update('tickerSymbol'),
+        placeholder: "Search Stock"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3___default.a, {
         type: "submit",
         variant: "contained",
@@ -2311,7 +2351,7 @@ var chartsReducer = function chartsReducer() {
 
   switch (action.type) {
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_CHART"]:
-      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.chartData.chart);
+      return newState = action.payload.chartData.chart;
 
     default:
       return oldState;
