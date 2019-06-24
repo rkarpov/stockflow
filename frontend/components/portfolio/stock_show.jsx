@@ -39,13 +39,13 @@ class Chart extends React.Component {
 
   componentDidUpdate(_, prevState){
     if (prevState.selected !== this.state.selected){
-      return this.props.requestStockChart({ tickerSymbol: this.state.tickerSymbol, dateRange: this.state.selected })
+      this.handleSubmit();
     }
   }
 
   handleSubmit(e){
-    e.preventDefault();
-    this.props.requestStockChart({ tickerSymbol: this.state.tickerSymbol, dateRange: "1d" })
+    e ? e.preventDefault() : null;
+    this.props.requestStockChart({ tickerSymbol: this.state.tickerSymbol, dateRange: this.state.selected })
   }
 
   update(field) {

@@ -1115,19 +1115,16 @@ function (_React$Component) {
     key: "componentDidUpdate",
     value: function componentDidUpdate(_, prevState) {
       if (prevState.selected !== this.state.selected) {
-        return this.props.requestStockChart({
-          tickerSymbol: this.state.tickerSymbol,
-          dateRange: this.state.selected
-        });
+        this.handleSubmit();
       }
     }
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      e.preventDefault();
+      e ? e.preventDefault() : null;
       this.props.requestStockChart({
         tickerSymbol: this.state.tickerSymbol,
-        dateRange: "1d"
+        dateRange: this.state.selected
       });
     }
   }, {
