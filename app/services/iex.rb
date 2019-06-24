@@ -20,13 +20,12 @@ module IEX
     end
 
     def self.fetch_open_price(stock_symbol)
-      # open_price = RestClient.get(self.base_url + "/stock/#{stock_symbol}/quote/open")
       open_price = RestClient.get(self.base_url + "/stable/stock/market/batch?symbols=#{stock_symbol}&types=ohlc&" + self.token)
       open_price.to_f
     end
 
-    def self.fetch_chart_data(stock_symbol)
-      fetch_chart = RestClient.get(self.base_url + "/stable/stock/#{stock_symbol}/batch?types=quote,chart&range=1m&last=10&" + self.token)
+    def self.fetch_chart_data(stock_symbol, date_range)
+      fetch_chart = RestClient.get(self.base_url + "/stable/stock/#{stock_symbol}/batch?types=quote,chart&range=#{date_range}&last=10&" + self.token)
       chart_data = JSON.parse(fetch_chart.body)
     end
   end

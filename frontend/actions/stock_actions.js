@@ -47,15 +47,16 @@ export const requestStockPrice = (tickerSymbol) => dispatch => {
     iexApiUtil.fetchStockPrice(tickerSymbol).then(
       price => dispatch(receiveStockPrice(price)),
       error => dispatch(receiveErrors(error.responseJSON))
-      // error => dispatch(receiveErrors(error["responseText"])) // for front end calls
+      // error => dispatch(receiveErrors(error["responseText"])) // for front end api calls
     )
   );
 };
 
-export const requestStockChart = (tickerSymbol) => dispatch => {
+                  // { tickerSymbol: '', dateRange: '' }
+export const requestStockChart = (data) => dispatch => {
    return (
-    iexApiUtil.fetchStockChart(tickerSymbol).then(
-      chart => dispatch(receiveStockChart(chart))
+    iexApiUtil.fetchStockChart(data).then(
+      payload => dispatch(receiveStockChart(payload))
     )
    )
 };

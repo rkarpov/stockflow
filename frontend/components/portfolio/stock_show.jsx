@@ -48,7 +48,7 @@ class Chart extends React.Component {
 
   handleSubmit(e){
     e.preventDefault();
-    this.props.requestStockChart(this.state.tickerSymbol)
+    this.props.requestStockChart({ tickerSymbol: this.state.tickerSymbol, dateRange: "1d" })
   }
 
   update(field) {
@@ -60,28 +60,27 @@ class Chart extends React.Component {
   render() {
     const data = this.props.chart.map(datum => {
       return (
-        { date: datum.label, Price: datum.close }
+        { Date: datum.label, Price: datum.close }
       )
     })
     const { classes } = this.props;
-
     return (
       <main>
         <CssBaseline />
         <Paper className={classes.paper}>
           <Typography variant="h4" color="inherit" className={classes.header} align="left">
-            {this.props.company.companyName}
+            {this.props.company}
           </Typography>
           <LineChart
-            width={500}
-            height={300}
+            width={700}
+            height={400}
             data={data}
             margin={{
               top: 5, right: 30, left: 20, bottom: 5,
             }}
           >
             <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
+            <XAxis dataKey="Date" />
             <YAxis dataKey="Price" domain={['dataMin', 'dataMax']} />
             <Tooltip
               formatter={(value) => {

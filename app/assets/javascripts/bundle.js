@@ -235,14 +235,15 @@ var requestStockPrice = function requestStockPrice(tickerSymbol) {
       return dispatch(receiveStockPrice(price));
     }, function (error) {
       return dispatch(receiveErrors(error.responseJSON));
-    } // error => dispatch(receiveErrors(error["responseText"])) // for front end calls
+    } // error => dispatch(receiveErrors(error["responseText"])) // for front end api calls
     );
   };
-};
-var requestStockChart = function requestStockChart(tickerSymbol) {
+}; // { tickerSymbol: '', dateRange: '' }
+
+var requestStockChart = function requestStockChart(data) {
   return function (dispatch) {
-    return _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchStockChart"](tickerSymbol).then(function (chart) {
-      return dispatch(receiveStockChart(chart));
+    return _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchStockChart"](data).then(function (payload) {
+      return dispatch(receiveStockChart(payload));
     });
   };
 };
@@ -1112,7 +1113,10 @@ function (_React$Component) {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
-      this.props.requestStockChart(this.state.tickerSymbol);
+      this.props.requestStockChart({
+        tickerSymbol: this.state.tickerSymbol,
+        dateRange: "1d"
+      });
     }
   }, {
     key: "update",
@@ -1128,7 +1132,7 @@ function (_React$Component) {
     value: function render() {
       var data = this.props.chart.map(function (datum) {
         return {
-          date: datum.label,
+          Date: datum.label,
           Price: datum.close
         };
       });
@@ -1140,9 +1144,9 @@ function (_React$Component) {
         color: "inherit",
         className: classes.header,
         align: "left"
-      }, this.props.company.companyName), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["LineChart"], {
-        width: 500,
-        height: 300,
+      }, this.props.company), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["LineChart"], {
+        width: 700,
+        height: 400,
         data: data,
         margin: {
           top: 5,
@@ -1153,7 +1157,7 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["CartesianGrid"], {
         strokeDasharray: "3 3"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["XAxis"], {
-        dataKey: "date"
+        dataKey: "Date"
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["YAxis"], {
         dataKey: "Price",
         domain: ['dataMin', 'dataMax']
@@ -1219,13 +1223,12 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state) {
-  var chart = state.entities.charts.chart || [{
+  var data = state.entities.charts;
+  var chart = Object.keys(data).length === 0 && data.constructor === Object ? [{
     label: "name",
     close: "price"
-  }];
-  var company = state.entities.charts.quote || {
-    companyName: "Company"
-  };
+  }] : Object.values(data);
+  var company = state.entities.stocks.companyName || "Company";
   return {
     chart: chart,
     company: company
@@ -1234,8 +1237,8 @@ var msp = function msp(state) {
 
 var mdp = function mdp(dispatch) {
   return {
-    requestStockChart: function requestStockChart(stockTicker) {
-      return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_3__["requestStockChart"])(stockTicker));
+    requestStockChart: function requestStockChart(payload) {
+      return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_3__["requestStockChart"])(payload));
     }
   };
 };
@@ -2300,7 +2303,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var chartsNewsReducer = function chartsNewsReducer() {
+var chartsReducer = function chartsReducer() {
   var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(oldState);
@@ -2308,14 +2311,14 @@ var chartsNewsReducer = function chartsNewsReducer() {
 
   switch (action.type) {
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_CHART"]:
-      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.chartData);
+      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.chartData.chart);
 
     default:
       return oldState;
   }
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (chartsNewsReducer);
+/* harmony default export */ __webpack_exports__["default"] = (chartsReducer);
 
 /***/ }),
 
@@ -2540,7 +2543,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../actions/transaction_actions */ "./frontend/actions/transaction_actions.js");
 
 
- // import { RECEIVE_CURRENT_USER } from '../actions/session_actions'
+
+
 
 var stocksReducer = function stocksReducer() {
   var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
@@ -2554,8 +2558,9 @@ var stocksReducer = function stocksReducer() {
 
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_TRANSACTION"]:
       return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.stock);
-    // case RECEIVE_CURRENT_USER:
-    //   return {};
+
+    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_CHART"]:
+      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.chartData.quote);
 
     default:
       return oldState;
@@ -2766,10 +2771,13 @@ var fetchStockPrice = function fetchStockPrice(tickerSymbol) {
     url: "/api/stocks/".concat(tickerSymbol)
   });
 };
-var fetchStockChart = function fetchStockChart(tickerSymbol) {
+var fetchStockChart = function fetchStockChart(data) {
   return $.ajax({
     method: "GET",
-    url: "/api/stocks/".concat(tickerSymbol, "/show_chart")
+    url: "/api/stocks/".concat(data.tickerSymbol, "/show_chart"),
+    data: {
+      data: data
+    }
   });
 }; // front end api call to fetch price
 
