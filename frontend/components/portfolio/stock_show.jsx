@@ -112,7 +112,8 @@ class Chart extends React.Component {
           <div style={{ marginLeft: 100 }}>
             <form onSubmit={this.handleSubmit}>
               <input onChange={this.update('tickerSymbol')} placeholder={"Search Stock"}/>
-              <Button type="submit" variant="contained" color="primary">Submit</Button>
+              <button type="submit" style={{ width: 70, height: 30, background: '#3f51b5', color: '#fff', borderRadius: 3, fontSize: 14 }}>Submit</button>
+              {/* <Button type="submit" variant="contained" color="primary" style={{ width: 40, height: 20 }}>Submit</Button> */}
             </form>
           </div>
         </Paper>

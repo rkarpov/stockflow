@@ -1225,10 +1225,16 @@ function (_React$Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         onChange: this.update('tickerSymbol'),
         placeholder: "Search Stock"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3___default.a, {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
-        variant: "contained",
-        color: "primary"
+        style: {
+          width: 70,
+          height: 30,
+          background: '#3f51b5',
+          color: '#fff',
+          borderRadius: 3,
+          fontSize: 15
+        }
       }, "Submit")))));
     }
   }]);
