@@ -447,7 +447,11 @@ function (_React$Component) {
               flexDirection: 'row',
               alignItems: 'center'
             }
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_portfolio_stock_show_container__WEBPACK_IMPORTED_MODULE_5__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_3__["default"], null));
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_portfolio_stock_show_container__WEBPACK_IMPORTED_MODULE_5__["default"], {
+            tickerSymbol: this.props.location.tickerSymbol,
+            company: this.props.location.company,
+            stockId: this.props.location.stockId
+          }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_3__["default"], null));
 
         default:
           return "Page not found";
@@ -983,14 +987,24 @@ function (_React$Component) {
     key: "render",
     value: function render() {
       var val = this.performance(this.props.stock.performance);
+      var linkProps = {
+        pathname: '/chart',
+        stockId: this.props.stock.id,
+        tickerSymbol: this.props.stock.ticker_symbol,
+        company: this.props.stock.company
+      };
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableRow__WEBPACK_IMPORTED_MODULE_3___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         style: {
           color: val
         },
         align: "center"
-      }, this.props.stock.ticker_symbol), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: linkProps
+      }, this.props.stock.ticker_symbol)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         align: "center"
-      }, this.props.stock.company), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: linkProps
+      }, this.props.stock.company)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         align: "center"
       }, this.props.stock.numShares), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         style: {
@@ -1112,6 +1126,17 @@ function (_React$Component) {
   }
 
   _createClass(Chart, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      this.setState({
+        tickerSymbol: this.props.tickerSymbol
+      });
+      this.props.requestStockChart({
+        tickerSymbol: this.props.tickerSymbol,
+        dateRange: '1d'
+      });
+    }
+  }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(_, prevState) {
       if (prevState.selected !== this.state.selected) {
@@ -1185,12 +1210,9 @@ function (_React$Component) {
             currency: 'USD'
           }).format(value);
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, returnVal);
-        },
-        isAnimationActive: false,
-        position: {
-          y: 395,
-          x: 80
-        }
+        } // isAnimationActive={false}
+        // position={{ y: 395, x: 80 }}
+
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["Line"], {
         type: "monotone",
         dataKey: "Price",
@@ -1233,7 +1255,7 @@ function (_React$Component) {
           background: '#3f51b5',
           color: '#fff',
           borderRadius: 3,
-          fontSize: 15
+          fontSize: 14
         }
       }, "Submit")))));
     }
@@ -1265,16 +1287,18 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var msp = function msp(state) {
-  var data = state.entities.charts;
+var msp = function msp(state, ownProps) {
+  var tickerSymbol = ownProps.tickerSymbol;
+  var data = state.entities.charts.chart;
   var chart = Object.keys(data).length === 0 && data.constructor === Object ? [{
     label: "name",
     close: "price"
   }] : Object.values(data);
-  var company = state.entities.stocks.companyName || "Company";
+  var company = state.entities.charts.quote.companyName || ownProps.company || "Company";
   return {
     chart: chart,
-    company: company
+    company: company,
+    tickerSymbol: tickerSymbol
   };
 };
 
@@ -2347,14 +2371,17 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var chartsReducer = function chartsReducer() {
-  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    chart: {},
+    quote: {}
+  };
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(oldState);
   var newState = lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()({}, oldState);
 
   switch (action.type) {
     case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_CHART"]:
-      return newState = action.payload.chartData.chart;
+      return newState = action.payload.chartData;
 
     default:
       return oldState;
@@ -2588,7 +2615,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
 var stocksReducer = function stocksReducer() {
   var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var action = arguments.length > 1 ? arguments[1] : undefined;
@@ -2601,9 +2627,6 @@ var stocksReducer = function stocksReducer() {
 
     case _actions_transaction_actions__WEBPACK_IMPORTED_MODULE_2__["RECEIVE_TRANSACTION"]:
       return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.stock);
-
-    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCK_CHART"]:
-      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.payload.chartData.quote);
 
     default:
       return oldState;

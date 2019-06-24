@@ -37,6 +37,11 @@ class Chart extends React.Component {
     this.updateSelected = this.updateSelected.bind(this);
   }
 
+  componentDidMount(){
+    this.setState({ tickerSymbol: this.props.tickerSymbol })
+    this.props.requestStockChart({ tickerSymbol: this.props.tickerSymbol, dateRange: '1d' });
+  }
+
   componentDidUpdate(_, prevState){
     if (prevState.selected !== this.state.selected){
       this.handleSubmit();
@@ -97,8 +102,8 @@ class Chart extends React.Component {
                 return <span>{returnVal}</span>
               }}
             
-              isAnimationActive={false}
-              position={{ y: 395, x: 80 }}
+              // isAnimationActive={false}
+              // position={{ y: 395, x: 80 }}
             />
             <Line type="monotone" dataKey="Price" stroke="#8884d8" dot={false} strokeWidth={2} />
           </LineChart>
@@ -113,7 +118,6 @@ class Chart extends React.Component {
             <form onSubmit={this.handleSubmit}>
               <input onChange={this.update('tickerSymbol')} placeholder={"Search Stock"}/>
               <button type="submit" style={{ width: 70, height: 30, background: '#3f51b5', color: '#fff', borderRadius: 3, fontSize: 14 }}>Submit</button>
-              {/* <Button type="submit" variant="contained" color="primary" style={{ width: 40, height: 20 }}>Submit</Button> */}
             </form>
           </div>
         </Paper>

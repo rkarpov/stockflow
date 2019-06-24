@@ -18,10 +18,11 @@ class StockIndexItem extends React.Component {
 
   render() {
     const val = this.performance(this.props.stock.performance)
+    const linkProps = { pathname: '/chart', stockId: this.props.stock.id, tickerSymbol: this.props.stock.ticker_symbol, company: this.props.stock.company }
     return (
       <TableRow>
-        <TableCell style={{ color: val }} align="center">{this.props.stock.ticker_symbol}</TableCell>
-        <TableCell align="center">{this.props.stock.company}</TableCell>
+        <TableCell style={{ color: val }} align="center"><Link to={linkProps}>{this.props.stock.ticker_symbol}</Link></TableCell>
+        <TableCell align="center"><Link to={linkProps}>{this.props.stock.company}</Link></TableCell>
         <TableCell align="center">{this.props.stock.numShares}</TableCell>
         <TableCell style={{ color: val }} align="center">{this.props.stock.netStockValue}</TableCell>
       </TableRow>
