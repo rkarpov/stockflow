@@ -51,7 +51,6 @@ export const requestStockPrice = (tickerSymbol) => dispatch => {
     )
   );
 };
-
                   // { tickerSymbol: '', dateRange: '' }
 export const requestStockChart = (data) => dispatch => {
    return (
@@ -59,4 +58,12 @@ export const requestStockChart = (data) => dispatch => {
       payload => dispatch(receiveStockChart(payload))
     )
    )
+};
+                // { type: company or symbol, string: '' }
+export const searchStocks = (payload) => dispatch => {
+  return (
+    transactionApiUtil.createTransaction(payload).then(
+      transaction => (dispatch(receiveSearchResults(transaction))),
+      error => (dispatch(receiveErrors(error.responseJSON)))
+    ));
 };

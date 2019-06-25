@@ -15,5 +15,5 @@ const mdp = dispatch => {
   })
 }
 
-export default connect(msp, mdp)(Navbar)
+export default connect(msp, mdp)(Navbar);
 

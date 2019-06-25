@@ -2,7 +2,6 @@ import React from 'react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
-import Input from '@material-ui/core/Input';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -30,34 +29,41 @@ class Chart extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      tickerSymbol: '', selected: '1d'
+      selected: '1m'
+      // tickerSymbol: '', selected: '1d'
     }
-    this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
     this.selected = this.selected.bind(this);
     this.updateSelected = this.updateSelected.bind(this);
+    this.getChart = this.getChart.bind(this);
   }
 
   componentDidMount(){
-    this.setState({ tickerSymbol: this.props.tickerSymbol })
-    this.props.requestStockChart({ tickerSymbol: this.props.tickerSymbol, dateRange: '1d' });
+    this.setState({ tickerSymbol: this.props.tickerSymbol });
+    this.getChart(this.props.tickerSymbol); // state not immediately set, request chart using props during first time loading page
   }
 
   componentDidUpdate(_, prevState){
     if (prevState.selected !== this.state.selected){
-      this.handleSubmit();
+      this.getChart(this.props.tickerSymbol);
+      // this.getChart(this.state.tickerSymbol);
     }
   }
 
-  handleSubmit(e){
-    e ? e.preventDefault() : null;
-    this.props.requestStockChart({ tickerSymbol: this.state.tickerSymbol, dateRange: this.state.selected })
+  // handleSubmit(e){
+  //   e.preventDefault();
+  //   this.getChart(this.state.tickerSymbol);
+  // }
+
+  getChart(tickerSymbol){
+    this.props.requestStockChart({ tickerSymbol: tickerSymbol, dateRange: this.state.selected });
   }
 
-  update(field) {
-    return (e) => {
-      this.setState({ [field]: e.target.value });
-    }
-  }
+  // update(field) {
+  //   return (e) => {
+  //     this.setState({ [field]: e.target.value });
+  //   }
+  // }
 
   selected(range){
     return this.state.selected === range ? { background: '#3f51b5', color: '#fff' } : null;
@@ -98,12 +104,8 @@ class Chart extends React.Component {
                   style: 'currency',
                   currency: 'USD'
                 }).format(value);
-                
                 return <span>{returnVal}</span>
               }}
-            
-              // isAnimationActive={false}
-              // position={{ y: 395, x: 80 }}
             />
             <Line type="monotone" dataKey="Price" stroke="#8884d8" dot={false} strokeWidth={2} />
           </LineChart>
@@ -114,12 +116,12 @@ class Chart extends React.Component {
             <Button style={this.selected('7d')} onClick={this.updateSelected('7d')}>1 W</Button>
             <Button style={this.selected('1d')} onClick={this.updateSelected('1d')}>1 D</Button>
           </div>
-          <div style={{ marginLeft: 100 }}>
+          {/* <div style={{ marginLeft: 100 }}>
             <form onSubmit={this.handleSubmit}>
               <input onChange={this.update('tickerSymbol')} placeholder={"Search Stock"}/>
               <button type="submit" style={{ width: 70, height: 30, background: '#3f51b5', color: '#fff', borderRadius: 3, fontSize: 14 }}>Submit</button>
             </form>
-          </div>
+          </div> */}
         </Paper>
       </div>
     );

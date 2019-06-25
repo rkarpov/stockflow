@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
+import Searchbar from './searchbar';
 
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -8,7 +9,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuIcon from '@material-ui/icons/Menu';
@@ -34,8 +34,8 @@ class Navbar extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-        anchorEl: null,
-      };
+      anchorEl: null,
+    };
   }
 
   handleClick = event => {
@@ -77,7 +77,7 @@ class Navbar extends React.Component {
             <Typography variant="h6" color="inherit" className={classes.grow} style={{ marginLeft: 25 }}>
               Stockflow
             </Typography>
-
+            <Searchbar/>
             <Link component={linkToPortfolio} className={classes.link}>
               Portfolio
             </Link>
