@@ -16,7 +16,7 @@ const styles = theme => ({
     display: 'flex',
     alignItems: 'center',
     width: 300,
-    height: 40,
+    height: 35,
     marginRight: 12,
   },
   input: {
@@ -32,7 +32,7 @@ class Searchbar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      tickerSymbol: '', selectedValue: 'company'
+      searchString: '', selectedValue: 'company'
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.debouncedStockSearch = debounce(500, this.props.requestStocks)
@@ -52,9 +52,8 @@ class Searchbar extends React.Component {
 
   handleSubmit(e){
     e.preventDefault();
+    this.props.fetchStocks(this.state.searchString, this.state.selectedValue);
     // const searchResult = this.debouncedStockSearch();
-    this.props.fetchStocks();
-    // searchResult ? redirect to or <Link to={ { pathname: "/chart", stockTicker: searchResult.stockTicker }}/>
   }
 
   render(){
@@ -70,12 +69,12 @@ class Searchbar extends React.Component {
             <InputBase
               className={classes.input}
               placeholder="Search Google Maps"
-              inputProps={{ 'aria-label': 'Search Google Maps' }}
+              inputProps={{ 'aria-label': 'Search Stock' }}
+              onChange={this.update('searchString')}
             />
-            <IconButton className={classes.iconButton} aria-label="Search">
+            <IconButton type="submit" className={classes.iconButton} aria-label="Search">
               <SearchIcon />
             </IconButton>
-          {/* <input onChange={this.update('tickerSymbol')} placeholder={"Search Stock"} /> */}
           {/* <button type="submit" style={{ width: 70, height: 30, background: '#3f51b5', color: '#fff', borderRadius: 3, fontSize: 14 }}>Search</button> */}
           </Paper>
           <div style={{ marginRight: 250, minWidth: 240 }}>
@@ -93,6 +92,5 @@ class Searchbar extends React.Component {
   }
 }
 
-// export default Searchbar;
 export default withStyles(styles)(Searchbar);
 

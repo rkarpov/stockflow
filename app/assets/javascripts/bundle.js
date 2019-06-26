@@ -766,7 +766,7 @@ var styles = function styles(theme) {
       display: 'flex',
       alignItems: 'center',
       width: 300,
-      height: 40,
+      height: 35,
       marginRight: 12
     },
     input: {
@@ -791,7 +791,7 @@ function (_React$Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Searchbar).call(this, props));
     _this.state = {
-      tickerSymbol: '',
+      searchString: '',
       selectedValue: 'company'
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
@@ -820,9 +820,8 @@ function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
-      e.preventDefault(); // const searchResult = this.debouncedStockSearch();
-
-      this.props.fetchStocks(); // searchResult ? redirect to or <Link to={ { pathname: "/chart", stockTicker: searchResult.stockTicker }}/>
+      e.preventDefault();
+      this.props.fetchStocks(this.state.searchString, this.state.selectedValue); // const searchResult = this.debouncedStockSearch();
     }
   }, {
     key: "render",
@@ -844,9 +843,11 @@ function (_React$Component) {
         className: classes.input,
         placeholder: "Search Google Maps",
         inputProps: {
-          'aria-label': 'Search Google Maps'
-        }
+          'aria-label': 'Search Stock'
+        },
+        onChange: this.update('searchString')
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_8___default.a, {
+        type: "submit",
         className: classes.iconButton,
         "aria-label": "Search"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Search__WEBPACK_IMPORTED_MODULE_9___default.a, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -877,8 +878,7 @@ function (_React$Component) {
   }]);
 
   return Searchbar;
-}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component); // export default Searchbar;
-
+}(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_5__["withStyles"])(styles)(Searchbar));
 
