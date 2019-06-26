@@ -23,7 +23,27 @@ class Api::StocksController < ApplicationController
   end
 
   def search_stocks
-    
+    search_string = params[:data][:string]
+    search_value = params[:data][:value]
+    if search_value == 'company'
+      # replace . , ' with empty space for fuzzy sql matching
+      @stocks = Stock.find_by_sql("
+        SELECT * 
+        FROM stocks 
+        WHERE REPLACE(REPLACE(REPLACE(UPPER(company_name), ',', ''''), '.', ''), '''', '') like UPPER('%#{search_string}%')
+        ORDER BY LENGTH(company_name)
+        LIMIT 5
+      ")
+    else
+      @stocks = Stock.find_by_sql("
+        SELECT * 
+        FROM stocks 
+        WHERE UPPER(ticker_symbol) like UPPER('%#{search_string}%')
+        ORDER BY LENGTH(ticker_symbol)
+        LIMIT 5
+      ")
+    end
+    render :search
   end
 
   def show_chart

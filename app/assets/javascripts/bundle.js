@@ -217,6 +217,7 @@ var receiveStockChart = function receiveStockChart(payload) {
 };
 
 var receiveSearchResults = function receiveSearchResults(stocks) {
+  debugger;
   return {
     type: RECEIVE_SEARCH_RESULT,
     stocks: stocks
@@ -2768,7 +2769,7 @@ function searchReducer() {
       return action.stocks;
 
     default:
-      return newState;
+      return oldState;
   }
 }
 

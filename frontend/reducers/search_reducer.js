@@ -8,7 +8,7 @@ function searchReducer(oldState = {}, action) {
     case RECEIVE_SEARCH_RESULT:
       return action.stocks
     default:
-      return newState;
+      return oldState;
   }
 }
 
