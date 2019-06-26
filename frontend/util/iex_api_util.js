@@ -20,8 +20,16 @@ export const fetchStockChart = (data) => {
   })
 }
 
+export const fetchSearchResults = (data) => {
+  return $.ajax({
+    method: "GET",
+    url: `/api/stocks/:ticker_symbol/search_stocks`,
+    data: { data }
+  })
+}
+
 // front end api call to fetch price
-const baseUrl = `https://api.iextrading.com/1.0`;
+// const baseUrl = `https://api.iextrading.com/1.0`;
 
 // export const fetchStockPrice = (tickerSymbol) => {
 //   return $.ajax({
@@ -37,23 +45,23 @@ const baseUrl = `https://api.iextrading.com/1.0`;
 //   })
 // }
 
-export const fetchStocks = () => {
-  return $.ajax({
-    method: "GET",
-    url: baseUrl + `/ref-data/symbols`
-  })
-}
+// export const fetchStocks = () => {
+//   return $.ajax({
+//     method: "GET",
+//     url: baseUrl + `/ref-data/symbols`
+//   })
+// }
 
-export const fetchStockQuote = (tickerSymbol) => {
-  return $.ajax({
-    method: "GET",
-    url: baseUrl + `/stock/${tickerSymbol}/quote`
-  })
-}
+// export const fetchStockQuote = (tickerSymbol) => {
+//   return $.ajax({
+//     method: "GET",
+//     url: baseUrl + `/stock/${tickerSymbol}/quote`
+//   })
+// }
 
-export const fetchStockCompany = (tickerSymbol) => {
-  return $.ajax({
-    method: "GET",
-    url: baseUrl + `/stock/${tickerSymbol}/company`
-  })
-}
+// export const fetchStockCompany = (tickerSymbol) => {
+//   return $.ajax({
+//     method: "GET",
+//     url: baseUrl + `/stock/${tickerSymbol}/company`
+//   })
+// }

@@ -22,6 +22,10 @@ class Api::StocksController < ApplicationController
     end
   end
 
+  def search_stocks
+    
+  end
+
   def show_chart
     @chart_data = IEX::API.fetch_chart_data(params[:data][:tickerSymbol], params[:data][:dateRange])
     render :show_chart

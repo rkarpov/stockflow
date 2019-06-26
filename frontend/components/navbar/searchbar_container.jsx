@@ -1,6 +1,6 @@
-import { requestStocks } from '../../actions/stock_actions';
 import { connect } from 'react-redux';
 import Searchbar from './searchbar';
+import { requestStocks } from '../../actions/stock_actions';
 
 const msp = state => {
 

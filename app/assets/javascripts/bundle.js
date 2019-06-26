@@ -172,7 +172,7 @@ var clearErrors = function clearErrors() {
 /*!*******************************************!*\
   !*** ./frontend/actions/stock_actions.js ***!
   \*******************************************/
-/*! exports provided: RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS, RECEIVE_STOCKS_PORTFOLIO, RECEIVE_STOCK_CHART, requestStockPortfolio, requestStockPrice, requestStockChart, searchStocks */
+/*! exports provided: RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS, RECEIVE_STOCKS_PORTFOLIO, RECEIVE_STOCK_CHART, RECEIVE_SEARCH_RESULT, requestStockPortfolio, requestStockPrice, requestStockChart, requestStocks */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -181,16 +181,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCK_ERRORS", function() { return RECEIVE_STOCK_ERRORS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCKS_PORTFOLIO", function() { return RECEIVE_STOCKS_PORTFOLIO; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCK_CHART", function() { return RECEIVE_STOCK_CHART; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SEARCH_RESULT", function() { return RECEIVE_SEARCH_RESULT; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStockPortfolio", function() { return requestStockPortfolio; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStockPrice", function() { return requestStockPrice; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStockChart", function() { return requestStockChart; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "searchStocks", function() { return searchStocks; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStocks", function() { return requestStocks; });
 /* harmony import */ var _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/iex_api_util */ "./frontend/util/iex_api_util.js");
 
 var RECEIVE_STOCK_PRICE = 'RECEIVE_STOCK_PRICE';
 var RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
 var RECEIVE_STOCKS_PORTFOLIO = 'RECEIVE_STOCKS_PORTFOLIO';
 var RECEIVE_STOCK_CHART = 'RECEIVE_STOCK_CHART';
+var RECEIVE_SEARCH_RESULT = 'RECEIVE_SEARCH_RESULT';
 
 var receiveStocksPortfolio = function receiveStocksPortfolio(payload) {
   return {
@@ -211,6 +213,13 @@ var receiveStockChart = function receiveStockChart(payload) {
   return {
     type: RECEIVE_STOCK_CHART,
     payload: payload
+  };
+};
+
+var receiveSearchResults = function receiveSearchResults(stocks) {
+  return {
+    type: RECEIVE_SEARCH_RESULT,
+    stocks: stocks
   };
 };
 
@@ -249,10 +258,10 @@ var requestStockChart = function requestStockChart(data) {
   };
 }; // { type: company or symbol, string: '' }
 
-var searchStocks = function searchStocks(payload) {
+var requestStocks = function requestStocks(data) {
   return function (dispatch) {
-    return transactionApiUtil.createTransaction(payload).then(function (transaction) {
-      return dispatch(receiveSearchResults(transaction));
+    return _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__["fetchSearchResults"](data).then(function (stocks) {
+      return dispatch(receiveSearchResults(stocks));
     }, function (error) {
       return dispatch(receiveErrors(error.responseJSON));
     });
@@ -496,7 +505,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _material_ui_core_Link__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core/Link */ "./node_modules/@material-ui/core/Link/index.js");
 /* harmony import */ var _material_ui_core_Link__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Link__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _searchbar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./searchbar */ "./frontend/components/navbar/searchbar.jsx");
+/* harmony import */ var _searchbar_container__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./searchbar_container */ "./frontend/components/navbar/searchbar_container.jsx");
 /* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/styles/index.js");
 /* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _material_ui_core_AppBar__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core/AppBar */ "./node_modules/@material-ui/core/AppBar/index.js");
@@ -539,6 +548,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
 
+ // import Searchbar from './searchbar';
 
 
 
@@ -650,7 +660,7 @@ function (_React$Component) {
         style: {
           marginLeft: 25
         }
-      }, "Stockflow"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_searchbar__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Link__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }, "Stockflow"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_searchbar_container__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Link__WEBPACK_IMPORTED_MODULE_2___default.a, {
         component: linkToPortfolio,
         className: classes.link
       }, "Portfolio"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Link__WEBPACK_IMPORTED_MODULE_2___default.a, {
@@ -821,7 +831,10 @@ function (_React$Component) {
     key: "handleSubmit",
     value: function handleSubmit(e) {
       e.preventDefault();
-      this.props.fetchStocks(this.state.searchString, this.state.selectedValue); // const searchResult = this.debouncedStockSearch();
+      this.props.requestStocks({
+        string: this.state.searchString,
+        value: this.state.selectedValue
+      }); // const searchResult = this.debouncedStockSearch();
     }
   }, {
     key: "render",
@@ -881,6 +894,36 @@ function (_React$Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_5__["withStyles"])(styles)(Searchbar));
+
+/***/ }),
+
+/***/ "./frontend/components/navbar/searchbar_container.jsx":
+/*!************************************************************!*\
+  !*** ./frontend/components/navbar/searchbar_container.jsx ***!
+  \************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _searchbar__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./searchbar */ "./frontend/components/navbar/searchbar.jsx");
+/* harmony import */ var _actions_stock_actions__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../actions/stock_actions */ "./frontend/actions/stock_actions.js");
+
+
+
+
+var msp = function msp(state) {};
+
+var mdp = function mdp(dispatch) {
+  return {
+    requestStocks: function requestStocks(payload) {
+      return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_2__["requestStocks"])(payload));
+    }
+  };
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_0__["connect"])(msp, mdp)(_searchbar__WEBPACK_IMPORTED_MODULE_1__["default"]));
 
 /***/ }),
 
@@ -2983,7 +3026,7 @@ var configureStore = function configureStore() {
 /*!***************************************!*\
   !*** ./frontend/util/iex_api_util.js ***!
   \***************************************/
-/*! exports provided: fetchStockPortfolio, fetchStockPrice, fetchStockChart, fetchStocks, fetchStockQuote, fetchStockCompany */
+/*! exports provided: fetchStockPortfolio, fetchStockPrice, fetchStockChart, fetchSearchResults */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2991,9 +3034,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockPortfolio", function() { return fetchStockPortfolio; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockPrice", function() { return fetchStockPrice; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockChart", function() { return fetchStockChart; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStocks", function() { return fetchStocks; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockQuote", function() { return fetchStockQuote; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchStockCompany", function() { return fetchStockCompany; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchSearchResults", function() { return fetchSearchResults; });
 var fetchStockPortfolio = function fetchStockPortfolio() {
   return $.ajax({
     method: "GET",
@@ -3014,9 +3055,18 @@ var fetchStockChart = function fetchStockChart(data) {
       data: data
     }
   });
+};
+var fetchSearchResults = function fetchSearchResults(data) {
+  return $.ajax({
+    method: "GET",
+    url: "/api/stocks/:ticker_symbol/search_stocks",
+    data: {
+      data: data
+    }
+  });
 }; // front end api call to fetch price
-
-var baseUrl = "https://api.iextrading.com/1.0"; // export const fetchStockPrice = (tickerSymbol) => {
+// const baseUrl = `https://api.iextrading.com/1.0`;
+// export const fetchStockPrice = (tickerSymbol) => {
 //   return $.ajax({
 //     method: "GET",
 //     url: baseUrl + `/stock/${tickerSymbol}/price`
@@ -3028,25 +3078,24 @@ var baseUrl = "https://api.iextrading.com/1.0"; // export const fetchStockPrice 
 //     url: baseUrl + `/stock/market/batch?symbols=${tickerSymbols}&types=price`
 //   })
 // }
-
-var fetchStocks = function fetchStocks() {
-  return $.ajax({
-    method: "GET",
-    url: baseUrl + "/ref-data/symbols"
-  });
-};
-var fetchStockQuote = function fetchStockQuote(tickerSymbol) {
-  return $.ajax({
-    method: "GET",
-    url: baseUrl + "/stock/".concat(tickerSymbol, "/quote")
-  });
-};
-var fetchStockCompany = function fetchStockCompany(tickerSymbol) {
-  return $.ajax({
-    method: "GET",
-    url: baseUrl + "/stock/".concat(tickerSymbol, "/company")
-  });
-};
+// export const fetchStocks = () => {
+//   return $.ajax({
+//     method: "GET",
+//     url: baseUrl + `/ref-data/symbols`
+//   })
+// }
+// export const fetchStockQuote = (tickerSymbol) => {
+//   return $.ajax({
+//     method: "GET",
+//     url: baseUrl + `/stock/${tickerSymbol}/quote`
+//   })
+// }
+// export const fetchStockCompany = (tickerSymbol) => {
+//   return $.ajax({
+//     method: "GET",
+//     url: baseUrl + `/stock/${tickerSymbol}/company`
+//   })
+// }
 
 /***/ }),
 

@@ -52,7 +52,7 @@ class Searchbar extends React.Component {
 
   handleSubmit(e){
     e.preventDefault();
-    this.props.fetchStocks(this.state.searchString, this.state.selectedValue);
+    this.props.requestStocks({ string: this.state.searchString, value: this.state.selectedValue });
     // const searchResult = this.debouncedStockSearch();
   }
 

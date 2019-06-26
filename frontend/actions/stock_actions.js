@@ -4,6 +4,7 @@ export const RECEIVE_STOCK_PRICE = 'RECEIVE_STOCK_PRICE';
 export const RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
 export const RECEIVE_STOCKS_PORTFOLIO = 'RECEIVE_STOCKS_PORTFOLIO';
 export const RECEIVE_STOCK_CHART = 'RECEIVE_STOCK_CHART';
+export const RECEIVE_SEARCH_RESULT = 'RECEIVE_SEARCH_RESULT';
 
 const receiveStocksPortfolio = (payload) => {
   return ({
@@ -24,6 +25,13 @@ const receiveStockChart = (payload) => {
   return ({
     type: RECEIVE_STOCK_CHART,
     payload
+  })
+}
+
+const receiveSearchResults = (stocks) => {
+  return ({
+    type: RECEIVE_SEARCH_RESULT,
+    stocks
   })
 }
 
@@ -60,10 +68,10 @@ export const requestStockChart = (data) => dispatch => {
    )
 };
                 // { type: company or symbol, string: '' }
-export const searchStocks = (payload) => dispatch => {
+export const requestStocks = (data) => dispatch => {
   return (
-    transactionApiUtil.createTransaction(payload).then(
-      transaction => (dispatch(receiveSearchResults(transaction))),
+    iexApiUtil.fetchSearchResults(data).then(
+      stocks => (dispatch(receiveSearchResults(stocks))),
       error => (dispatch(receiveErrors(error.responseJSON)))
     ));
 };

@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import Link from '@material-ui/core/Link';
-import Searchbar from './searchbar';
+// import Searchbar from './searchbar';
+import SearchbarContainer from './searchbar_container';
 
 import { withStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -77,7 +78,7 @@ class Navbar extends React.Component {
             <Typography variant="h6" color="inherit" className={classes.grow} style={{ marginLeft: 25 }}>
               Stockflow
             </Typography>
-            <Searchbar/>
+            <SearchbarContainer/>
             <Link component={linkToPortfolio} className={classes.link}>
               Portfolio
             </Link>
