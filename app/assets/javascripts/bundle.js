@@ -805,12 +805,26 @@ function (_React$Component) {
       selectedValue: 'company'
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
-    _this.debouncedStockSearch = Object(throttle_debounce__WEBPACK_IMPORTED_MODULE_3__["debounce"])(500, _this.props.requestStocks);
+    _this.debouncedStockSearch = Object(throttle_debounce__WEBPACK_IMPORTED_MODULE_3__["debounce"])(500, function () {
+      return _this.props.requestStocks({
+        string: _this.state.searchString,
+        value: _this.state.selectedValue
+      });
+    });
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Searchbar, [{
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(_, prevState) {
+      if (prevState.searchString !== this.state.searchString || prevState.selectedValue !== this.state.selectedValue) {
+        this.debouncedStockSearch();
+      }
+
+      ;
+    }
+  }, {
     key: "handleChange",
     value: function handleChange(e) {
       e.preventDefault();
@@ -830,11 +844,18 @@ function (_React$Component) {
   }, {
     key: "handleSubmit",
     value: function handleSubmit(e) {
+      var _this3 = this;
+
       e.preventDefault();
-      this.props.requestStocks({
-        string: this.state.searchString,
-        value: this.state.selectedValue
-      }); // const searchResult = this.debouncedStockSearch();
+      var stock = Object.values(this.props.stocks).filter(function (stock) {
+        return stock[_this3.state.selectedValue].toUpperCase() === _this3.state.searchString.toUpperCase();
+      });
+      var ticker = Object.values(stock)[Object.keys(stock)].ticker;
+      this.props.requestStockChart({
+        tickerSymbol: ticker,
+        dateRange: '1m'
+      });
+      this.props.history.push('/chart');
     }
   }, {
     key: "render",
@@ -923,6 +944,9 @@ var mdp = function mdp(dispatch) {
   return {
     requestStocks: function requestStocks(payload) {
       return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_2__["requestStocks"])(payload));
+    },
+    requestStockChart: function requestStockChart(chart) {
+      return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_2__["requestStockChart"])(chart));
     }
   };
 };

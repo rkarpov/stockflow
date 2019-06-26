@@ -35,8 +35,18 @@ class Searchbar extends React.Component {
       searchString: '', selectedValue: 'company'
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.debouncedStockSearch = debounce(500, this.props.requestStocks)
+    this.debouncedStockSearch = debounce(500, () =>
+      this.props.requestStocks({ 
+        string: this.state.searchString, 
+        value: this.state.selectedValue })
+      )
     this.handleChange = this.handleChange.bind(this)
+  }
+
+  componentDidUpdate(_, prevState) {
+    if (prevState.searchString !== this.state.searchString || prevState.selectedValue !== this.state.selectedValue) {
+      this.debouncedStockSearch()
+    };
   }
 
   handleChange(e) {
@@ -52,8 +62,12 @@ class Searchbar extends React.Component {
 
   handleSubmit(e){
     e.preventDefault();
-    this.props.requestStocks({ string: this.state.searchString, value: this.state.selectedValue });
-    // const searchResult = this.debouncedStockSearch();
+    const stock = Object.values(this.props.stocks).filter(stock => {
+      return stock[this.state.selectedValue].toUpperCase() === this.state.searchString.toUpperCase();
+    })
+    const ticker = Object.values(stock)[Object.keys(stock)].ticker;
+    this.props.requestStockChart({ tickerSymbol: ticker, dateRange: '1m' });
+    this.props.history.push('/chart');
   }
 
   render(){
@@ -64,8 +78,8 @@ class Searchbar extends React.Component {
         <form onSubmit={this.handleSubmit} style={{
           display: 'flex',
           flexDirection: 'row',
-      }}>
-        <Paper className={classes.root}>
+        }}>
+          <Paper className={classes.root}>
             <InputBase
               className={classes.input}
               placeholder="Search Google Maps"

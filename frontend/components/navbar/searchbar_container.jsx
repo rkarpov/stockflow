@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Searchbar from './searchbar';
-import { requestStocks } from '../../actions/stock_actions';
+import { requestStocks, requestStockChart } from '../../actions/stock_actions';
 
 const msp = state => {
   return {
@@ -10,7 +10,8 @@ const msp = state => {
 
 const mdp = dispatch => {
   return {
-    requestStocks: (payload) => dispatch(requestStocks(payload))
+    requestStocks: (payload) => dispatch(requestStocks(payload)),
+    requestStockChart: (chart) => dispatch(requestStockChart(chart))
   }
 }
 
