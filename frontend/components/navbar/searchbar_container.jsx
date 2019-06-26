@@ -3,7 +3,9 @@ import Searchbar from './searchbar';
 import { requestStocks } from '../../actions/stock_actions';
 
 const msp = state => {
-
+  return {
+    stocks: state.ui.search
+  }
 }
 
 const mdp = dispatch => {

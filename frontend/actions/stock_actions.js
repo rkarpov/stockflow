@@ -29,7 +29,6 @@ const receiveStockChart = (payload) => {
 }
 
 const receiveSearchResults = (stocks) => {
-  debugger
   return ({
     type: RECEIVE_SEARCH_RESULT,
     stocks

@@ -217,7 +217,6 @@ var receiveStockChart = function receiveStockChart(payload) {
 };
 
 var receiveSearchResults = function receiveSearchResults(stocks) {
-  debugger;
   return {
     type: RECEIVE_SEARCH_RESULT,
     stocks: stocks
@@ -914,7 +913,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var msp = function msp(state) {};
+var msp = function msp(state) {
+  return {
+    stocks: state.ui.search
+  };
+};
 
 var mdp = function mdp(dispatch) {
   return {
