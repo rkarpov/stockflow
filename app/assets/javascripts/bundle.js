@@ -480,7 +480,9 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_navbar_navbar_container__WEBPACK_IMPORTED_MODULE_1__["default"], null), this.RenderComponents());
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_navbar_navbar_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
+        history: this.props.history
+      }), this.RenderComponents());
     }
   }]);
 
@@ -660,7 +662,9 @@ function (_React$Component) {
         style: {
           marginLeft: 25
         }
-      }, "Stockflow"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_searchbar_container__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Link__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }, "Stockflow"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_searchbar_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
+        history: this.props.history
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Link__WEBPACK_IMPORTED_MODULE_2___default.a, {
         component: linkToPortfolio,
         className: classes.link
       }, "Portfolio"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Link__WEBPACK_IMPORTED_MODULE_2___default.a, {
@@ -850,12 +854,14 @@ function (_React$Component) {
       var stock = Object.values(this.props.stocks).filter(function (stock) {
         return stock[_this3.state.selectedValue].toUpperCase() === _this3.state.searchString.toUpperCase();
       });
-      var ticker = Object.values(stock)[Object.keys(stock)].ticker;
-      this.props.requestStockChart({
+      stock = Object.values(stock)[Object.keys(stock)] || {
+        ticker: ''
+      };
+      var ticker = stock.ticker;
+      ticker === '' ? null : (this.props.requestStockChart({
         tickerSymbol: ticker,
         dateRange: '1m'
-      });
-      this.props.history.push('/chart');
+      }), this.props.history.push('/chart'));
     }
   }, {
     key: "render",
@@ -934,9 +940,16 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var msp = function msp(state) {
+var msp = function msp(state, ownProps) {
+  var stocks = state.ui.search && state.ui.search[0] ? state.ui.search : {
+    0: {
+      company: '',
+      ticker: ''
+    }
+  };
   return {
-    stocks: state.ui.search
+    stocks: stocks,
+    history: ownProps.history
   };
 };
 

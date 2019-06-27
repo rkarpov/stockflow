@@ -53,7 +53,9 @@ class Main extends React.Component {
   render(){
     return(
       <div>
-        <NavbarContainer/>
+        <NavbarContainer 
+          history={this.props.history}
+        />
         {this.RenderComponents()}
       </div>
     )

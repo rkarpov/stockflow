@@ -24,7 +24,7 @@ class Api::StocksController < ApplicationController
 
   def search_stocks
     search_string = params[:data][:string]
-    search_value = params[:data][:value]
+    search_value = params[:data][:value].delete(".,'")
     if search_value == 'company'
       # replace . , ' with empty space for fuzzy sql matching
       @stocks = Stock.find_by_sql("

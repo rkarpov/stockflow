@@ -62,12 +62,15 @@ class Searchbar extends React.Component {
 
   handleSubmit(e){
     e.preventDefault();
-    const stock = Object.values(this.props.stocks).filter(stock => {
+    let stock = Object.values(this.props.stocks).filter(stock => {
       return stock[this.state.selectedValue].toUpperCase() === this.state.searchString.toUpperCase();
     })
-    const ticker = Object.values(stock)[Object.keys(stock)].ticker;
-    this.props.requestStockChart({ tickerSymbol: ticker, dateRange: '1m' });
-    this.props.history.push('/chart');
+    stock = Object.values(stock)[Object.keys(stock)] || { ticker: '' }; 
+    const ticker = stock.ticker;
+    ticker === '' ? null : (
+      this.props.requestStockChart({ tickerSymbol: ticker, dateRange: '1m' }),
+      this.props.history.push('/chart')
+    );
   }
 
   render(){
