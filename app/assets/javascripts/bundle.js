@@ -461,6 +461,9 @@ function (_React$Component) {
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_portfolio_stock_index_container__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_3__["default"], null));
 
         case "/chart":
+          var state = this.props.history.location.state || {
+            tickerSymbol: ''
+          };
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             style: {
               display: 'flex',
@@ -468,7 +471,7 @@ function (_React$Component) {
               alignItems: 'center'
             }
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_portfolio_stock_show_container__WEBPACK_IMPORTED_MODULE_5__["default"], {
-            tickerSymbol: this.props.location.tickerSymbol || this.props.history.location.state.tickerSymbol,
+            tickerSymbol: this.props.location.tickerSymbol || state.tickerSymbol,
             company: this.props.location.company,
             stockId: this.props.location.stockId
           }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_3__["default"], null));

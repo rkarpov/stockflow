@@ -31,6 +31,7 @@ class Main extends React.Component {
           </div>
         )
       case "/chart":
+        const state = this.props.history.location.state || { tickerSymbol: '' }
         return (
           <div style={{
             display: 'flex',
@@ -38,7 +39,7 @@ class Main extends React.Component {
             alignItems: 'center',
           }}>
             <StockShowContainer 
-              tickerSymbol={this.props.location.tickerSymbol || this.props.history.location.state.tickerSymbol}
+              tickerSymbol={this.props.location.tickerSymbol || state.tickerSymbol}
               company={this.props.location.company}
               stockId={this.props.location.stockId}
             />
