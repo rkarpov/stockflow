@@ -5,6 +5,7 @@ export const RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
 export const RECEIVE_STOCKS_PORTFOLIO = 'RECEIVE_STOCKS_PORTFOLIO';
 export const RECEIVE_STOCK_CHART = 'RECEIVE_STOCK_CHART';
 export const RECEIVE_SEARCH_RESULT = 'RECEIVE_SEARCH_RESULT';
+export const RECEIVE_STOCKCHART_PARAMS = 'RECEIVE_STOCKCHART_PARAMS';
 
 const receiveStocksPortfolio = (payload) => {
   return ({
@@ -32,6 +33,13 @@ const receiveSearchResults = (stocks) => {
   return ({
     type: RECEIVE_SEARCH_RESULT,
     stocks
+  })
+}
+
+const receiveStockchartParams = (params) => {
+  return ({
+    type: RECEIVE_STOCKCHART_PARAMS,
+    params
   })
 }
 
@@ -75,3 +83,9 @@ export const requestStocks = (data) => dispatch => {
       error => (dispatch(receiveErrors(error.responseJSON)))
     ));
 };
+
+export const setStockchartParams = (data) => dispatch => {
+  return (
+    dispatch(receiveStockchartParams(data))
+  )
+}

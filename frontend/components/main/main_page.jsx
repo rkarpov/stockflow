@@ -31,18 +31,13 @@ class Main extends React.Component {
           </div>
         )
       case "/chart":
-        const state = this.props.history.location.state || { tickerSymbol: '' }
         return (
           <div style={{
             display: 'flex',
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-            <StockShowContainer 
-              tickerSymbol={this.props.location.tickerSymbol || state.tickerSymbol}
-              company={this.props.location.company}
-              stockId={this.props.location.stockId}
-            />
+            <StockShowContainer />
             <CreateTransactionContainer />
           </div>
         )
@@ -54,9 +49,7 @@ class Main extends React.Component {
   render(){
     return(
       <div>
-        <NavbarContainer 
-          history={this.props.history}
-        />
+        <NavbarContainer />
         {this.RenderComponents()}
       </div>
     )

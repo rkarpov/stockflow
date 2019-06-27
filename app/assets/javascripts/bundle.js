@@ -172,7 +172,7 @@ var clearErrors = function clearErrors() {
 /*!*******************************************!*\
   !*** ./frontend/actions/stock_actions.js ***!
   \*******************************************/
-/*! exports provided: RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS, RECEIVE_STOCKS_PORTFOLIO, RECEIVE_STOCK_CHART, RECEIVE_SEARCH_RESULT, requestStockPortfolio, requestStockPrice, requestStockChart, requestStocks */
+/*! exports provided: RECEIVE_STOCK_PRICE, RECEIVE_STOCK_ERRORS, RECEIVE_STOCKS_PORTFOLIO, RECEIVE_STOCK_CHART, RECEIVE_SEARCH_RESULT, RECEIVE_STOCKCHART_PARAMS, requestStockPortfolio, requestStockPrice, requestStockChart, requestStocks, setStockchartParams */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -182,10 +182,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCKS_PORTFOLIO", function() { return RECEIVE_STOCKS_PORTFOLIO; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCK_CHART", function() { return RECEIVE_STOCK_CHART; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_SEARCH_RESULT", function() { return RECEIVE_SEARCH_RESULT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RECEIVE_STOCKCHART_PARAMS", function() { return RECEIVE_STOCKCHART_PARAMS; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStockPortfolio", function() { return requestStockPortfolio; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStockPrice", function() { return requestStockPrice; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStockChart", function() { return requestStockChart; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "requestStocks", function() { return requestStocks; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setStockchartParams", function() { return setStockchartParams; });
 /* harmony import */ var _util_iex_api_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../util/iex_api_util */ "./frontend/util/iex_api_util.js");
 
 var RECEIVE_STOCK_PRICE = 'RECEIVE_STOCK_PRICE';
@@ -193,6 +195,7 @@ var RECEIVE_STOCK_ERRORS = 'RECEIVE_STOCK_ERRORS';
 var RECEIVE_STOCKS_PORTFOLIO = 'RECEIVE_STOCKS_PORTFOLIO';
 var RECEIVE_STOCK_CHART = 'RECEIVE_STOCK_CHART';
 var RECEIVE_SEARCH_RESULT = 'RECEIVE_SEARCH_RESULT';
+var RECEIVE_STOCKCHART_PARAMS = 'RECEIVE_STOCKCHART_PARAMS';
 
 var receiveStocksPortfolio = function receiveStocksPortfolio(payload) {
   return {
@@ -220,6 +223,13 @@ var receiveSearchResults = function receiveSearchResults(stocks) {
   return {
     type: RECEIVE_SEARCH_RESULT,
     stocks: stocks
+  };
+};
+
+var receiveStockchartParams = function receiveStockchartParams(params) {
+  return {
+    type: RECEIVE_STOCKCHART_PARAMS,
+    params: params
   };
 };
 
@@ -265,6 +275,11 @@ var requestStocks = function requestStocks(data) {
     }, function (error) {
       return dispatch(receiveErrors(error.responseJSON));
     });
+  };
+};
+var setStockchartParams = function setStockchartParams(data) {
+  return function (dispatch) {
+    return dispatch(receiveStockchartParams(data));
   };
 };
 
@@ -461,20 +476,13 @@ function (_React$Component) {
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_portfolio_stock_index_container__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_3__["default"], null));
 
         case "/chart":
-          var state = this.props.history.location.state || {
-            tickerSymbol: ''
-          };
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
             style: {
               display: 'flex',
               flexDirection: 'row',
               alignItems: 'center'
             }
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_portfolio_stock_show_container__WEBPACK_IMPORTED_MODULE_5__["default"], {
-            tickerSymbol: this.props.location.tickerSymbol || state.tickerSymbol,
-            company: this.props.location.company,
-            stockId: this.props.location.stockId
-          }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_3__["default"], null));
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_portfolio_stock_show_container__WEBPACK_IMPORTED_MODULE_5__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_3__["default"], null));
 
         default:
           return "Page not found";
@@ -483,9 +491,7 @@ function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_navbar_navbar_container__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        history: this.props.history
-      }), this.RenderComponents());
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_navbar_navbar_container__WEBPACK_IMPORTED_MODULE_1__["default"], null), this.RenderComponents());
     }
   }]);
 
@@ -665,9 +671,7 @@ function (_React$Component) {
         style: {
           marginLeft: 25
         }
-      }, "Stockflow"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_searchbar_container__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        history: this.props.history
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Link__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }, "Stockflow"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_searchbar_container__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Link__WEBPACK_IMPORTED_MODULE_2___default.a, {
         component: linkToPortfolio,
         className: classes.link
       }, "Portfolio"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Link__WEBPACK_IMPORTED_MODULE_2___default.a, {
@@ -730,21 +734,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _material_ui_core_Link__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @material-ui/core/Link */ "./node_modules/@material-ui/core/Link/index.js");
-/* harmony import */ var _material_ui_core_Link__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Link__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var throttle_debounce__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! throttle-debounce */ "./node_modules/throttle-debounce/dist/index.esm.js");
-/* harmony import */ var _material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core/Checkbox */ "./node_modules/@material-ui/core/Checkbox/index.js");
-/* harmony import */ var _material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/styles/index.js");
-/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _material_ui_core_Paper__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/Paper */ "./node_modules/@material-ui/core/Paper/index.js");
-/* harmony import */ var _material_ui_core_Paper__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Paper__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var _material_ui_core_InputBase__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/core/InputBase */ "./node_modules/@material-ui/core/InputBase/index.js");
-/* harmony import */ var _material_ui_core_InputBase__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_InputBase__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @material-ui/core/IconButton */ "./node_modules/@material-ui/core/IconButton/index.js");
-/* harmony import */ var _material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_8__);
-/* harmony import */ var _material_ui_icons_Search__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @material-ui/icons/Search */ "./node_modules/@material-ui/icons/Search.js");
-/* harmony import */ var _material_ui_icons_Search__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_material_ui_icons_Search__WEBPACK_IMPORTED_MODULE_9__);
+/* harmony import */ var throttle_debounce__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! throttle-debounce */ "./node_modules/throttle-debounce/dist/index.esm.js");
+/* harmony import */ var _material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @material-ui/core/Checkbox */ "./node_modules/@material-ui/core/Checkbox/index.js");
+/* harmony import */ var _material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @material-ui/core/styles */ "./node_modules/@material-ui/core/styles/index.js");
+/* harmony import */ var _material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _material_ui_core_Paper__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @material-ui/core/Paper */ "./node_modules/@material-ui/core/Paper/index.js");
+/* harmony import */ var _material_ui_core_Paper__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Paper__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _material_ui_core_InputBase__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/InputBase */ "./node_modules/@material-ui/core/InputBase/index.js");
+/* harmony import */ var _material_ui_core_InputBase__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_InputBase__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @material-ui/core/IconButton */ "./node_modules/@material-ui/core/IconButton/index.js");
+/* harmony import */ var _material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var _material_ui_icons_Search__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! @material-ui/icons/Search */ "./node_modules/@material-ui/icons/Search.js");
+/* harmony import */ var _material_ui_icons_Search__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(_material_ui_icons_Search__WEBPACK_IMPORTED_MODULE_8__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -764,7 +766,6 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 
 
 
@@ -809,16 +810,19 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Searchbar).call(this, props));
     _this.state = {
       searchString: '',
-      selectedValue: 'company'
+      selectedValue: 'company' // filteredSuggestions: this.props.filteredSuggestions,
+      // showSuggestions: false,
+
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
-    _this.debouncedStockSearch = Object(throttle_debounce__WEBPACK_IMPORTED_MODULE_3__["debounce"])(500, function () {
+    _this.debouncedStockSearch = Object(throttle_debounce__WEBPACK_IMPORTED_MODULE_2__["debounce"])(500, function () {
       return _this.props.requestStocks({
         string: _this.state.searchString,
         value: _this.state.selectedValue
       });
     });
-    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this)); // this.onClick = this.onClick.bind(this)
+
     return _this;
   }
 
@@ -844,6 +848,9 @@ function (_React$Component) {
     value: function update(field) {
       var _this2 = this;
 
+      // const filteredSuggestions = Object.values(this.props.stocks).map((stock) => {
+      //   return (stock.company);
+      // })
       return function (e) {
         _this2.setState(_defineProperty({}, field, e.target.value));
       };
@@ -861,20 +868,38 @@ function (_React$Component) {
         ticker: ''
       };
       var ticker = stock.ticker;
-      ticker === '' ? null : (this.props.requestStockChart({
-        tickerSymbol: ticker,
-        dateRange: '1m'
+      ticker === '' ? null : (this.props.setStockchartParams({
+        ticker: ticker
       }), this.props.history.push({
-        pathname: '/chart',
-        state: {
-          tickerSymbol: ticker
-        }
+        pathname: '/chart'
       }));
-    }
+    } // auto complete methods
+    // onClick(e) {
+    //   return this.setState({      
+    //     filteredSuggestions: [],
+    //     showSuggestions: false,
+    //     searchString: e.currentTarget.innerText
+    //   });
+    // };
+
   }, {
     key: "render",
     value: function render() {
-      var classes = this.props.classes;
+      var classes = this.props.classes; // const {
+      //   showSuggestions,
+      // searchString
+      // } = this.state;
+      // const suggestionsListComponent = Object.values(this.props.stocks).map((stock, idx) => {
+      //   return (
+      //     <ul key={`search-${idx}`}>
+      //       <button onClick={this.onClick} >
+      //         {this.state.filteredSuggestions[idx]}
+      //         {/* {stock.company} */}
+      //       </button>
+      //     </ul>
+      //   )
+      // })
+
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
           marginLeft: 100
@@ -885,20 +910,22 @@ function (_React$Component) {
           display: 'flex',
           flexDirection: 'row'
         }
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Paper__WEBPACK_IMPORTED_MODULE_6___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Paper__WEBPACK_IMPORTED_MODULE_5___default.a, {
         className: classes.root
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputBase__WEBPACK_IMPORTED_MODULE_7___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputBase__WEBPACK_IMPORTED_MODULE_6___default.a, {
         className: classes.input,
         placeholder: "Search Google Maps",
         inputProps: {
           'aria-label': 'Search Stock'
         },
-        onChange: this.update('searchString')
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_8___default.a, {
+        onChange: this.update('searchString'),
+        type: "text",
+        value: this.state.searchString
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_IconButton__WEBPACK_IMPORTED_MODULE_7___default.a, {
         type: "submit",
         className: classes.iconButton,
         "aria-label": "Search"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Search__WEBPACK_IMPORTED_MODULE_9___default.a, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Search__WEBPACK_IMPORTED_MODULE_8___default.a, null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
           marginRight: 250,
           minWidth: 240
@@ -907,14 +934,14 @@ function (_React$Component) {
         style: {
           marginTop: 5
         }
-      }, "Search Stock By"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Company:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_4___default.a, {
+      }, "Search Stock By"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Company:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_3___default.a, {
         style: {
           height: 20
         },
         checked: this.state.selectedValue === 'company',
         onChange: this.handleChange,
         value: "company"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Ticker:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_4___default.a, {
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Ticker:"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Checkbox__WEBPACK_IMPORTED_MODULE_3___default.a, {
         style: {
           height: 20
         },
@@ -928,7 +955,7 @@ function (_React$Component) {
   return Searchbar;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_5__["withStyles"])(styles)(Searchbar));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["withRouter"])(Object(_material_ui_core_styles__WEBPACK_IMPORTED_MODULE_4__["withStyles"])(styles)(Searchbar)));
 
 /***/ }),
 
@@ -954,10 +981,13 @@ var msp = function msp(state, ownProps) {
       company: '',
       ticker: ''
     }
-  };
+  }; // const filteredSuggestions = Object.values(state.ui.search).map((stock) => {
+  //     return (stock.company);
+  //   })
+
   return {
-    stocks: stocks,
-    history: ownProps.history
+    stocks: stocks // filteredSuggestions
+
   };
 };
 
@@ -968,6 +998,9 @@ var mdp = function mdp(dispatch) {
     },
     requestStockChart: function requestStockChart(chart) {
       return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_2__["requestStockChart"])(chart));
+    },
+    setStockchartParams: function setStockchartParams(params) {
+      return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_2__["setStockchartParams"])(params));
     }
   };
 };
@@ -1333,6 +1366,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_Typography__WEBPACK_IMPORTED_MODULE_5__);
 /* harmony import */ var _material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @material-ui/core/CssBaseline */ "./node_modules/@material-ui/core/CssBaseline/index.js");
 /* harmony import */ var _material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_material_ui_core_CssBaseline__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1352,6 +1386,7 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 
 
@@ -1394,17 +1429,12 @@ function (_React$Component) {
 
     _defineProperty(_assertThisInitialized(_this), "updateSelected", function (range) {
       return function () {
-        return _this.setState({
-          selected: range
+        return _this.props.setStockchartParams({
+          range: range
         });
       };
     });
 
-    _this.state = {
-      selected: '1m' // tickerSymbol: '', selected: '1d'
-      // this.handleSubmit = this.handleSubmit.bind(this);
-
-    };
     _this.selected = _this.selected.bind(_assertThisInitialized(_this));
     _this.updateSelected = _this.updateSelected.bind(_assertThisInitialized(_this));
     _this.getChart = _this.getChart.bind(_assertThisInitialized(_this));
@@ -1414,39 +1444,27 @@ function (_React$Component) {
   _createClass(Chart, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      this.setState({
-        tickerSymbol: this.props.tickerSymbol
-      });
-      this.getChart(this.props.tickerSymbol); // state not immediately set, request chart using props during first time loading page
+      this.getChart();
     }
   }, {
     key: "componentDidUpdate",
-    value: function componentDidUpdate(_, prevState) {
-      if (prevState.selected !== this.state.selected) {
-        this.getChart(this.props.tickerSymbol); // this.getChart(this.state.tickerSymbol);
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps.range !== this.props.range || prevProps.tickerSymbol !== this.props.tickerSymbol) {
+        this.getChart();
       }
-    } // handleSubmit(e){
-    //   e.preventDefault();
-    //   this.getChart(this.state.tickerSymbol);
-    // }
-
+    }
   }, {
     key: "getChart",
-    value: function getChart(tickerSymbol) {
+    value: function getChart() {
       this.props.requestStockChart({
-        tickerSymbol: tickerSymbol,
-        dateRange: this.state.selected
+        tickerSymbol: this.props.tickerSymbol,
+        dateRange: this.props.range
       });
-    } // update(field) {
-    //   return (e) => {
-    //     this.setState({ [field]: e.target.value });
-    //   }
-    // }
-
+    }
   }, {
     key: "selected",
     value: function selected(range) {
-      return this.state.selected === range ? {
+      return this.props.range === range ? {
         background: '#3f51b5',
         color: '#fff'
       } : null;
@@ -1525,7 +1543,7 @@ function (_React$Component) {
   return Chart;
 }(react__WEBPACK_IMPORTED_MODULE_0___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["default"] = (_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_4___default()(styles)(Chart));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_router_dom__WEBPACK_IMPORTED_MODULE_7__["withRouter"])(_material_ui_core_styles_withStyles__WEBPACK_IMPORTED_MODULE_4___default()(styles)(Chart)));
 
 /***/ }),
 
@@ -1549,17 +1567,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var msp = function msp(state, ownProps) {
-  var tickerSymbol = ownProps.tickerSymbol;
+  var tickerSymbol = ownProps.tickerSymbol || state.ui.stockchartParams.ticker; // ownProps passed from stock index item links
+
+  var range = state.ui.stockchartParams.range;
   var data = state.entities.charts.chart;
   var chart = Object.keys(data).length === 0 && data.constructor === Object ? [{
     label: "name",
     close: "price"
   }] : Object.values(data);
-  var company = state.entities.charts.quote.companyName || ownProps.company || "Company";
+  var company = state.entities.charts.quote.companyName || "Company";
   return {
     chart: chart,
     company: company,
-    tickerSymbol: tickerSymbol
+    tickerSymbol: tickerSymbol,
+    range: range
   };
 };
 
@@ -1567,6 +1588,9 @@ var mdp = function mdp(dispatch) {
   return {
     requestStockChart: function requestStockChart(payload) {
       return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_3__["requestStockChart"])(payload));
+    },
+    setStockchartParams: function setStockchartParams(params) {
+      return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_3__["setStockchartParams"])(params));
     }
   };
 };
@@ -2896,6 +2920,43 @@ var sessionReducer = function sessionReducer() {
 
 /***/ }),
 
+/***/ "./frontend/reducers/stockchart_params_reducer.js":
+/*!********************************************************!*\
+  !*** ./frontend/reducers/stockchart_params_reducer.js ***!
+  \********************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash/merge */ "./node_modules/lodash/merge.js");
+/* harmony import */ var lodash_merge__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash_merge__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../actions/stock_actions */ "./frontend/actions/stock_actions.js");
+
+
+
+var stockchartParamsReducer = function stockchartParamsReducer() {
+  var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
+    ticker: '',
+    range: '1m'
+  };
+  var action = arguments.length > 1 ? arguments[1] : undefined;
+  Object.freeze(oldState);
+  var newState = lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()({}, oldState);
+
+  switch (action.type) {
+    case _actions_stock_actions__WEBPACK_IMPORTED_MODULE_1__["RECEIVE_STOCKCHART_PARAMS"]:
+      return lodash_merge__WEBPACK_IMPORTED_MODULE_0___default()(newState, action.params);
+
+    default:
+      return oldState;
+  }
+};
+
+/* harmony default export */ __webpack_exports__["default"] = (stockchartParamsReducer);
+
+/***/ }),
+
 /***/ "./frontend/reducers/stocks_reducer.js":
 /*!*********************************************!*\
   !*** ./frontend/reducers/stocks_reducer.js ***!
@@ -3041,12 +3102,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var _orders_form_reducer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./orders_form_reducer */ "./frontend/reducers/orders_form_reducer.js");
 /* harmony import */ var _search_reducer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./search_reducer */ "./frontend/reducers/search_reducer.js");
+/* harmony import */ var _stockchart_params_reducer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./stockchart_params_reducer */ "./frontend/reducers/stockchart_params_reducer.js");
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
   ordersForm: _orders_form_reducer__WEBPACK_IMPORTED_MODULE_1__["default"],
-  search: _search_reducer__WEBPACK_IMPORTED_MODULE_2__["default"]
+  search: _search_reducer__WEBPACK_IMPORTED_MODULE_2__["default"],
+  stockchartParams: _stockchart_params_reducer__WEBPACK_IMPORTED_MODULE_3__["default"]
 }));
 
 /***/ }),

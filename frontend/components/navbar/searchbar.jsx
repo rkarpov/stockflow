@@ -1,9 +1,8 @@
-import React from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import Link from '@material-ui/core/Link';
+import React, { Component, Fragment } from "react";
+import { withRouter, Link as RouterLink } from 'react-router-dom';
 import { debounce } from "throttle-debounce";
-import Checkbox from '@material-ui/core/Checkbox';
 
+import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
@@ -31,8 +30,9 @@ const styles = theme => ({
 class Searchbar extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      searchString: '', selectedValue: 'company'
+    this.state = { searchString: '', selectedValue: 'company',
+      // filteredSuggestions: this.props.filteredSuggestions,
+      // showSuggestions: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.debouncedStockSearch = debounce(500, () =>
@@ -41,6 +41,7 @@ class Searchbar extends React.Component {
         value: this.state.selectedValue })
       )
     this.handleChange = this.handleChange.bind(this)
+    // this.onClick = this.onClick.bind(this)
   }
 
   componentDidUpdate(_, prevState) {
@@ -55,8 +56,17 @@ class Searchbar extends React.Component {
   };
   
   update(field) {
+    // const filteredSuggestions = Object.values(this.props.stocks).map((stock) => {
+    //   return (stock.company);
+    // })
+   
     return (e) => {
-      this.setState({ [field]: e.target.value });
+      this.setState({ 
+        [field]: e.target.value,        
+        // filteredSuggestions,
+        // showSuggestions: true,
+        // searchString: e.currentTarget.value,
+      });
     }
   }
 
@@ -67,17 +77,41 @@ class Searchbar extends React.Component {
     })
     stock = Object.values(stock)[Object.keys(stock)] || { ticker: '' }; 
     const ticker = stock.ticker;
+
     ticker === '' ? null : (
-      this.props.requestStockChart({ tickerSymbol: ticker, dateRange: '1m' }),
+      this.props.setStockchartParams({ ticker: ticker }),
       this.props.history.push({
-        pathname: '/chart',
-        state: { tickerSymbol: ticker }
+        pathname: '/chart'
       })
     );
   }
 
+  // auto complete methods
+  // onClick(e) {
+  //   return this.setState({      
+  //     filteredSuggestions: [],
+  //     showSuggestions: false,
+  //     searchString: e.currentTarget.innerText
+  //   });
+  // };
+
   render(){
     const { classes } = this.props;
+    // const {
+    //   showSuggestions,
+      // searchString
+    // } = this.state;
+  
+    // const suggestionsListComponent = Object.values(this.props.stocks).map((stock, idx) => {
+    //   return (
+    //     <ul key={`search-${idx}`}>
+    //       <button onClick={this.onClick} >
+    //         {this.state.filteredSuggestions[idx]}
+    //         {/* {stock.company} */}
+    //       </button>
+    //     </ul>
+    //   )
+    // })
 
     return(
       <div style={{ marginLeft: 100 }}>
@@ -86,17 +120,22 @@ class Searchbar extends React.Component {
           flexDirection: 'row',
         }}>
           <Paper className={classes.root}>
-            <InputBase
-              className={classes.input}
-              placeholder="Search Google Maps"
-              inputProps={{ 'aria-label': 'Search Stock' }}
-              onChange={this.update('searchString')}
-            />
-            <IconButton type="submit" className={classes.iconButton} aria-label="Search">
-              <SearchIcon />
-            </IconButton>
-          {/* <button type="submit" style={{ width: 70, height: 30, background: '#3f51b5', color: '#fff', borderRadius: 3, fontSize: 14 }}>Search</button> */}
+            <Fragment>
+              <InputBase
+                className={classes.input}
+                placeholder="Search Google Maps"
+                inputProps={{ 'aria-label': 'Search Stock' }}
+                onChange={this.update('searchString')}
+                type="text"
+                value={this.state.searchString}
+              ></InputBase>
+              <IconButton type="submit" className={classes.iconButton} aria-label="Search">
+                <SearchIcon />
+              </IconButton>
+              {/* <button type="submit" style={{ width: 70, height: 30, background: '#3f51b5', color: '#fff', borderRadius: 3, fontSize: 14 }}>Search</button> */}
+          </Fragment>
           </Paper>
+          {/* {suggestionsListComponent} */}
           <div style={{ marginRight: 250, minWidth: 240 }}>
             <label style={{ marginTop: 5 }}>Search Stock By</label>
             <div>
@@ -107,10 +146,11 @@ class Searchbar extends React.Component {
             </div>
           </div>
         </form>
+        {/* {searchResults} */}
       </div>
     )
   }
 }
 
-export default withStyles(styles)(Searchbar);
+export default withRouter(withStyles(styles)(Searchbar));
 

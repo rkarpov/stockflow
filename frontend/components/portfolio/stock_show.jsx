@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button';
 import withStyles from '@material-ui/core/styles/withStyles';
 import Typography from '@material-ui/core/Typography';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import { withRouter } from 'react-router-dom';
 
 
 export const styles = theme => ({
@@ -28,49 +29,31 @@ export const styles = theme => ({
 class Chart extends React.Component {
   constructor(props){
     super(props);
-    this.state = {
-      selected: '1m'
-      // tickerSymbol: '', selected: '1d'
-    }
-    // this.handleSubmit = this.handleSubmit.bind(this);
     this.selected = this.selected.bind(this);
     this.updateSelected = this.updateSelected.bind(this);
     this.getChart = this.getChart.bind(this);
   }
 
   componentDidMount(){
-    this.setState({ tickerSymbol: this.props.tickerSymbol });
-    this.getChart(this.props.tickerSymbol); // state not immediately set, request chart using props during first time loading page
+    this.getChart();
   }
 
-  componentDidUpdate(_, prevState){
-    if (prevState.selected !== this.state.selected){
-      this.getChart(this.props.tickerSymbol);
-      // this.getChart(this.state.tickerSymbol);
+  componentDidUpdate(prevProps){
+    if (prevProps.range !== this.props.range || prevProps.tickerSymbol !== this.props.tickerSymbol){
+      this.getChart();
     }
   }
 
-  // handleSubmit(e){
-  //   e.preventDefault();
-  //   this.getChart(this.state.tickerSymbol);
-  // }
-
-  getChart(tickerSymbol){
-    this.props.requestStockChart({ tickerSymbol: tickerSymbol, dateRange: this.state.selected });
+  getChart(){
+    this.props.requestStockChart({ tickerSymbol: this.props.tickerSymbol, dateRange: this.props.range });
   }
 
-  // update(field) {
-  //   return (e) => {
-  //     this.setState({ [field]: e.target.value });
-  //   }
-  // }
-
   selected(range){
-    return this.state.selected === range ? { background: '#3f51b5', color: '#fff' } : null;
+    return this.props.range === range ? { background: '#3f51b5', color: '#fff' } : null;
   }
 
   updateSelected = (range) => () => {
-    return this.setState({ selected: range })
+    return this.props.setStockchartParams({ range: range });
   }
 
   render() {
@@ -116,16 +99,10 @@ class Chart extends React.Component {
             <Button style={this.selected('7d')} onClick={this.updateSelected('7d')}>1 W</Button>
             <Button style={this.selected('1d')} onClick={this.updateSelected('1d')}>1 D</Button>
           </div>
-          {/* <div style={{ marginLeft: 100 }}>
-            <form onSubmit={this.handleSubmit}>
-              <input onChange={this.update('tickerSymbol')} placeholder={"Search Stock"}/>
-              <button type="submit" style={{ width: 70, height: 30, background: '#3f51b5', color: '#fff', borderRadius: 3, fontSize: 14 }}>Submit</button>
-            </form>
-          </div> */}
         </Paper>
       </div>
     );
   }
 }
 
-export default withStyles(styles)(Chart);
+export default withRouter(withStyles(styles)(Chart));

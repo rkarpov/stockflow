@@ -78,9 +78,7 @@ class Navbar extends React.Component {
             <Typography variant="h6" color="inherit" className={classes.grow} style={{ marginLeft: 25 }}>
               Stockflow
             </Typography>
-            <SearchbarContainer
-              history={this.props.history}
-            />
+            <SearchbarContainer/>
             <Link component={linkToPortfolio} className={classes.link}>
               Portfolio
             </Link>
