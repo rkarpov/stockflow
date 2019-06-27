@@ -38,7 +38,7 @@ class Main extends React.Component {
             alignItems: 'center',
           }}>
             <StockShowContainer 
-              tickerSymbol={this.props.location.tickerSymbol}
+              tickerSymbol={this.props.location.tickerSymbol || this.props.history.location.state.tickerSymbol}
               company={this.props.location.company}
               stockId={this.props.location.stockId}
             />

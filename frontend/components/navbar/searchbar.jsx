@@ -69,7 +69,10 @@ class Searchbar extends React.Component {
     const ticker = stock.ticker;
     ticker === '' ? null : (
       this.props.requestStockChart({ tickerSymbol: ticker, dateRange: '1m' }),
-      this.props.history.push('/chart')
+      this.props.history.push({
+        pathname: '/chart',
+        state: { tickerSymbol: ticker }
+      })
     );
   }
 
