@@ -885,7 +885,6 @@ function (_React$Component) {
     value: function onClick(e) {
       var text = e.currentTarget.innerText;
       var string = this.state.selectedValue === 'ticker' ? text.slice(0, text.indexOf('-') - 1) : text.slice(text.indexOf('-') + 2);
-      debugger;
       return this.setState({
         showSuggestions: false,
         searchString: string
@@ -898,11 +897,11 @@ function (_React$Component) {
 
       var classes = this.props.classes;
       var suggestionsListComponent = Object.values(this.props.stocks).map(function (stock, idx) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
-          key: "search-".concat(idx)
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          key: "search-".concat(idx),
+          className: "".concat(classes.root, " searchResult"),
           onClick: _this4.onClick
-        }, "".concat(stock.ticker, " - ").concat(stock.company)));
+        }, "".concat(stock.ticker, " - ").concat(stock.company));
       });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
@@ -916,7 +915,7 @@ function (_React$Component) {
         }
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Paper__WEBPACK_IMPORTED_MODULE_5___default.a, {
         className: classes.root
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0__["Fragment"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputBase__WEBPACK_IMPORTED_MODULE_6___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputBase__WEBPACK_IMPORTED_MODULE_6___default.a, {
         className: classes.input,
         placeholder: "Search Google Maps",
         inputProps: {
@@ -929,11 +928,16 @@ function (_React$Component) {
         type: "submit",
         className: classes.iconButton,
         "aria-label": "Search"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Search__WEBPACK_IMPORTED_MODULE_8___default.a, null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        hidden: this.state.showSuggestions ? null : 'hidden',
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Search__WEBPACK_IMPORTED_MODULE_8___default.a, null))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
-          position: 'absolute'
-        }
+          position: 'absolute',
+          top: 47,
+          maxHeight: 105,
+          width: 300,
+          overflow: 'auto',
+          borderBottom: 'solid 1px #bababa'
+        },
+        hidden: this.state.showSuggestions ? null : 'hidden'
       }, suggestionsListComponent), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
           marginRight: 250,

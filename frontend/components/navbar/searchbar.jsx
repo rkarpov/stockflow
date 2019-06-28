@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React from "react";
 import { withRouter, Link as RouterLink } from 'react-router-dom';
 import { debounce } from "throttle-debounce";
 
@@ -89,7 +89,6 @@ class Searchbar extends React.Component {
     const string = (this.state.selectedValue === 'ticker')
                   ? text.slice(0, text.indexOf('-') - 1)
                   : text.slice(text.indexOf('-') + 2)
-    debugger
     return this.setState({      
       showSuggestions: false,
       searchString: string
@@ -101,11 +100,12 @@ class Searchbar extends React.Component {
   
     const suggestionsListComponent = Object.values(this.props.stocks).map((stock, idx) => {
       return (
-        <ul key={`search-${idx}`}>
-          <button onClick={this.onClick} >
-            {`${stock.ticker} - ${stock.company}`}
-          </button>
-        </ul>
+        <button 
+          key={`search-${idx}`}
+          className={`${classes.root} searchResult`}
+          onClick={this.onClick} >
+          {`${stock.ticker} - ${stock.company}`}
+        </button>
       )
     })
 
@@ -116,23 +116,23 @@ class Searchbar extends React.Component {
           flexDirection: 'row',
         }}>
           <Paper className={classes.root}>
-            <Fragment>
-              <InputBase
-                className={classes.input}
-                placeholder="Search Google Maps"
-                inputProps={{ 'aria-label': 'Search Stock' }}
-                onChange={this.update('searchString')}
-                type="text"
-                value={this.state.searchString}
-              ></InputBase>
-              <IconButton type="submit" className={classes.iconButton} aria-label="Search">
-                <SearchIcon />
-              </IconButton>
-          </Fragment>
+            <InputBase
+              className={classes.input}
+              placeholder="Search Google Maps"
+              inputProps={{ 'aria-label': 'Search Stock' }}
+              onChange={this.update('searchString')}
+              type="text"
+              value={this.state.searchString}
+            ></InputBase>
+            <IconButton type="submit" className={classes.iconButton} aria-label="Search">
+              <SearchIcon />
+            </IconButton>
           </Paper>
-          <div hidden={this.state.showSuggestions ? null : 'hidden'} style={{ position: 'absolute' }}>
-
-          {suggestionsListComponent}
+          <div 
+            style={{ position: 'absolute', top: 47, maxHeight: 105, width: 300, overflow: 'auto', borderBottom: 'solid 1px #bababa' }}
+            hidden={this.state.showSuggestions ? null : 'hidden'}
+          >
+            {suggestionsListComponent}
           </div>
           <div style={{ marginRight: 250, minWidth: 240 }}>
             <label style={{ marginTop: 5 }}>Search Stock By</label>
