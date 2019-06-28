@@ -1,7 +1,6 @@
 import React from "react";
 import { withRouter, Link as RouterLink } from 'react-router-dom';
 import { debounce } from "throttle-debounce";
-
 import Checkbox from '@material-ui/core/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
@@ -27,6 +26,8 @@ const styles = theme => ({
   },
 });
 
+const ClickOutHandler = require('react-onclickout');
+
 class Searchbar extends React.Component {
   constructor(props) {
     super(props);
@@ -39,8 +40,9 @@ class Searchbar extends React.Component {
         string: this.state.searchString, 
         value: this.state.selectedValue })
       )
-    this.handleChange = this.handleChange.bind(this)
-    this.onClick = this.onClick.bind(this)
+    this.handleChange = this.handleChange.bind(this);
+    this.onClick = this.onClick.bind(this);
+    this.onClickOut = this.onClickOut.bind(this);
   }
 
   componentDidUpdate(_, prevState) {
@@ -95,6 +97,12 @@ class Searchbar extends React.Component {
     });
   };
 
+  onClickOut(e) {
+    this.setState({
+      showSuggestions: false
+    });
+  }
+
   render(){
     const { classes } = this.props;
   
@@ -128,12 +136,14 @@ class Searchbar extends React.Component {
               <SearchIcon />
             </IconButton>
           </Paper>
-          <div 
-            style={{ position: 'absolute', top: 47, maxHeight: 105, width: 300, overflow: 'auto', borderBottom: 'solid 1px #bababa' }}
-            hidden={this.state.showSuggestions ? null : 'hidden'}
-          >
-            {suggestionsListComponent}
-          </div>
+          <ClickOutHandler onClickOut={() => this.onClickOut()}>
+            <div 
+              style={{ position: 'absolute', top: 47, maxHeight: 105, width: 300, overflow: 'auto', borderBottom: 'solid 1px #bababa' }}
+              hidden={this.state.showSuggestions ? null : 'hidden'}
+            >
+              {suggestionsListComponent}
+            </div>
+          </ClickOutHandler>
           <div style={{ marginRight: 250, minWidth: 240 }}>
             <label style={{ marginTop: 5 }}>Search Stock By</label>
             <div>
