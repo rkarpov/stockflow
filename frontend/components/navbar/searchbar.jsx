@@ -85,9 +85,14 @@ class Searchbar extends React.Component {
   }
 
   onClick(e) {
+    const text = e.currentTarget.innerText;
+    const string = (this.state.selectedValue === 'ticker')
+                  ? text.slice(0, text.indexOf('-') - 1)
+                  : text.slice(text.indexOf('-') + 2)
+    debugger
     return this.setState({      
       showSuggestions: false,
-      searchString: e.currentTarget.innerText
+      searchString: string
     });
   };
 
@@ -98,8 +103,7 @@ class Searchbar extends React.Component {
       return (
         <ul key={`search-${idx}`}>
           <button onClick={this.onClick} >
-            {this.props.suggestions[idx]}
-            {/* {stock.company} */}
+            {`${stock.ticker} - ${stock.company}`}
           </button>
         </ul>
       )

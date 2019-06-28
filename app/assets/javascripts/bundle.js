@@ -883,9 +883,12 @@ function (_React$Component) {
   }, {
     key: "onClick",
     value: function onClick(e) {
+      var text = e.currentTarget.innerText;
+      var string = this.state.selectedValue === 'ticker' ? text.slice(0, text.indexOf('-') - 1) : text.slice(text.indexOf('-') + 2);
+      debugger;
       return this.setState({
         showSuggestions: false,
-        searchString: e.currentTarget.innerText
+        searchString: string
       });
     }
   }, {
@@ -899,7 +902,7 @@ function (_React$Component) {
           key: "search-".concat(idx)
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
           onClick: _this4.onClick
-        }, _this4.props.suggestions[idx]));
+        }, "".concat(stock.ticker, " - ").concat(stock.company)));
       });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
