@@ -30,7 +30,7 @@ class Api::StocksController < ApplicationController
       @stocks = Stock.find_by_sql("
         SELECT * 
         FROM stocks 
-        WHERE REPLACE(REPLACE(REPLACE(UPPER(company_name), ',', ''''), '.', ''), '''', '') like UPPER('%#{search_string}%')
+        WHERE REPLACE(REPLACE(REPLACE(UPPER(company_name), ',', ''''), '.', ''), '''', '') like UPPER('#{search_string}%')
         ORDER BY LENGTH(company_name)
         LIMIT 5
       ")
@@ -38,7 +38,7 @@ class Api::StocksController < ApplicationController
       @stocks = Stock.find_by_sql("
         SELECT * 
         FROM stocks 
-        WHERE UPPER(ticker_symbol) like UPPER('%#{search_string}%')
+        WHERE UPPER(ticker_symbol) like UPPER('#{search_string}%')
         ORDER BY LENGTH(ticker_symbol)
         LIMIT 5
       ")
