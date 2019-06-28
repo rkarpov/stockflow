@@ -815,9 +815,8 @@ function (_React$Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Searchbar).call(this, props));
     _this.state = {
       searchString: '',
-      selectedValue: 'company' // filteredSuggestions: this.props.filteredSuggestions,
-      // showSuggestions: false,
-
+      selectedValue: 'company',
+      showSuggestions: false
     };
     _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
     _this.debouncedStockSearch = Object(throttle_debounce__WEBPACK_IMPORTED_MODULE_2__["debounce"])(500, function () {
@@ -826,8 +825,8 @@ function (_React$Component) {
         value: _this.state.selectedValue
       });
     });
-    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this)); // this.onClick = this.onClick.bind(this)
-
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.onClick = _this.onClick.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -853,11 +852,10 @@ function (_React$Component) {
     value: function update(field) {
       var _this2 = this;
 
-      // const filteredSuggestions = Object.values(this.props.stocks).map((stock) => {
-      //   return (stock.company);
-      // })
       return function (e) {
-        _this2.setState(_defineProperty({}, field, e.target.value));
+        var _this2$setState;
+
+        _this2.setState((_this2$setState = {}, _defineProperty(_this2$setState, field, e.target.value), _defineProperty(_this2$setState, "showSuggestions", true), _defineProperty(_this2$setState, "searchString", e.currentTarget.value), _this2$setState));
       };
     }
   }, {
@@ -866,6 +864,9 @@ function (_React$Component) {
       var _this3 = this;
 
       e.preventDefault();
+      this.setState({
+        showSuggestions: false
+      });
       var stock = Object.values(this.props.stocks).filter(function (stock) {
         return stock[_this3.state.selectedValue].toUpperCase() === _this3.state.searchString.toUpperCase();
       });
@@ -878,33 +879,28 @@ function (_React$Component) {
       }), this.props.history.push({
         pathname: '/chart'
       }));
-    } // auto complete methods
-    // onClick(e) {
-    //   return this.setState({      
-    //     filteredSuggestions: [],
-    //     showSuggestions: false,
-    //     searchString: e.currentTarget.innerText
-    //   });
-    // };
-
+    }
+  }, {
+    key: "onClick",
+    value: function onClick(e) {
+      return this.setState({
+        showSuggestions: false,
+        searchString: e.currentTarget.innerText
+      });
+    }
   }, {
     key: "render",
     value: function render() {
-      var classes = this.props.classes; // const {
-      //   showSuggestions,
-      // searchString
-      // } = this.state;
-      // const suggestionsListComponent = Object.values(this.props.stocks).map((stock, idx) => {
-      //   return (
-      //     <ul key={`search-${idx}`}>
-      //       <button onClick={this.onClick} >
-      //         {this.state.filteredSuggestions[idx]}
-      //         {/* {stock.company} */}
-      //       </button>
-      //     </ul>
-      //   )
-      // })
+      var _this4 = this;
 
+      var classes = this.props.classes;
+      var suggestionsListComponent = Object.values(this.props.stocks).map(function (stock, idx) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+          key: "search-".concat(idx)
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          onClick: _this4.onClick
+        }, _this4.props.suggestions[idx]));
+      });
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
           marginLeft: 100
@@ -931,6 +927,11 @@ function (_React$Component) {
         className: classes.iconButton,
         "aria-label": "Search"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_icons_Search__WEBPACK_IMPORTED_MODULE_8___default.a, null)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        hidden: this.state.showSuggestions ? null : 'hidden',
+        style: {
+          position: 'absolute'
+        }
+      }, suggestionsListComponent), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         style: {
           marginRight: 250,
           minWidth: 240
@@ -980,19 +981,19 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var msp = function msp(state, ownProps) {
+var msp = function msp(state) {
   var stocks = state.ui.search && state.ui.search[0] ? state.ui.search : {
     0: {
       company: '',
       ticker: ''
     }
-  }; // const filteredSuggestions = Object.values(state.ui.search).map((stock) => {
-  //     return (stock.company);
-  //   })
-
+  };
+  var suggestions = Object.values(state.ui.search).map(function (stock) {
+    return stock.company;
+  });
   return {
-    stocks: stocks // filteredSuggestions
-
+    stocks: stocks,
+    suggestions: suggestions
   };
 };
 

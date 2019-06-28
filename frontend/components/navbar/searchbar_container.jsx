@@ -2,14 +2,14 @@ import { connect } from 'react-redux';
 import Searchbar from './searchbar';
 import { requestStocks, requestStockChart, setStockchartParams } from '../../actions/stock_actions';
 
-const msp = (state, ownProps) => {
+const msp = (state) => {
   const stocks = (state.ui.search && state.ui.search[0] ? state.ui.search : { 0: { company: '', ticker: '' }});
-  // const filteredSuggestions = Object.values(state.ui.search).map((stock) => {
-  //     return (stock.company);
-  //   })
+  const suggestions = Object.values(state.ui.search).map((stock) => {
+    return (stock.company);
+  })
   return {
     stocks: stocks,
-    // filteredSuggestions
+    suggestions
   }
 }
 

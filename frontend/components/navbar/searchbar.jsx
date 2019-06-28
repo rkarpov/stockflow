@@ -31,8 +31,7 @@ class Searchbar extends React.Component {
   constructor(props) {
     super(props);
     this.state = { searchString: '', selectedValue: 'company',
-      // filteredSuggestions: this.props.filteredSuggestions,
-      // showSuggestions: false,
+      showSuggestions: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.debouncedStockSearch = debounce(500, () =>
@@ -41,7 +40,7 @@ class Searchbar extends React.Component {
         value: this.state.selectedValue })
       )
     this.handleChange = this.handleChange.bind(this)
-    // this.onClick = this.onClick.bind(this)
+    this.onClick = this.onClick.bind(this)
   }
 
   componentDidUpdate(_, prevState) {
@@ -56,22 +55,21 @@ class Searchbar extends React.Component {
   };
   
   update(field) {
-    // const filteredSuggestions = Object.values(this.props.stocks).map((stock) => {
-    //   return (stock.company);
-    // })
-   
     return (e) => {
       this.setState({ 
         [field]: e.target.value,        
-        // filteredSuggestions,
-        // showSuggestions: true,
-        // searchString: e.currentTarget.value,
+        showSuggestions: true,
+        searchString: e.currentTarget.value,
       });
     }
   }
 
   handleSubmit(e){
     e.preventDefault();
+    this.setState({
+      showSuggestions: false
+    })
+
     let stock = Object.values(this.props.stocks).filter(stock => {
       return stock[this.state.selectedValue].toUpperCase() === this.state.searchString.toUpperCase();
     })
@@ -86,32 +84,26 @@ class Searchbar extends React.Component {
     );
   }
 
-  // auto complete methods
-  // onClick(e) {
-  //   return this.setState({      
-  //     filteredSuggestions: [],
-  //     showSuggestions: false,
-  //     searchString: e.currentTarget.innerText
-  //   });
-  // };
+  onClick(e) {
+    return this.setState({      
+      showSuggestions: false,
+      searchString: e.currentTarget.innerText
+    });
+  };
 
   render(){
     const { classes } = this.props;
-    // const {
-    //   showSuggestions,
-      // searchString
-    // } = this.state;
   
-    // const suggestionsListComponent = Object.values(this.props.stocks).map((stock, idx) => {
-    //   return (
-    //     <ul key={`search-${idx}`}>
-    //       <button onClick={this.onClick} >
-    //         {this.state.filteredSuggestions[idx]}
-    //         {/* {stock.company} */}
-    //       </button>
-    //     </ul>
-    //   )
-    // })
+    const suggestionsListComponent = Object.values(this.props.stocks).map((stock, idx) => {
+      return (
+        <ul key={`search-${idx}`}>
+          <button onClick={this.onClick} >
+            {this.props.suggestions[idx]}
+            {/* {stock.company} */}
+          </button>
+        </ul>
+      )
+    })
 
     return(
       <div style={{ marginLeft: 100 }}>
@@ -134,7 +126,10 @@ class Searchbar extends React.Component {
               </IconButton>
           </Fragment>
           </Paper>
-          {/* {suggestionsListComponent} */}
+          <div hidden={this.state.showSuggestions ? null : 'hidden'} style={{ position: 'absolute' }}>
+
+          {suggestionsListComponent}
+          </div>
           <div style={{ marginRight: 250, minWidth: 240 }}>
             <label style={{ marginTop: 5 }}>Search Stock By</label>
             <div>
@@ -145,7 +140,6 @@ class Searchbar extends React.Component {
             </div>
           </div>
         </form>
-        {/* {searchResults} */}
       </div>
     )
   }
