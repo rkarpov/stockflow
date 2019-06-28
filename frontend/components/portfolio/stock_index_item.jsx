@@ -21,8 +21,8 @@ class StockIndexItem extends React.Component {
     const linkProps = { pathname: '/chart', stockId: this.props.stock.id, tickerSymbol: this.props.stock.ticker_symbol, company: this.props.stock.company }
     return (
       <TableRow>
-        <TableCell style={{ color: val }} align="center"><Link to={linkProps}>{this.props.stock.ticker_symbol}</Link></TableCell>
-        <TableCell align="center"><Link to={linkProps}>{this.props.stock.company}</Link></TableCell>
+        <TableCell align="center"><Link style={{ color: val, textDecoration: 'none' }} to={linkProps}>{this.props.stock.ticker_symbol}</Link></TableCell>
+        <TableCell align="center"><Link style={{ textDecoration: 'none' }} to={linkProps}>{this.props.stock.company}</Link></TableCell>
         <TableCell align="center">{this.props.stock.numShares}</TableCell>
         <TableCell style={{ color: val }} align="center">{this.props.stock.netStockValue}</TableCell>
       </TableRow>

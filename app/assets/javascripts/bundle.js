@@ -482,7 +482,12 @@ function (_React$Component) {
               flexDirection: 'row',
               alignItems: 'center'
             }
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_portfolio_stock_show_container__WEBPACK_IMPORTED_MODULE_5__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_3__["default"], null));
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_portfolio_stock_show_container__WEBPACK_IMPORTED_MODULE_5__["default"] // link props passed from portfolio stock index item
+          , {
+            tickerSymbol: this.props.location.tickerSymbol,
+            company: this.props.location.company,
+            stockId: this.props.location.stockId
+          }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_3__["default"], null));
 
         default:
           return "Page not found";
@@ -1315,15 +1320,19 @@ function (_React$Component) {
         company: this.props.stock.company
       };
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableRow__WEBPACK_IMPORTED_MODULE_3___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
-        style: {
-          color: val
-        },
         align: "center"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        style: {
+          color: val,
+          textDecoration: 'none'
+        },
         to: linkProps
       }, this.props.stock.ticker_symbol)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         align: "center"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        style: {
+          textDecoration: 'none'
+        },
         to: linkProps
       }, this.props.stock.company)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         align: "center"

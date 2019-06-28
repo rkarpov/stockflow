@@ -132,7 +132,6 @@ class Searchbar extends React.Component {
               <IconButton type="submit" className={classes.iconButton} aria-label="Search">
                 <SearchIcon />
               </IconButton>
-              {/* <button type="submit" style={{ width: 70, height: 30, background: '#3f51b5', color: '#fff', borderRadius: 3, fontSize: 14 }}>Search</button> */}
           </Fragment>
           </Paper>
           {/* {suggestionsListComponent} */}

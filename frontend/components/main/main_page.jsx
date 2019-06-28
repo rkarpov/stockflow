@@ -37,7 +37,12 @@ class Main extends React.Component {
             flexDirection: 'row',
             alignItems: 'center',
           }}>
-            <StockShowContainer />
+            <StockShowContainer
+              // link props passed from portfolio stock index item
+              tickerSymbol={this.props.location.tickerSymbol}
+              company={this.props.location.company}
+              stockId={this.props.location.stockId}
+            />
             <CreateTransactionContainer />
           </div>
         )
