@@ -12,31 +12,30 @@ class Main extends React.Component {
   }
 
   RenderComponents(){
+    const style = {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+    }
+
     switch (this.props.location.pathname) {
       case "/transactions":
         return (
-          <div>
+        <div style={style}>
             <TransactionIndexContainer/>
+            <CreateTransactionContainer/>
           </div>
         )
       case "/portfolio":
         return (
-          <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
+          <div style={style}>
             <StockIndexContainer />
             <CreateTransactionContainer />
           </div>
         )
       case "/chart":
         return (
-          <div style={{
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-          }}>
+          <div style={style}>
             <StockShowContainer />
             <CreateTransactionContainer />
           </div>

@@ -462,26 +462,26 @@ function (_React$Component) {
   _createClass(Main, [{
     key: "RenderComponents",
     value: function RenderComponents() {
+      var style = {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center'
+      };
+
       switch (this.props.location.pathname) {
         case "/transactions":
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_transaction_index_container__WEBPACK_IMPORTED_MODULE_4__["default"], null));
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+            style: style
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_transaction_index_container__WEBPACK_IMPORTED_MODULE_4__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_3__["default"], null));
 
         case "/portfolio":
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            style: {
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center'
-            }
+            style: style
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_portfolio_stock_index_container__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_3__["default"], null));
 
         case "/chart":
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-            style: {
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center'
-            }
+            style: style
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_portfolio_stock_show_container__WEBPACK_IMPORTED_MODULE_5__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_3__["default"], null));
 
         default:
