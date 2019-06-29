@@ -41,7 +41,7 @@ class Chart extends React.Component {
   componentDidUpdate(prevProps){
     if (prevProps.range !== this.props.range || prevProps.tickerSymbol !== this.props.tickerSymbol){
       this.getChart();
-    }
+    } 
   }
 
   getChart(){

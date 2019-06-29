@@ -58,6 +58,7 @@ class StockIndex extends React.Component {
           key={`stock-${stock.id}`}
           stock={stock}
           currentUser={this.props.currentUser}
+          setStockchartParams={this.props.setStockchartParams}
         />
       }
     });

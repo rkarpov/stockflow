@@ -213,6 +213,7 @@ var receiveStockPrice = function receiveStockPrice(payload) {
 };
 
 var receiveStockChart = function receiveStockChart(payload) {
+  debugger;
   return {
     type: RECEIVE_STOCK_CHART,
     payload: payload
@@ -482,12 +483,7 @@ function (_React$Component) {
               flexDirection: 'row',
               alignItems: 'center'
             }
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_portfolio_stock_show_container__WEBPACK_IMPORTED_MODULE_5__["default"] // link props passed from portfolio stock index item
-          , {
-            tickerSymbol: this.props.location.tickerSymbol,
-            company: this.props.location.company,
-            stockId: this.props.location.stockId
-          }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_3__["default"], null));
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_portfolio_stock_show_container__WEBPACK_IMPORTED_MODULE_5__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_transaction_create_transaction_container__WEBPACK_IMPORTED_MODULE_3__["default"], null));
 
         default:
           return "Page not found";
@@ -1164,7 +1160,8 @@ function (_React$Component) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_stock_index_item__WEBPACK_IMPORTED_MODULE_1__["default"], {
             key: "stock-".concat(stock.id),
             stock: stock,
-            currentUser: _this3.props.currentUser
+            currentUser: _this3.props.currentUser,
+            setStockchartParams: _this3.props.setStockchartParams
           });
         }
       });
@@ -1230,6 +1227,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+
 var msp = function msp(state) {
   var currentUser = state.entities.users[state.session.id];
 
@@ -1258,6 +1256,9 @@ var mdp = function mdp(dispatch) {
     },
     requestStockPortfolio: function requestStockPortfolio() {
       return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_4__["requestStockPortfolio"])());
+    },
+    setStockchartParams: function setStockchartParams(params) {
+      return dispatch(Object(_actions_stock_actions__WEBPACK_IMPORTED_MODULE_4__["setStockchartParams"])(params));
     }
   };
 };
@@ -1292,9 +1293,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -1310,10 +1311,14 @@ var StockIndexItem =
 function (_React$Component) {
   _inherits(StockIndexItem, _React$Component);
 
-  function StockIndexItem() {
+  function StockIndexItem(props) {
+    var _this;
+
     _classCallCheck(this, StockIndexItem);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(StockIndexItem).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(StockIndexItem).call(this, props));
+    _this.handleSubmit = _this.handleSubmit.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(StockIndexItem, [{
@@ -1332,31 +1337,36 @@ function (_React$Component) {
       }
     }
   }, {
+    key: "handleSubmit",
+    value: function handleSubmit() {
+      this.props.setStockchartParams({
+        ticker: this.props.stock.ticker_symbol
+      });
+      this.props.history.push('/chart');
+    }
+  }, {
     key: "render",
     value: function render() {
       var val = this.performance(this.props.stock.performance);
-      var linkProps = {
-        pathname: '/chart',
-        stockId: this.props.stock.id,
-        tickerSymbol: this.props.stock.ticker_symbol,
-        company: this.props.stock.company
-      };
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableRow__WEBPACK_IMPORTED_MODULE_3___default.a, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         align: "center"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "button",
         style: {
           color: val,
           textDecoration: 'none'
-        },
-        to: linkProps
-      }, this.props.stock.ticker_symbol)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        }
+      }, this.props.stock.ticker_symbol))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         align: "center"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        style: {
-          textDecoration: 'none'
-        },
-        to: linkProps
-      }, this.props.stock.company)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        onSubmit: this.handleSubmit
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "button"
+      }, this.props.stock.company))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         align: "center"
       }, this.props.stock.numShares), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_TableCell__WEBPACK_IMPORTED_MODULE_2___default.a, {
         style: {
@@ -1597,9 +1607,8 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-var msp = function msp(state, ownProps) {
-  var tickerSymbol = ownProps.tickerSymbol || state.ui.stockchartParams.ticker; // ownProps passed from stock index item links
-
+var msp = function msp(state) {
+  var tickerSymbol = state.ui.stockchartParams.ticker;
   var range = state.ui.stockchartParams.range;
   var data = state.entities.charts.chart;
   var chart = Object.keys(data).length === 0 && data.constructor === Object ? [{
