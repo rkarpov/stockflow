@@ -23,7 +23,6 @@ const receiveStockPrice = (payload) => {
 };
 
 const receiveStockChart = (payload) => {
-  debugger
   return ({
     type: RECEIVE_STOCK_CHART,
     payload

@@ -68,7 +68,7 @@ class Chart extends React.Component {
         <CssBaseline />
         <Paper className={classes.paper}>
           <Typography variant="h4" color="inherit" className={classes.header} align="left">
-            {this.props.company}
+            ({this.props.tickerSymbol}) {this.props.company}
           </Typography>
           <LineChart
             width={600}

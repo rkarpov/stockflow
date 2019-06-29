@@ -213,7 +213,6 @@ var receiveStockPrice = function receiveStockPrice(payload) {
 };
 
 var receiveStockChart = function receiveStockChart(payload) {
-  debugger;
   return {
     type: RECEIVE_STOCK_CHART,
     payload: payload
@@ -923,7 +922,7 @@ function (_React$Component) {
         className: classes.root
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_InputBase__WEBPACK_IMPORTED_MODULE_6___default.a, {
         className: classes.input,
-        placeholder: "Search Google Maps",
+        placeholder: "Search Stocks",
         inputProps: {
           'aria-label': 'Search Stock'
         },
@@ -1527,7 +1526,7 @@ function (_React$Component) {
         color: "inherit",
         className: classes.header,
         align: "left"
-      }, this.props.company), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["LineChart"], {
+      }, "(", this.props.tickerSymbol, ") ", this.props.company), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(recharts__WEBPACK_IMPORTED_MODULE_1__["LineChart"], {
         width: 600,
         height: 350,
         data: data,

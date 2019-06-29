@@ -126,7 +126,7 @@ class Searchbar extends React.Component {
           <Paper className={classes.root}>
             <InputBase
               className={classes.input}
-              placeholder="Search Google Maps"
+              placeholder="Search Stocks"
               inputProps={{ 'aria-label': 'Search Stock' }}
               onChange={this.update('searchString')}
               type="text"
