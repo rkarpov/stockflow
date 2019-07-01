@@ -8,7 +8,7 @@
 A single-page stock trading app built for users to simulate buying and selling stocks. A newly instantiated user holds a default balance of $5,000.00 USD. The user can increase their funds only by means of trading stocks. Stockflow is perfect for anyone who wants to practice trading stocks online before moving on to trading in crypto currency apps. Moreover, Stockflow was inspired by Robinhood.
 
 ## Technologies
-Stockflow is built using Ruby on Rails as backend, React and Redux as frontend, PostgreSQL database, and MaterialUI with CSS for styling components. IEX API (https://iextrading.com) fetches external real time stock data with the help of Ruby's 'rest-client' gem. Stockflow is deployed to Heroku.
+Stockflow is built using Ruby on Rails as backend, React and Redux as frontend, PostgreSQL database, and MaterialUI with CSS for styling components. IEX API (https://iextrading.com) fetches external real time stock data with the help of Ruby's 'rest-client' gem. Stockflow is deployed to Heroku. ReCharts libarary renders stock prices across time for comprehensive data visualization.
 
 Backend code is kept both modular and dry with the help of Rails Services. Service modules take away the burden of oversaturating rails models, controllers, and views with overly complex convoluted code. Service objects are congruent with object oriented programming, thereby enabling scalability as the app grows in size.
 
@@ -64,3 +64,25 @@ Here are some helpful methods used for monetary calculations and floats in gener
     BigDecimal
 ```
 Frontend javascript methods use more general methods to handle float numbers and currency strings such as parseFloat(amt), toFixed(2), and replace(/[^0-9.-]+-/g, "").
+
+
+### Custom Search & Autosuggest
+Stock can be searched by either company name or stock ticker. The search field will automate suggested results that match what the user input. The backend utilizes a custom SQL query to bring up potential search matches. Here is an example of matching stock tickers...
+``` js
+  Stock.find_by_sql("
+    SELECT * 
+    FROM stocks 
+    WHERE UPPER(ticker_symbol) like UPPER('#{search_string}%')
+    ORDER BY LENGTH(ticker_symbol)
+    LIMIT 5
+  ")
+```
+Automated suggested results are limited to 5 at a given time, and will continuously update as a user inputs more information into the search field.
+
+
+### Charts
+Stock charts are rendered by clicking on a stock symbol or company name on the user's portfolio page, and by entering a search query. Redux helps store the stock ticker and selected chart range when making an external IEX API call to fetch chart data. Selected range options include a stock's closing price by up to 1 week ago, 1 month ago, 3 months ago, or 1 year ago. A separate IEX request is made to fetch a stock's ongoing current day price in minute increments. React Charts was the data visualization tool used to render these charts.
+
+![ReCharts](https://github.com/rkarpov/stockflow/blob/master/app/assets/images/chart.png)
+
+
