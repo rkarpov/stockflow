@@ -1483,7 +1483,7 @@ function (_React$Component) {
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps) {
-      if (prevProps.range !== this.props.range || prevProps.tickerSymbol !== this.props.tickerSymbol) {
+      if (prevProps.tickerSymbol !== this.props.tickerSymbol) {
         this.getChart();
       }
     }
@@ -1595,19 +1595,55 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 /* harmony import */ var _stock_show__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./stock_show */ "./frontend/components/portfolio/stock_show.jsx");
 /* harmony import */ var _actions_stock_actions__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../actions/stock_actions */ "./frontend/actions/stock_actions.js");
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
 
 
 
 
+
+
+function filterChartRange(chart, selectedRange) {
+  var date = new Date();
+
+  switch (selectedRange) {
+    case '7d':
+      return chart.reduceRight(function (acc, ele) {
+        return acc.length < 7 ? [ele].concat(_toConsumableArray(acc)) : acc;
+      }, []);
+
+    case '1m':
+      date.setMonth(date.getMonth() - 1);
+      return chart.reduceRight(function (acc, ele) {
+        return new Date(ele.date) > date ? [ele].concat(_toConsumableArray(acc)) : acc;
+      }, []);
+
+    case '3m':
+      date.setMonth(date.getMonth() - 3);
+      return chart.reduceRight(function (acc, ele) {
+        return new Date(ele.date) > date ? [ele].concat(_toConsumableArray(acc)) : acc;
+      }, []);
+
+    default:
+      return chart;
+  }
+}
 
 var msp = function msp(state) {
   var tickerSymbol = state.ui.stockchartParams.ticker;
   var range = state.ui.stockchartParams.range;
-  var data = state.entities.charts.chart;
+  var chart_data = state.entities.charts;
+  var data = range === '1d' ? chart_data.day : chart_data.year;
   var chart = Object.keys(data).length === 0 && data.constructor === Object ? [{
     label: "name",
     close: "price"
   }] : Object.values(data);
+  chart = filterChartRange(chart, state.ui.stockchartParams.range);
   var company = state.entities.charts.quote.companyName || "Company";
   return {
     chart: chart,
@@ -2690,8 +2726,9 @@ __webpack_require__.r(__webpack_exports__);
 
 var chartsReducer = function chartsReducer() {
   var oldState = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {
-    chart: {},
-    quote: {}
+    quote: {},
+    day: {},
+    year: {}
   };
   var action = arguments.length > 1 ? arguments[1] : undefined;
   Object.freeze(oldState);

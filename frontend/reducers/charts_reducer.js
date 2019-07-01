@@ -1,7 +1,7 @@
 import merge from 'lodash/merge';
 import { RECEIVE_STOCK_CHART } from '../actions/stock_actions';
 
-const chartsReducer = (oldState = { chart: {}, quote: {} }, action) => {
+const chartsReducer = (oldState = { quote: {}, day: {}, year: {} }, action) => {
   Object.freeze(oldState);
   let newState = merge({}, oldState);
   switch (action.type) {
