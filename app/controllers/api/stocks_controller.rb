@@ -48,8 +48,8 @@ class Api::StocksController < ApplicationController
 
   def show_chart
     one_year_chart = IEX::API.fetch_chart_data(params[:data][:tickerSymbol], '1y')
-    one_day_chart = IEX::API.fetch_chart_data(params[:data][:tickerSymbol], '1d')
-    @chart_data = { quote: one_year_chart["quote"], year: one_year_chart["chart"], day: one_day_chart["chart"] }
+    # one_day_chart = IEX::API.fetch_chart_data(params[:data][:tickerSymbol], '1d') // service no longer free
+    @chart_data = { quote: one_year_chart["quote"], year: one_year_chart["chart"], day: "service is not free" }
     render :show_chart
   end
 

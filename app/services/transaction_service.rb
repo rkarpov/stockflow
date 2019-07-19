@@ -32,7 +32,7 @@ module TransactionService
     end
 
     def self.stock_performance(transaction, params)
-      open_price = IEX::API.fetch_open_price(params[:stock_symbol])
+      open_price = IEX::API.fetch_previous_close(params[:stock_symbol])
       performance = open_price <=> params[:stock_price].to_f
       return performance
     end
