@@ -1565,12 +1565,12 @@ function (_React$Component) {
         style: this.selected('1m'),
         onClick: this.updateSelected('1m')
       }, "1 M"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3___default.a, {
+        style: this.selected('14d'),
+        onClick: this.updateSelected('14d')
+      }, "2 W"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3___default.a, {
         style: this.selected('7d'),
         onClick: this.updateSelected('7d')
-      }, "1 W"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_material_ui_core_Button__WEBPACK_IMPORTED_MODULE_3___default.a, {
-        style: this.selected('1d'),
-        onClick: this.updateSelected('1d')
-      }, "1 D"))));
+      }, "1 W"))));
     }
   }]);
 
@@ -1617,6 +1617,11 @@ function filterChartRange(chart, selectedRange) {
         return acc.length < 7 ? [ele].concat(_toConsumableArray(acc)) : acc;
       }, []);
 
+    case '14d':
+      return chart.reduceRight(function (acc, ele) {
+        return acc.length < 14 ? [ele].concat(_toConsumableArray(acc)) : acc;
+      }, []);
+
     case '1m':
       date.setMonth(date.getMonth() - 1);
       return chart.reduceRight(function (acc, ele) {
@@ -1638,7 +1643,8 @@ var msp = function msp(state) {
   var tickerSymbol = state.ui.stockchartParams.ticker;
   var range = state.ui.stockchartParams.range;
   var chart_data = state.entities.charts;
-  var data = range === '1d' ? chart_data.day : chart_data.year;
+  var data = range === '1d' ? chart_data.day : chart_data.year; // iex api charges for 1d data, consider alternative chart source
+
   var chart = Object.keys(data).length === 0 && data.constructor === Object ? [{
     label: "name",
     close: "price"
@@ -74138,7 +74144,7 @@ exports.default = _ResizeDetector2.default;
 /*!***************************************************************!*\
   !*** ./node_modules/react-router-dom/esm/react-router-dom.js ***!
   \***************************************************************/
-/*! exports provided: BrowserRouter, HashRouter, Link, NavLink, MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext */
+/*! exports provided: MemoryRouter, Prompt, Redirect, Route, Router, StaticRouter, Switch, generatePath, matchPath, withRouter, __RouterContext, BrowserRouter, HashRouter, Link, NavLink */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";

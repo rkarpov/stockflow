@@ -96,8 +96,8 @@ class Chart extends React.Component {
             <Button style={this.selected('1y')} onClick={this.updateSelected('1y')}>1 Y</Button>
             <Button style={this.selected('3m')} onClick={this.updateSelected('3m')}>3 M</Button>
             <Button style={this.selected('1m')} onClick={this.updateSelected('1m')}>1 M</Button>
+            <Button style={this.selected('14d')} onClick={this.updateSelected('14d')}>2 W</Button>
             <Button style={this.selected('7d')} onClick={this.updateSelected('7d')}>1 W</Button>
-            <Button style={this.selected('1d')} onClick={this.updateSelected('1d')}>1 D</Button>
           </div>
         </Paper>
       </div>
