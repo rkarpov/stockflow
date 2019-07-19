@@ -17,7 +17,7 @@ module Portfolio
         value += stock_price * transaction.num_shares
         num_stocks_owned[stock_ticker] += transaction.num_shares
         companies[stock_ticker] = company_name
-        performance[stock_ticker] = quote["open"] <=> stock_price
+        performance[stock_ticker] = quote["change"] <=> 0
       end
 
       portfolio_value = Currency.get_amount(value)
